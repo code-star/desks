@@ -4,8 +4,13 @@ const port = 3000
 
 app.get('/', 
 (req, res) => {res.send('Hello World!')})
-app.get('/api/desk/5', 
-(req, res) => {res.send('test')})
+
+//{deskid: req.params.deskId}
+app.get('/api/desk/:deskId', 
+(req, res) => {res.send({deskid: req.params.deskId})})
+
+
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
