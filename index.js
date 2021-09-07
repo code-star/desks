@@ -3,10 +3,8 @@ const app = express();
 const port = 3000;
 const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
+app.use(express.static('public'))
 //{deskid: req.params.deskId}
 app.get("/api/desk/:deskId", (req, res) => {
   const deskStateJson = deskState[req.params.deskId];

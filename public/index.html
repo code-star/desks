@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    hallo!
+
+    <div id="debutton">de button</div>
+
+    <script>
+      // Fetch API
+    const deskId = document.location.search.substr(1);
+
+      fetch(`http://localhost:3000/api/desk/${deskId}`)
+        .then((x) => x.json())
+        .then((x) => {
+          // { isCheckedIn: false }
+          console.log(JSON.stringify(x));
+          const oldText = document.getElementById("debutton").innerHTML;
+          document.getElementById(
+            "debutton"
+          ).innerHTML = `${oldText} !!! ${x.deskState}`;
+        });
+    </script>
+  </body>
+</html>
