@@ -31,10 +31,7 @@
 
         function changeCheckIn() {  
         fetch(`http://localhost:3000/api/desk/${deskId}`,{
-          method: 'PATCH',
-          body: JSON.stringify({
-            completed: true
-          })
+          method: 'PATCH'
         })
         .then((x) => x.json())
         .then((x) => {
