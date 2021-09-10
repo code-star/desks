@@ -6,6 +6,7 @@ const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
 app.use(express.static('public'))
 //{deskid: req.params.deskId}
+
 app.get("/api/desk/:deskId", (req, res) => {
   const deskStateJson = deskState[req.params.deskId];
   if (typeof deskStateJson === "undefined") {
@@ -18,6 +19,13 @@ app.get("/api/desk/:deskId", (req, res) => {
       typeof deskStateJson === "undefined" ? "undifined" : deskStateJson,
   });
 });
+app.patch("/api/desk/:deskId", (req, res) => {
+  deskState[req.params.deskId] = !deskState[req.params.deskId];
+  res.send({
+    deskid: req.params.deskId,
+    deskState: deskState[req.params.deskId],
+  });
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

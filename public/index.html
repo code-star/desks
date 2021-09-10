@@ -9,22 +9,43 @@
   <body>
     hallo!
 
-    <div id="debutton">de button</div>
+    <button id="button">button</button>
+    <div id="text"></div>
 
     <script>
       // Fetch API
     const deskId = document.location.search.substr(1);
 
-      fetch(`http://localhost:3000/api/desk/${deskId}`)
+    fetch(`http://localhost:3000/api/desk/${deskId}`)
         .then((x) => x.json())
         .then((x) => {
           // { isCheckedIn: false }
           console.log(JSON.stringify(x));
-          const oldText = document.getElementById("debutton").innerHTML;
           document.getElementById(
-            "debutton"
-          ).innerHTML = `${oldText} !!! ${x.deskState}`;
+            "button"
+          ).onclick = function() {changeCheckIn()};
+          document.getElementById(
+            "text"
+          ).innerHTML = `${x.deskState}`;
         }).catch((x)=> console.log(x));
+
+        function changeCheckIn() {  
+        fetch(`http://localhost:3000/api/desk/${deskId}`,{
+          method: 'PATCH',
+          body: JSON.stringify({
+            completed: true
+          })
+        })
+        .then((x) => x.json())
+        .then((x) => {
+        console.log(JSON.stringify(x))
+        document.getElementById(
+            "text"
+          ).innerHTML = `${x.deskState}`;
+      });
+       
+        
+}
     </script>
   </body>
 </html>
