@@ -31,7 +31,15 @@
 
         function changeCheckIn() {  
         fetch(`http://localhost:3000/api/desk/${deskId}`,{
-          method: 'PATCH'
+          //can also be a PUT method
+          method: 'PATCH',
+          headers: {
+            "Content-type": "application/json; charset=UTF-8"
+          },
+          body: JSON.stringify({
+            deskState : true,
+            deskId : deskId
+          })
         })
         .then((x) => x.json())
         .then((x) => {
