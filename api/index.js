@@ -1,11 +1,15 @@
 const express = require("express");
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const app = express();
 const port = 3001;
 const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
-
+const corsOptions = {
+  origin: 'http://localhost:3000'
+}
 app.use(express.static('public'));
+app.use(cors(corsOptions))
 //{deskid: req.params.deskId}
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
