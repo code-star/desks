@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Button from '@mui/material/Button';
 function App() {
   const deskId = document.location.search.substr(1);
   const [currentDeskState, setCurrentDeskState] = useState(false);
@@ -31,7 +32,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <button id="button" onClick={handleToggleChecked}>check in/ uit</button>
+        <Button variant = "contained" color="secondary" onClick={handleToggleChecked}>check in/ uit</Button>
         {currentDeskState ? 'ingechecked' : 'uitgechecked'}
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
