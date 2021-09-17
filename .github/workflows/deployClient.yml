@@ -23,6 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install and Build components 🔧
         run: |
+          cd client
           npm run install
           npm run build
       - name: Deploy 🚀
@@ -30,5 +31,5 @@ jobs:
         with:
           token: ${{ secrets.ACCESS_TOKEN }} # Access token from the Prod repo, set in Settings > Secrets
           branch: gh-pages # The branch the action should deploy to.
-          folder: build # The folder the action should deploy.
+          folder: client/build # The folder the action should deploy.
           clean: true # Automatically remove deleted files from the deploy branch
