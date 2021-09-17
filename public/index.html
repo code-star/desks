@@ -7,9 +7,8 @@
     <title>Document</title>
   </head>
   <body>
-    hallo!
 
-    <button id="button">button</button>
+    <button id="button">check in/ uit</button>
     <div id="text"></div>
 
     <script>
@@ -28,7 +27,7 @@
                 ).onclick = function() {changeCheckIn()};
                 document.getElementById(
                   "text"
-                ).innerHTML = `${json.deskState}`;
+                ).innerHTML = json.deskState ? 'ingechecked' : 'uitgechecked';
             } catch(data){console.log(data)}
           }
 
@@ -66,7 +65,7 @@
               state = data.deskState;
               document.getElementById(
                   "text"
-                ).innerHTML = `${data.deskState}`;
+                ).innerHTML = data.deskState ? 'ingechecked' : 'uitgechecked';
             });
 
 
