@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.13.0]
+        node-version: [16.x]
 
     steps:
       - name: Checkout 🛎️
