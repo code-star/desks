@@ -3,9 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 function App() {
   const deskId = document.location.search.substr(1);
-  const [currentDeskState, setCurrentDeskState] = useState('uitgechecked');
+  const [currentDeskState, setCurrentDeskState] = useState(false);
   //is it usefull to also store the state here?
-  var state = false;
+
   const handleToggleChecked = ()=>{
     fetch(`http://localhost:3001/api/desk/${deskId}`,{
       //can also be a PUT method
@@ -14,17 +14,14 @@ function App() {
         "Content-type": "application/json; charset=UTF-8"
       },
       body: JSON.stringify({
-        deskState : !state,
+        deskState : !currentDeskState,
         deskId : deskId
       })
     })
     .then((data) => data.json())
     .then((data) => {
     console.log(JSON.stringify(data))
-
-    state = data.deskState;
-    console.log(state);
-    setCurrentDeskState(data.deskState ? 'ingechecked' : 'uitgechecked');
+    setCurrentDeskState(data.deskState);
     // document.getElementById(
     //     "text"
     //   ).innerHTML = data.deskState ? 'ingechecked' : 'uitgechecked';
@@ -35,7 +32,7 @@ function App() {
       <header className="App-header">
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <button id="button" onClick={handleToggleChecked}>check in/ uit</button>
-        {currentDeskState}
+        {currentDeskState ? 'ingechecked' : 'uitgechecked'}
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
