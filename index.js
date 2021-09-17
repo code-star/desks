@@ -7,7 +7,7 @@ const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
 app.use(express.static('public'));
 //{deskid: req.params.deskId}
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.get("/api/desk/:deskId", (req, res) => {
   const deskStateJson = deskState[req.params.deskId];

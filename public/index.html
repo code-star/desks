@@ -13,48 +13,64 @@
     <div id="text"></div>
 
     <script>
-      // Fetch API
-    const deskId = document.location.search.substr(1);
-    //is it usefull to also store the state here?
-    var state = deskId.deskState;
+            // Fetch API
+          const deskId = document.location.search.substr(1);
+          //is it usefull to also store the state here?
+          var state = deskId.deskState;
 
-    fetch(`http://localhost:3000/api/desk/${deskId}`)
-        .then((x) => x.json())
-        .then((x) => {
-          // { isCheckedIn: false }
-          console.log(JSON.stringify(x));
-          document.getElementById(
-            "button"
-          ).onclick = function() {changeCheckIn()};
-          document.getElementById(
-            "text"
-          ).innerHTML = `${x.deskState}`;
-        }).catch((x)=> console.log(x));
+          async function getDeskData(){
+            try{
+            const data = await fetch(`http://localhost:3000/api/desk/${deskId}`);
+            const json = await data.json();
+            console.log(JSON.stringify(json));
+                document.getElementById(
+                  "button"
+                ).onclick = function() {changeCheckIn()};
+                document.getElementById(
+                  "text"
+                ).innerHTML = `${json.deskState}`;
+            } catch(data){console.log(data)}
+          }
 
-        function changeCheckIn() {  
-        fetch(`http://localhost:3000/api/desk/${deskId}`,{
-          //can also be a PUT method
-          method: 'PATCH',
-          headers: {
-            "Content-type": "application/json; charset=UTF-8"
-          },
-          body: JSON.stringify({
-            deskState : !state,
-            deskId : deskId
-          })
-        })
-        .then((x) => x.json())
-        .then((x) => {
-        console.log(JSON.stringify(x))
-        
-        state = x.deskState;
-        document.getElementById(
-            "text"
-          ).innerHTML = `${x.deskState}`;
-      });
-       
-        
-}
+
+            getDeskData();
+          // fetch(`http://localhost:3000/api/desk/${deskId}`)
+          //     .then((data) => data.json())
+          //     .then((data) => {
+          //       // { isCheckedIn: false }
+          //       console.log(JSON.stringify(data));
+          //       document.getElementById(
+          //         "button"
+          //       ).onclick = function() {changeCheckIn()};
+          //       document.getElementById(
+          //         "text"
+          //       ).innerHTML = `${data.deskState}`;
+          //     }).catch((data)=> console.log(data));
+
+              function changeCheckIn() {
+              fetch(`http://localhost:3000/api/desk/${deskId}`,{
+                //can also be a PUT method
+                method: 'PATCH',
+                headers: {
+                  "Content-type": "application/json; charset=UTF-8"
+                },
+                body: JSON.stringify({
+                  deskState : !state,
+                  deskId : deskId
+                })
+              })
+              .then((data) => data.json())
+              .then((data) => {
+              console.log(JSON.stringify(data))
+
+              state = data.deskState;
+              document.getElementById(
+                  "text"
+                ).innerHTML = `${data.deskState}`;
+            });
+
+
+      }
     </script>
   </body>
 </html>
