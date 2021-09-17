@@ -3,7 +3,7 @@ name: Deploy client to Github pages
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
