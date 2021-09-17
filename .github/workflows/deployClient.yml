@@ -1,0 +1,34 @@
+name: Deploy client to Github pages
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.13.0]
+
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install and Build components 🔧
+        run: |
+          npm run install
+          npm run build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }} # Access token from the Prod repo, set in Settings > Secrets
+          branch: gh-pages # The branch the action should deploy to.
+          folder: build # The folder the action should deploy.
+          clean: true # Automatically remove deleted files from the deploy branch
