@@ -19,7 +19,7 @@
 
           async function getDeskData(){
             try{
-            const data = await fetch(`http://localhost:3000/api/desk/${deskId}`);
+            const data = await fetch(`http://localhost:3001/api/desk/${deskId}`);
             const json = await data.json();
             console.log(JSON.stringify(json));
                 document.getElementById(
@@ -47,7 +47,7 @@
           //     }).catch((data)=> console.log(data));
 
               function changeCheckIn() {
-              fetch(`http://localhost:3000/api/desk/${deskId}`,{
+              fetch(`http://localhost:3001/api/desk/${deskId}`,{
                 //can also be a PUT method
                 method: 'PATCH',
                 headers: {
