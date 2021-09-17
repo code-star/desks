@@ -24,7 +24,7 @@ jobs:
       - name: Install and Build components 🔧
         run: |
           cd client
-          npm run install
+          npm install
           npm run build
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
