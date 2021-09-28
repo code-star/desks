@@ -19,9 +19,8 @@ app.use(cors(corsOptions))
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/api/init", () => {
+app.get("/api/init", (req, res) => {
   db.serialize(function () {
-    const result = {};
     db.run("CREATE TABLE lorem (info TEXT)");
 
     var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
