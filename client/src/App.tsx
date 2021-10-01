@@ -7,7 +7,7 @@ function App() {
   //is it usefull to also store the state here?
 
   const handleToggleChecked = ()=>{
-    fetch(`http://localhost:3001/api/desk/${deskId}`,{
+    fetch(`http://0.0.0.0:3001/api/desk/${deskId}`,{
       //can also be a PUT method
       method: 'PATCH',
       headers: {
