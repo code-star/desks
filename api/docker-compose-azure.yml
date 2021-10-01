@@ -10,4 +10,4 @@ services:
     environment:
       WEBSITES_ENABLE_APP_SERVICE_STORAGE: "TRUE"
     volumes:
-      - volume1:/var/database
+      - volume1:/home/node/code/localStore
