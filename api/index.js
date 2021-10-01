@@ -1,17 +1,22 @@
 const express = require("express");
-const bodyParser = require('body-parser')
-const cors = require('cors')
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const sqlite3 = require("sqlite3").verbose();
+const { open } = require("sqlite");
+
 const app = express();
 const port = 3001;
 const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
+var db = new sqlite3.Database("./db");
+
 const corsOptions = {
-  origin: 'http://localhost:3000'
-}
-app.use(express.static('public'));
-app.use(cors(corsOptions))
+  origin: "http://localhost:3000",
+};
+app.use(express.static("public"));
+app.use(cors(corsOptions));
 //{deskid: req.params.deskId}
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.get("/api/desk/:deskId", (req, res) => {
   const deskStateJson = deskState[req.params.deskId];
@@ -34,7 +39,20 @@ app.patch("/api/desk/:deskId", (req, res) => {
     deskid: req.params.deskId,
     deskState: deskState[req.params.deskId],
   });
-})
+});
+
+app.get("/api/desks", async (req, res) => {
+  const db = await open({
+    filename: "./db",
+    driver: sqlite3.Database,
+  });
+
+  await db.exec("CREATE TABLE IF NOT EXISTS tbl (col TEXT)");
+  await db.run("INSERT INTO tbl (col) VALUES (?)", Date.now());
+
+  const result = await db.all("SELECT * FROM tbl");
+  res.send(result);
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
