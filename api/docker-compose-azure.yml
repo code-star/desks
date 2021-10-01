@@ -1,0 +1,12 @@
+version: "3"
+
+  # volumes part is based on https://stackoverflow.com/questions/58878134/how-to-mount-docker-volume-in-azure-web-app-for-containers
+
+  backend:
+    image: ????
+    ports:
+      - "3001:3001"
+    environment:
+      WEBSITES_ENABLE_APP_SERVICE_STORAGE: TRUE
+    volumes:
+      - volume1:/var/database
