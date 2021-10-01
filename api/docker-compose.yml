@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   backend:
-    image: jml/desks-test
+    image: codestarcloudstudyfe.azurecr.io/hello-world-backend:v1
     ports:
       - "3001:3001"
     volumes:
