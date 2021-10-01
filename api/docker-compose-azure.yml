@@ -1,6 +1,7 @@
 version: "3"
 
 # volumes part is based on https://stackoverflow.com/questions/58878134/how-to-mount-docker-volume-in-azure-web-app-for-containers
+# ACI setup inspired by https://docs.microsoft.com/en-us/azure/container-instances/container-instances-volume-azure-files
 services:
   backend:
     # TODO: replace with real container name, once it's been published in our ACR
