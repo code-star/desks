@@ -3,6 +3,7 @@ version: "3"
 # volumes part is based on https://stackoverflow.com/questions/58878134/how-to-mount-docker-volume-in-azure-web-app-for-containers
 services:
   backend:
+    # TODO: replace with real container name, once it's been published in our ACR
     image: codestarcloudstudyfe.azurecr.io/hello-world-backend:v1
     ports:
       - "3001:3001"

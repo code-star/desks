@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   backend:
+    # TODO: replace with either the local container name, or the real ACR container name
     image: codestarcloudstudyfe.azurecr.io/hello-world-backend:v1
     ports:
       - "3001:3001"
