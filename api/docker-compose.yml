@@ -5,4 +5,4 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./localstorage:/var/lib/mysql
+      - ./localstorage:/var/database
