@@ -8,8 +8,6 @@ const app = express();
 const port = 3001;
 const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
-var db = new sqlite3.Database("./db");
-
 const corsOptions = {
   origin: "http://localhost:3000",
 };
@@ -43,7 +41,7 @@ app.patch("/api/desk/:deskId", (req, res) => {
 
 app.get("/api/desks", async (req, res) => {
   const db = await open({
-    filename: "./db",
+    filename: "./localStore/db",
     driver: sqlite3.Database,
   });
 
