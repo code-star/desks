@@ -4,7 +4,7 @@ echo "If az commands fail, make sure you have upgraded to the latest version. (u
 
 ACI_RESOURCE_GROUP=rg-CloudStudyFe
 ACI_REGISTRY=codestarcloudstudyfe
-CONTAINER_IMAGE=$ACI_REGISTRY.azurecr.io/desks-api:v3
+CONTAINER_IMAGE=$ACI_REGISTRY.azurecr.io/desks-api:latest
 CONTAINER_NAME=raging-rhino
 STORAGE_ACCOUNT=sacloudstudyfe
 SHARE_NAME=fileshare-cloudstudyfepersistentvolume
