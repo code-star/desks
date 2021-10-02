@@ -5,7 +5,7 @@ version: "3"
 services:
   backend:
     # TODO: replace with real container name, once it's been published in our ACR
-    image: codestarcloudstudyfe.azurecr.io/hello-world-backend:v1
+    image: codestarcloudstudyfe.azurecr.io/desks-api:v2
     ports:
       - "3001:3001"
     environment:
