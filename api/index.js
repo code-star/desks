@@ -41,7 +41,7 @@ app.patch("/api/desk/:deskId", (req, res) => {
 
 app.get("/api/desks", async (req, res) => {
   const db = await open({
-    filename: "./localStore/db",
+    filename: "/var/data/localStore/db",
     driver: sqlite3.Database,
   });
 

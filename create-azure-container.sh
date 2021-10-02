@@ -30,7 +30,7 @@ az container create \
   --azure-file-volume-account-name $STORAGE_ACCOUNT \
   --azure-file-volume-account-key $STORAGE_ACCESS_KEY \
   --azure-file-volume-share-name $SHARE_NAME \
-  --azure-file-volume-mount-path /home/node/code/localStore \
+  --azure-file-volume-mount-path /var/data/localStore \
   --environment-variables WEBSITES_ENABLE_APP_SERVICE_STORAGE=TRUE \
   --registry-password $ACR_PASS \
   --registry-username $ACR_USER
