@@ -6,4 +6,4 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./localStore:/home/node/code/localStore
+      - ./localStore:/var/data/localStore

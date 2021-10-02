@@ -11,4 +11,4 @@ services:
     environment:
       WEBSITES_ENABLE_APP_SERVICE_STORAGE: "TRUE"
     volumes:
-      - azurefile:/home/node/code/localStore
+      - azurefile:/var/data/localStore

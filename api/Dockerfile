@@ -17,6 +17,7 @@ COPY --chown=node:node . .
 
 # create local folder outside /home (which uses CIFS, that does not handle SQLite locks) that can be used to mount azure fileshare
 RUN mkdir -p /var/data/localStore
+RUN chmod ugo=rwx /var/data/localStore
 
 # make sure the app port is exposed
 EXPOSE 3001

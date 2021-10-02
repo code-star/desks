@@ -2,7 +2,7 @@ from the api folder:
 
 docker build -t desks-api .
 docker run --init --publish 3001:3001 desks-api
-docker run --init --publish 3001:3001 --mount type=bind,source="$(pwd)"/localStore,target=/home/node/code/localStore desks-api
+docker run --init --publish 3001:3001 --mount type=bind,source="$(pwd)"/localStore,target=/var/data/localStore desks-api
 
 # Publishing to Azure
 * from your default docker context, in the api folder:
