@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 ACI_RESOURCE_GROUP=rg-CloudStudyFe
-CONTAINER_IMAGE=codestarcloudstudyfe.azurecr.io/hello-world-backend:v1
-CONTAINER_NAME=happy-hawkings
+ACI_REGISTRY=codestarcloudstudyfe.azurecr.io
+CONTAINER_IMAGE=$ACI_REGISTRY/desks-api:v1
+CONTAINER_NAME=smiling-sulley
 STORAGE_ACCOUNT=sacloudstudyfe
 SHARE_NAME=fileshare-cloudstudyfepersistentvolume
 
