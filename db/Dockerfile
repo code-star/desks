@@ -1,10 +1,11 @@
 FROM node:16
 
-WORKDIR /home/node
+USER node
 
-COPY . .
+WORKDIR /home/node/code
+
+COPY --chown=node:node . .
 
 RUN yarn --frozen-lockfile
 
-CMD ["node", "index.js"]
-
+CMD ["npm", "start"]

@@ -4,7 +4,7 @@ import cors from "cors";
 import sqlite3x, { OPEN_READWRITE } from "sqlite3";
 
 const sqlite3 = sqlite3x.verbose();
-const db = new sqlite3.Database('./myDb.db');
+const db = new sqlite3.Database('./db/myDb.db');
 
 const app = express();
 const port = 3001;
