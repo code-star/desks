@@ -2,60 +2,49 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import sqlite3x, { OPEN_READWRITE } from "sqlite3";
+import { Database, open } from "sqlite";
 
 const sqlite3 = sqlite3x.verbose();
-const db = new sqlite3.Database('./db/myDb.db');
+let db: Database<sqlite3x.Database, sqlite3x.Statement>;
 
 const app = express();
 const port = 3001;
-const deskState: Record<number, boolean> = { 1: false, 2: false, 3: true, 4: true, 5: false };
+const deskState: Record<number, boolean> = {
+  1: false,
+  2: false,
+  3: true,
+  4: true,
+  5: false,
+};
 
 const corsOptions = {
-  origin: 'http://localhost:3000'
-}
-app.use(express.static('public'));
-app.use(cors(corsOptions))
-//{deskid: req.params.deskId}
+  origin: "http://localhost:3000",
+};
+app.use(express.static("public"));
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.get("/api/init", (req, res) => {
-  db.serialize(function () {
-    db.run("CREATE TABLE lorem (info TEXT)");
+interface DeskRow {
+  deskId: number;
+  deskState: string;
+}
 
-    var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-    for (var i = 0; i < 10; i++) {
-      stmt.run("Ipsum " + i);
-    }
-    stmt.finalize();
-
-    res.send("done");
-  });
-})
-
-app.get("/api/toggle", (req, res) => {
-  const result: Record<string, string> = {};
-  db.each("SELECT rowid AS id, info FROM lorem", function (err, row) {
-    console.log(row.id + ": " + row.info);
-    result[row.id] = row.info;
-
-  }, () => {
-    console.log(result);
-    res.send(JSON.stringify(result))
-  });
-})
-
-app.get("/api/desk/:deskId", (req, res) => {
+app.get("/api/desk/:deskId", async (req, res) => {
   const deskId = parseInt(req.params.deskId, 10);
-  const deskStateJson = deskState[deskId];
-  if (typeof deskStateJson === "undefined") {
-    res.status(404).send("deze desk bestaat niet");
-    return;
-  }
+  // const deskStateJson = deskState[deskId];
+  // if (typeof deskStateJson === "undefined") {
+  //   res.status(404).send("deze desk bestaat niet");
+  //   return;
+  // }
+  const [{ deskState: deskState_ }] = await db.all<DeskRow[]>(
+    "SELECT * FROM tbl WHERE deskId = (?)",
+    deskId
+  );
   res.send({
     deskid: deskId,
     deskState:
-      typeof deskStateJson === "undefined" ? "undifined" : deskStateJson,
+      typeof deskState_ === "undefined" ? "undifined" : deskState_,
   });
 });
 
@@ -69,8 +58,37 @@ app.patch("/api/desk/:deskId", (req, res) => {
     deskid: deskId,
     deskState: deskState[deskId],
   });
-})
+});
 
-app.listen(port, () => {
+const prepareDb = async () => {
+  db = await open({
+    filename: "./db/myDb.db",
+    driver: sqlite3.Database,
+  });
+
+  await db.exec(
+    "CREATE TABLE IF NOT EXISTS tbl (deskId INTEGER PRIMARY KEY, deskState TEXT)"
+  );
+
+  const currentRows = await db.all("SELECT * FROM tbl");
+
+  if (!currentRows || !currentRows.length) {
+    console.log("DB is empty, create rows");
+    for (let i = 1; i < 20; i++) {
+      await db.run(
+        "INSERT INTO tbl (deskId, deskState) VALUES (?, ?)",
+        i,
+        i % 2 === 0 ? "reserved" : "free"
+      );
+    }
+  }
+
+  const deskStates = await db.all("SELECT * FROM tbl");
+  console.log("deskStates=", deskStates);
+};
+
+app.listen(port, async () => {
   console.log(`Example app listening at http://localhost:${port}`);
+
+  await prepareDb();
 });
