@@ -6,6 +6,6 @@ WORKDIR /home/node/code
 
 COPY --chown=node:node . .
 
-RUN yarn --frozen-lockfile
+RUN npm ci
 
 CMD ["npm", "start"]
