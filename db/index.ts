@@ -1,14 +1,14 @@
-const express = require("express");
-const bodyParser = require('body-parser')
-const cors = require('cors');
-const { OPEN_READWRITE } = require("sqlite3");
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import sqlite3x, { OPEN_READWRITE } from "sqlite3";
 
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./myDb.db');
+const sqlite3 = sqlite3x.verbose();
+const db = new sqlite3.Database('./myDb.db');
 
 const app = express();
 const port = 3001;
-const deskState = { 1: false, 2: false, 3: true, 4: true, 5: false };
+const deskState: Record<number, boolean> = { 1: false, 2: false, 3: true, 4: true, 5: false };
 
 const corsOptions = {
   origin: 'http://localhost:3000'
@@ -34,7 +34,7 @@ app.get("/api/init", (req, res) => {
 })
 
 app.get("/api/toggle", (req, res) => {
-  const result = {};
+  const result: Record<string, string> = {};
   db.each("SELECT rowid AS id, info FROM lorem", function (err, row) {
     console.log(row.id + ": " + row.info);
     result[row.id] = row.info;
@@ -46,26 +46,28 @@ app.get("/api/toggle", (req, res) => {
 })
 
 app.get("/api/desk/:deskId", (req, res) => {
-  const deskStateJson = deskState[req.params.deskId];
+  const deskId = parseInt(req.params.deskId, 10);
+  const deskStateJson = deskState[deskId];
   if (typeof deskStateJson === "undefined") {
     res.status(404).send("deze desk bestaat niet");
     return;
   }
   res.send({
-    deskid: req.params.deskId,
+    deskid: deskId,
     deskState:
       typeof deskStateJson === "undefined" ? "undifined" : deskStateJson,
   });
 });
 
 app.patch("/api/desk/:deskId", (req, res) => {
+  const deskId = parseInt(req.params.deskId, 10);
   //deskState[req.params.deskId] = !deskState[req.params.deskId];
   deskState[req.body.deskId] = req.body.deskState;
   //ik denk dat ik hier dan die deskState van de body van de patch  moet verwerken, maar snap niet hoe
   console.log(req.body);
   res.send({
-    deskid: req.params.deskId,
-    deskState: deskState[req.params.deskId],
+    deskid: deskId,
+    deskState: deskState[deskId],
   });
 })
 
