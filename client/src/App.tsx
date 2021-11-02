@@ -1,51 +1,13 @@
-import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Button from '@mui/material/Button';
-function App() {
-  const deskId = document.location.search.substr(1);
-  const [currentDeskState, setCurrentDeskState] = useState(false);
-  //is it usefull to also store the state here?
+import Booking_page from './Booking_page';
+import Checkin_page from './Checkin_page';
+import {Route, Link} from 'react-router-dom'
 
-  const handleToggleChecked = ()=>{
-    fetch(`http://localhost:3001/api/desk/${deskId}`,{
-      //can also be a PUT method
-      method: 'PATCH',
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      },
-      body: JSON.stringify({
-        deskState : !currentDeskState,
-        deskId : deskId
-      })
-    })
-    .then((data) => data.json())
-    .then((data) => {
-    console.log(JSON.stringify(data))
-    setCurrentDeskState(data.deskState);
-    // document.getElementById(
-    //     "text"
-    //   ).innerHTML = data.deskState ? 'ingechecked' : 'uitgechecked';
-  });
-  }
+function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <Button variant = "contained" color="secondary" onClick={handleToggleChecked}>check in/ uit</Button>
-        {currentDeskState ? 'ingechecked' : 'uitgechecked'}
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Route path="/desks/book" component={Booking_page}/>
+      <Route path="/desks/checkin" component={Checkin_page}/>
     </div>
   );
 }
