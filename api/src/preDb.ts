@@ -46,5 +46,7 @@ export async function preDb() {
       'INSERT INTO booking VALUES ("bookingb2.1.1", "13:00", "17:00", "4-11-2021")'
     );
   }
+
+  return db;
 }
 export default preDb;
