@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 function Checkin_page() {
     const deskId = document.location.search.substr(1);
     const [currentDeskState, setCurrentDeskState] = useState(false);
-    //is it usefull to also store the state here?
   
     const handleToggleChecked = ()=>{
       fetch(`http://localhost:3001/api/desk/${deskId}`,{
@@ -22,9 +21,6 @@ function Checkin_page() {
       .then((data) => {
       console.log(JSON.stringify(data))
       setCurrentDeskState(data.deskState);
-      // document.getElementById(
-      //     "text"
-      //   ).innerHTML = data.deskState ? 'ingechecked' : 'uitgechecked';
     });
     }
     return (
