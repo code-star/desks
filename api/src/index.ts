@@ -10,6 +10,14 @@ const port = 3001;
 const corsOptions = {
   origin: 'http://localhost:3000'
 }
+
+enum deskState{
+  free,
+  checkedIn,
+  reserved,
+  undefined
+}
+
 let db:any;
 app.use(express.static('public'));
 app.use(cors(corsOptions))
@@ -19,26 +27,31 @@ app.use(bodyParser.json());
 interface Desk{deskId:string; deskState:boolean}
 
 app.get("/api/desk/:deskId", async (req: Request, res: Response) => {
-  const desks = await db.all(
-    "SELECT * FROM desk");
-    console.log(desks);
-  // if (typeof deskStateJson === "undefined") {
-  //   res.status(404).send("deze desk bestaat niet");
-  //   return;
-  // }
-  // res.send({
-  //   deskid: req.params.deskId,
-  //   deskState:
-  //     typeof deskStateJson === "undefined" ? "undefined" : deskStateJson,
-  // });
+  const desk = await db.get(
+    "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
+    console.log(desk);
+    console.log(desk.desk_id);
+    
+  if (desk.deskstate === "undefined") {
+     res.status(404).send("deze desk bestaat niet");
+     return;
+   }
+   res.send({
+     deskid: desk.desk_id,
+     deskState:
+      desk.deskstate === "undefined" ? "undefined" : desk.deskstate,
+  });
 });
 
-
-app.patch("/api/desk/:deskId", (req: Request, res: Response) => {
-  console.log(req.body);
+app.patch("/api/desk/:deskId", async (req: Request, res: Response) => {
+  const deskPre = await db.get(
+    "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
+  await db.get("UPDATE desk SET deskstate = (?) WHERE desk_id = (?)", deskPre.deskstate === deskState.free ? deskState.checkedIn : deskState.free, req.params.deskId);
+  const desk = await db.get(
+    "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
   res.send({
-    deskid: req.params.deskId,
-    deskState: req.body.deskState,
+    deskid: desk.desk_id,
+    deskState: desk.deskstate,
   });
 })
 

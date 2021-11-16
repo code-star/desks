@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 function Checkin_page() {
     const deskId = document.location.search.substr(1);
-    const [currentDeskState, setCurrentDeskState] = useState(false);
+    const [currentDeskState, setCurrentDeskState] = useState('free');
   
     const handleToggleChecked = ()=>{
       fetch(`http://localhost:3001/api/desk/${deskId}`,{
@@ -13,7 +13,7 @@ function Checkin_page() {
           "Content-type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify({
-          deskState : !currentDeskState,
+          deskState : currentDeskState,
           deskId : deskId
         })
       })
@@ -24,10 +24,10 @@ function Checkin_page() {
     });
     }
     return (
-      <div className="Checkin_page">
-        <header className="checkin_header">
+      <div className="CheckinPage">
+        <header className="checkinHeader">
           <Button variant = "contained" color="secondary" onClick={handleToggleChecked}>check in/ uit</Button>
-          {currentDeskState ? 'ingechecked' : 'uitgechecked'}
+          {currentDeskState === 'free' ? 'uitgechecked' : 'ingechecked' }
         </header>
       </div>
     );
