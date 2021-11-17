@@ -7,51 +7,50 @@ import preDb from './preDb';
 const app = express();
 const port = 3001;
 
+
 const corsOptions = {
   origin: 'http://localhost:3000'
 }
 
-enum deskState{
-  free,
-  checkedIn,
-  reserved,
-  undefined
-}
+const deskState = {
+  free: 'free',
+  checkedIn: 'checked in',
+  reserved: 'reserved',
+  unavailable: 'unavailable'
+} as const;
 
 let db:any;
 app.use(express.static('public'));
 app.use(cors(corsOptions))
-//{deskid: req.params.deskId}
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-interface Desk{deskId:string; deskState:boolean}
 
 app.get("/api/desk/:deskId", async (req: Request, res: Response) => {
   const desk = await db.get(
     "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
-    console.log(desk);
-    console.log(desk.desk_id);
     
-  if (desk.deskstate === "undefined") {
-     res.status(404).send("deze desk bestaat niet");
-     return;
-   }
+   if (typeof desk === 'undefined') {
+      res.send({
+        deskState: deskState.unavailable
+      });
+      return;
+    }
    res.send({
      deskid: desk.desk_id,
-     deskState:
-      desk.deskstate === "undefined" ? "undefined" : desk.deskstate,
+     deskState: desk.desk_state
   });
 });
 
 app.patch("/api/desk/:deskId", async (req: Request, res: Response) => {
-  const deskPre = await db.get(
-    "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
-  await db.get("UPDATE desk SET deskstate = (?) WHERE desk_id = (?)", deskPre.deskstate === deskState.free ? deskState.checkedIn : deskState.free, req.params.deskId);
+  const initialDeskState = await db.get(
+    "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId).desk_state;
+  const newDeskState = initialDeskState === deskState.free ? deskState.checkedIn : deskState.free;
+  await db.get("UPDATE desk SET desk_state = (?) WHERE desk_id = (?)",newDeskState, req.params.deskId);
   const desk = await db.get(
     "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
   res.send({
     deskid: desk.desk_id,
-    deskState: desk.deskstate,
+    deskState: desk.desk_state,
   });
 })
 
