@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Grid } from "@mui/material";
-import { TimeSetter, DateSetter } from "./BookingTimeRangeSelector";
+import { TimeSetter} from "./TimeSetter";
+import {DateSetter} from "./DateSetter"
 
 const BookingPage: FC = () => {
   return (

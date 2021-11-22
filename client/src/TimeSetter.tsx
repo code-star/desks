@@ -1,7 +1,7 @@
-import React, { useState, FC } from "react";
+import { useState, FC } from "react";
 import { Typography, Card, CardContent, TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import { LocalizationProvider, StaticDatePicker, TimePicker } from "@mui/lab";
+import { LocalizationProvider, TimePicker } from "@mui/lab";
 
 type Props = {
   title: string;
@@ -26,19 +26,4 @@ export const TimeSetter: FC<Props> = ({ title }) => {
   );
 };
 
-export const DateSetter: FC = () => {
-  const [dateValue, setDateValue] = useState<Date | null>(new Date());
-  return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <StaticDatePicker<Date>
-        orientation="portrait"
-        openTo="day"
-        value={dateValue}
-        onChange={(newValue) => {
-          setDateValue(newValue);
-        }}
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </LocalizationProvider>
-  );
-};
+

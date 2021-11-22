@@ -1,11 +1,8 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
+import {deskState, User} from './OwnTypes';
 
 export async function preDb() {
-  interface User {
-    name: string;
-    password: string;
-  }
 
   const db = await open({ filename: "database.db", driver: sqlite3.Database });
 
@@ -26,7 +23,7 @@ export async function preDb() {
   if (allUsers.length === 0) {
     await db.exec('INSERT INTO user VALUES ("test", "pw")');
     for (let i = 1; i < 12; i++) {
-      await db.run('INSERT INTO desk VALUES ((?), "free")', `b2.${i}`);
+      await db.run('INSERT INTO desk VALUES ((?), (?))', `b2.${i}`, deskState.free);
     }
     await db.exec(
       'INSERT INTO booking VALUES ("bookingb2.1.1", 1636027200, 1636041600)'

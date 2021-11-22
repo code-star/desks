@@ -1,17 +1,19 @@
 import Button from "@mui/material/Button";
-import React, { useState } from "react";
+import React, { useState, FC } from "react";
 
-function CheckinPage() {
+const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
   const [currentDeskState, setCurrentDeskState] = useState("free");
-  fetch(`http://localhost:3001/api/desk/${deskId}`)
-    .then((data) => data.json())
-    .then((data) => {
-      setCurrentDeskState(data.deskState);
-    });
+
+  const setInitialDeskState = async () =>{
+  const data = await fetch(`http://localhost:3001/api/desk/${deskId}`);
+  const json = await data.json();
+  setCurrentDeskState(json.deskState);
+  };
+  setInitialDeskState();
 
   const handleToggleChecked = async () => {
-    await fetch(`http://localhost:3001/api/desk/${deskId}`, {
+    const data = await fetch(`http://localhost:3001/api/desk/${deskId}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -20,12 +22,11 @@ function CheckinPage() {
         deskState: currentDeskState,
         deskId: deskId,
       }),
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        setCurrentDeskState(data.deskState);
-      });
+    });
+    const json = await data.json();
+    setCurrentDeskState(json.deskState);
   };
+
   return (
     <div className="CheckinPage">
       <header className="checkinHeader">
