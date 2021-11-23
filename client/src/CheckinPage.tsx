@@ -1,16 +1,19 @@
 import Button from "@mui/material/Button";
-import React, { useState, FC } from "react";
+import React, { useState, FC, useEffect } from "react";
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
   const [currentDeskState, setCurrentDeskState] = useState("free");
 
-  const setInitialDeskState = async () =>{
-  const data = await fetch(`http://localhost:3001/api/desk/${deskId}`);
-  const json = await data.json();
-  setCurrentDeskState(json.deskState);
-  };
-  setInitialDeskState();
+  
+  useEffect(() => {
+    const setInitialDeskState = async () => {
+      const data = await fetch(`http://localhost:3001/api/desk/${deskId}`);
+      const json = await data.json();
+      setCurrentDeskState(json.deskState);
+    };
+    setInitialDeskState();
+  }, [deskId]);
 
   const handleToggleChecked = async () => {
     const data = await fetch(`http://localhost:3001/api/desk/${deskId}`, {
@@ -43,6 +46,6 @@ const CheckinPage: FC = () => {
       </header>
     </div>
   );
-}
+};
 
 export default CheckinPage;
