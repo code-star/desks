@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import { open } from "sqlite";
-import {deskState, User} from './OwnTypes';
+import {deskState, User} from './types';
 
 export async function preDb() {
 
