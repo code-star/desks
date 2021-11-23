@@ -1,9 +1,6 @@
 name: Deploy client to Github pages
 
-on:
-  push:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   build:
@@ -28,6 +25,7 @@ jobs:
           CI=false npm run build # ignore lint errors
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.0.0
+        if: ${{ github.ref == 'main' }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages # The branch the action should deploy to.
