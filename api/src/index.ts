@@ -24,37 +24,45 @@ app.get("/api/desk/:deskId", async (req: Request, res: Response) => {
     "SELECT * FROM desk WHERE desk_id = (?)",
     req.params.deskId
   );
-  console.log(desk);
-  if (typeof desk === "undefined") {
+
+  if (!desk) {
     res.send({
       deskState: deskState.unavailable,
     });
     return;
   }
   res.send({
-    deskid: desk.deskId,
-    deskState: desk.deskState,
+    deskid: desk.desk_id,
+    deskState: desk.desk_state,
   });
 });
 
 app.patch("/api/desk/:deskId", async (req: Request, res: Response) => {
-  const initialDesk = await db.get(
+  const initialDesk = await db.get<DeskType>(
     "SELECT * FROM desk WHERE desk_id = (?)",
     req.params.deskId
   );
+  if (!initialDesk) {
+    res.status(404);
+    return;
+  }
   const newDeskState =
-    initialDesk.deskState === deskState.checkedIn
+    initialDesk.desk_state === deskState.checkedIn
       ? deskState.free
       : deskState.checkedIn;
-  await db.get(
+  await db.run(
     "UPDATE desk SET desk_state = (?) WHERE desk_id = (?)",
     newDeskState,
     req.params.deskId
   );
-  const desk = await db.get(
+  const desk = await db.get<DeskType>(
     "SELECT * FROM desk WHERE desk_id = (?)",
     req.params.deskId
   );
+  if (!desk) {
+    res.status(404);
+    return;
+  }
   res.send({
     deskid: desk.desk_id,
     deskState: desk.desk_state,

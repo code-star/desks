@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,6 +24,7 @@ jobs:
           npm run lint
           npm run build
       - name: Build docker image
+        if: ${{ github.ref == 'main' }}
         run: |
           docker build . -t desks-api
           docker save desks-api:latest > desk-api_latest.tar

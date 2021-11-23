@@ -8,8 +8,8 @@ export const deskState = {
 type DeskState = typeof deskState[keyof typeof deskState];
 
 export interface DeskType {
-  deskId: string;
-  deskState: DeskState;
+  desk_id: string;
+  desk_state: DeskState;
 }
 
 export interface User {
