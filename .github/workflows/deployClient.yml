@@ -1,10 +1,15 @@
 name: Deploy client to Github pages
 
-on: [push, pull_request]
+on: 
+  push:
+    paths:
+      - 'client/**'
+  pull_request:
+    paths:
+      - 'client/**'
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:

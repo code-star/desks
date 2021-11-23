@@ -1,6 +1,12 @@
 name: Build API docker image
 
-on: [push, pull_request]
+on: 
+  push:
+    paths:
+      - 'api/**'
+  pull_request:
+    paths:
+      - 'api/**'
 
 jobs:
   build:
