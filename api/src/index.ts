@@ -3,7 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import sqlite3 from 'sqlite3';
 import preDb from './preDb';
-import {deskState, deskType} from './OwnTypes' 
+import {deskState, DeskType} from './types' 
 
 const app = express();
 const port = 3001;
@@ -38,7 +38,8 @@ app.get("/api/desk/:deskId", async (req: Request, res: Response) => {
 app.patch("/api/desk/:deskId", async (req: Request, res: Response) => {
   const initialDesk = await db.get(
     "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
-  const newDeskState = (initialDesk.desk_state === deskState.checkedIn) ? deskState.free : deskState.checkedIn;
+    console.log(initialDesk.deskState);
+  const newDeskState = (initialDesk.deskState === deskState.checkedIn) ? deskState.free : deskState.checkedIn;
   await db.get("UPDATE desk SET desk_state = (?) WHERE desk_id = (?)",newDeskState, req.params.deskId);
   const desk = await db.get(
     "SELECT * FROM desk WHERE desk_id = (?)",req.params.deskId);
