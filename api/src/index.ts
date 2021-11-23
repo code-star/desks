@@ -13,6 +13,8 @@ const corsOptions = {
   origin: "http://localhost:3000",
 };
 
+console.log("test build");
+
 let db: Database<sqlite3.Database, sqlite3.Statement>;
 app.use(express.static("public"));
 app.use(cors(corsOptions));
