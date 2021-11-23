@@ -2,7 +2,7 @@ import './App.css';
 import BookingPage from './BookingPage';
 import CheckinPage from './CheckinPage';
 import TopBar from './TopBar';
-import {Route, Link} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 
 function App() {
   return (
