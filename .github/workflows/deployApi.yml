@@ -1,10 +1,9 @@
-name: Deploy client to Github pages
+name: Build API docker image
 
 on: [push, pull_request]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -20,14 +19,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install and Build components 🔧
         run: |
-          cd client
+          cd api
           npm install
-          CI=false npm run build # ignore lint errors
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.0.0
+          npm run lint
+          npm run build
+      - name: Build docker image
         if: ${{ github.ref == 'main' }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: gh-pages # The branch the action should deploy to.
-          folder: client/build # The folder the action should deploy.
-          clean: true # Automatically remove deleted files from the deploy branch
+        run: |
+          docker build . -t desks-api
+          docker save desks-api:latest > desk-api_latest.tar
