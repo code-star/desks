@@ -4,7 +4,7 @@ import cors from "cors";
 import sqlite3 from "sqlite3";
 import preDb from "./preDb";
 import { Database } from "sqlite";
-import { getDesk, patchDesk } from "./routes/desk";
+import { getDesk, patchDesk, getDeskList } from "./routes/desk";
 
 const app = express();
 const port = 3001;
@@ -21,6 +21,7 @@ app.use(bodyParser.json());
 
 app.listen(port, async () => {
   db = await preDb();
+  getDeskList(app, db);
   getDesk(app, db);
   patchDesk(app, db);
   console.log(`Example app listening at http://localhost:${port}`);

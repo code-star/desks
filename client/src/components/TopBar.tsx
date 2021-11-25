@@ -1,7 +1,8 @@
 import { Toolbar, IconButton, AppBar, Typography } from "@mui/material";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import React, { FC } from "react";
 
-function TopBar() {
+export const TopBar: FC = () => {
   return (
     <AppBar position="static">
       <Toolbar variant="dense">
@@ -20,4 +21,3 @@ function TopBar() {
     </AppBar>
   );
 }
-export default TopBar;
