@@ -5,6 +5,7 @@ import sqlite3 from "sqlite3";
 import preDb from "./preDb";
 import { Database } from "sqlite";
 import { getDesk, patchDesk, getDeskList } from "./routes/desk";
+import { patchBooking } from "./routes/booking";
 
 const app = express();
 const port = 3001;
@@ -24,5 +25,6 @@ app.listen(port, async () => {
   getDeskList(app, db);
   getDesk(app, db);
   patchDesk(app, db);
+  patchBooking(app, db);
   console.log(`Example app listening at http://localhost:${port}`);
 });

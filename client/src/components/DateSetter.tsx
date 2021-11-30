@@ -2,9 +2,15 @@ import { useState, FC } from "react";
 import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, StaticDatePicker } from "@mui/lab";
+import { format } from "date-fns";
+
+let dateDB:Date;
+export function getDate(){
+  return dateDB;
+}
 
 export const DateSetter: FC = () => {
-    const [dateValue, setDateValue] = useState<Date | null>(new Date());
+    const [dateValue, setDateValue] = useState<Date>(new Date());
     return (
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <StaticDatePicker<Date>
@@ -12,7 +18,10 @@ export const DateSetter: FC = () => {
           openTo="day"
           value={dateValue}
           onChange={(newValue) => {
-            setDateValue(newValue);
+            if(newValue){
+              setDateValue(newValue);
+              dateDB = newValue;
+            } 
           }}
           renderInput={(params) => <TextField {...params} />}
         />
