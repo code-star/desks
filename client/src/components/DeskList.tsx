@@ -7,8 +7,6 @@ export function getDesk(){
     return currentDesk
 }
 
-
-
 function DeskItem(){
     const [currentDeskList, setCurrentDeskList] = useState([] as DeskType[]);
     const [selectedDesk, setSelectedDesk] = useState("");
@@ -33,7 +31,8 @@ const handleListItemClick = (
         currentDeskList.map( desk =>
         <ListItemButton 
         selected={selectedDesk === desk.desk_id}
-        onClick={(event) => handleListItemClick(event, desk.desk_id)}>
+        onClick={(event) => handleListItemClick(event, desk.desk_id)}
+        key={desk.desk_id}>
             {desk.desk_id}
         </ListItemButton>
         )

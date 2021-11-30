@@ -6,7 +6,6 @@ import { DeskList, getDesk } from "../components/DeskList";
 
 const BookingPage: FC = () => {
   const handleBooking = async () => {
-    console.log(getStartTime());
     await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
       headers: {
@@ -20,14 +19,14 @@ const BookingPage: FC = () => {
           getDate().getDay(),
           getStartTime().getHours(),
           getStartTime().getMinutes()
-        ).getTime()/1000,
+        ).getTime()/100,
         endTime: new Date(
           getDate().getFullYear(),
           getDate().getMonth(),
           getDate().getDay(),
           getEndTime().getHours(),
           getEndTime().getMinutes()
-        ).getTime()/1000,
+        ).getTime()/100,
         deskId: getDesk(),
       }),
     });
@@ -48,7 +47,7 @@ const BookingPage: FC = () => {
           </Grid>
         </Grid>
         <Grid item xs={4}>
-          <h3>list desks</h3>
+          <h3>list available desks</h3>
           <DeskList />
           <Button variant="contained" color="secondary" onClick={handleBooking}>
             Book
