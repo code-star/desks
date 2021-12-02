@@ -20,4 +20,4 @@ export const TopBar: FC = () => {
       </Toolbar>
     </AppBar>
   );
-}
+};
