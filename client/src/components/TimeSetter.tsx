@@ -6,9 +6,10 @@ import { FormContext } from "../pages/bookingPage";
 
 type Props = {
   title: string;
+  type: "Start" | "End";
 };
 
-export const TimeSetter: FC<Props> = ({ title }) => {
+export const TimeSetter: FC<Props> = ({ title, type }) => {
   const {
     startTime: [startTimeValue, setStartTimeValue],
   } = useContext(FormContext);
@@ -23,9 +24,14 @@ export const TimeSetter: FC<Props> = ({ title }) => {
           <TimePicker
             value={title.includes("Start") ? startTimeValue : endTimeValue}
             onChange={(newValue) => {
-              if (newValue) {
-                if (title.includes("Start")) setStartTimeValue(newValue);
-                if (title.includes("End")) setEndTimeValue(newValue);
+              if (!newValue) {
+                return;
+              }
+              if (type === "Start") {
+                setStartTimeValue(newValue);
+              }
+              if (type === "End") {
+                setEndTimeValue(newValue);
               }
             }}
             renderInput={(params) => <TextField {...params} />}

@@ -7,6 +7,18 @@ import img1 from "../images/layout.jpg";
 
 export const FormContext = React.createContext<any>(null);
 
+function getUnixTime(date: Date, time: Date) {
+  return (
+    new Date(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      time.getHours(),
+      time.getMinutes()
+    ).getTime() / 1000
+  );
+}
+
 const BookingPage: FC = () => {
   const handleBooking = async () => {
     await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
@@ -16,22 +28,8 @@ const BookingPage: FC = () => {
       },
       body: JSON.stringify({
         bookingId: `booking ${selectedDesk}.${Date.now()}`,
-        startTime:
-          new Date(
-            dateValue.getFullYear(),
-            dateValue.getMonth(),
-            dateValue.getDate(),
-            startTimeValue.getHours(),
-            startTimeValue.getMinutes()
-          ).getTime() / 1000,
-        endTime:
-          new Date(
-            dateValue.getFullYear(),
-            dateValue.getMonth(),
-            dateValue.getDate(),
-            endtimeValue.getHours(),
-            endtimeValue.getMinutes()
-          ).getTime() / 1000,
+        startTime: getUnixTime(dateValue, startTimeValue),
+        endTime: getUnixTime(dateValue, endtimeValue),
         deskId: selectedDesk,
       }),
     });
@@ -58,8 +56,8 @@ const BookingPage: FC = () => {
                 <DateSetter />
               </Grid>
               <Grid item xs={6}>
-                <TimeSetter title={"Start time"} />
-                <TimeSetter title={"End time"} />
+                <TimeSetter title={"Start time"} type={"Start"} />
+                <TimeSetter title={"End time"} type={"End"} />
               </Grid>
             </Grid>
           </Grid>

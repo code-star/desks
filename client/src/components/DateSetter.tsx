@@ -4,11 +4,6 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, StaticDatePicker } from "@mui/lab";
 import { FormContext } from "../pages/bookingPage";
 
-let dateDB: Date;
-export function getDate() {
-  return dateDB;
-}
-
 export const DateSetter: FC = () => {
   const {
     date: [dateValue, setDateValue],
@@ -22,7 +17,6 @@ export const DateSetter: FC = () => {
         onChange={(newValue) => {
           if (newValue) {
             setDateValue(newValue);
-            dateDB = newValue;
           }
         }}
         renderInput={(params) => <TextField {...params} />}

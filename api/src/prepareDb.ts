@@ -12,7 +12,7 @@ export async function preDb() {
     "CREATE TABLE IF NOT EXISTS desk (desk_id TEXT PRIMARY KEY, desk_state TEXT)"
   );
   await db.exec(
-    "CREATE TABLE IF NOT EXISTS booking (booking_id TEXT PRIMARY KEY, start_time NUM, end_time NUM, booked_desk TEXT, FOREIGN KEY(booked_desk) REFERENCES desk(desk_id))"
+    "CREATE TABLE IF NOT EXISTS booking (booking_id TEXT PRIMARY KEY, start_time INTEGER, end_time INTEGER, booked_desk TEXT, FOREIGN KEY(booked_desk) REFERENCES desk(desk_id))"
   );
 
   const allUsers = await db.all<User[]>(

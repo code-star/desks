@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import sqlite3 from "sqlite3";
-import preDb from "./preDb";
+import preDb from "./prepareDb";
 import { Database } from "sqlite";
 import { getDesk, patchDesk, getDeskList } from "./routes/desk";
 import { patchBooking } from "./routes/booking";
