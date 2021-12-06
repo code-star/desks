@@ -12,7 +12,6 @@ export function getDesk(
       "SELECT * FROM desk WHERE desk_id = (?)",
       req.params.deskId
     );
-
     if (!desk) {
       res.send({
         deskState: deskState.unavailable,
@@ -22,6 +21,24 @@ export function getDesk(
     res.send({
       deskid: desk.desk_id,
       deskState: desk.desk_state,
+    });
+  });
+}
+
+export function getDeskList(
+  app: Express,
+  db: Database<sqlite3.Database, sqlite3.Statement>
+) {
+  app.get("/api/desk/list", async (req: Request, res: Response) => {
+    const desk = await db.all<DeskType[]>("SELECT * FROM desk");
+    req.param;
+
+    if (!desk) {
+      res.status(404);
+      return;
+    }
+    res.send({
+      deskList: desk,
     });
   });
 }

@@ -1,7 +1,7 @@
 import './App.css';
-import BookingPage from './BookingPage';
-import CheckinPage from './CheckinPage';
-import TopBar from './TopBar';
+import BookingPage from './pages/bookingPage';
+import CheckinPage from './pages/checkinPage';
+import {TopBar} from './components/TopBar';
 import {Route} from 'react-router-dom'
 
 function App() {
