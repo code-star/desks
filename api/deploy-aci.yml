@@ -18,7 +18,7 @@ properties:
   #       mountPath: /etc/nginx
   - name: smartdesk-api
     properties:
-      image: codestarsmartdesk.azurecr.io/smartdesk-api
+      image: codestarsmartdesk.azurecr.io/smartdesk-api:v1
       ports:
       - port: 3001
         protocol: TCP
@@ -40,3 +40,7 @@ properties:
   osType: Linux
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
+imageRegistryCredentials:
+  - server: codestarsmartdesk.azurecr.io
+    username: codestarsmartdesk
+    password: imageRegistryPassword
