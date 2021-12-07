@@ -25,7 +25,7 @@ curl http://localhost:3001/api/desk/1
 * caddy/ssl
 * manually test integration front-end and back-end
 * alpine 
-* multi stage
+* multi stage build(?)
 
 # Deploy to Azure
 
@@ -42,9 +42,16 @@ docker context use default
 docker tag codestar/smartdesk-api codestarsmartdesk.azurecr.io/smartdesk-api:v1
 docker push codestarsmartdesk.azurecr.io/smartdesk-api:v1
 
+# retrieve registry credentials, use in the next step
+az acr credential show --name codestarsmartdesk
+
 # deploy
-az container create --resource-group rg-SmartDesk --file deploy-aci.yml
+ACR_PASSWORD=??? envsubst < deploy-aci.yml > deploy-aci-new.yml && az container create \
+    --resource-group rg-SmartDesk \
+    --file deploy-aci-new.yml
 ```
+
+Note: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-reference-yaml
 
 # OLD Deploy to Azure:
 

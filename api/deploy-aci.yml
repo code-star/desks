@@ -2,6 +2,10 @@ api-version: 2019-12-01
 location: westeurope
 name: smartdesk-api-with-ssl
 properties:
+  imageRegistryCredentials:
+    - server: codestarsmartdesk.azurecr.io
+      username: codestarsmartdesk
+      password: ${ACR_PASSWORD}
   containers:
   # - name: nginx-with-ssl
   #   properties:
@@ -37,10 +41,8 @@ properties:
     - port: 3001
       protocol: TCP
     type: Public
+    dnsNameLabel: ordina-smartdesk
+  # query: ipAddress.fqdn
   osType: Linux
 tags: null
 type: Microsoft.ContainerInstance/containerGroups
-imageRegistryCredentials:
-  - server: codestarsmartdesk.azurecr.io
-    username: codestarsmartdesk
-    password: imageRegistryPassword
