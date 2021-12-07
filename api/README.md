@@ -16,8 +16,8 @@ docker build -t codestar/smartdesk-api .
 Run Docker container:
 
 ```
-docker run -it --init --rm --name smartdesk-api -p 3001:3001 -v $(pwd)/database.db:/home/node/code/database.db codestar/smartdesk-api
-curl http://localhost:3001/api/desk/1
+docker run -it --init --rm --name smartdesk-api -p 3001:3001 -v $(pwd)/db/:/home/node/code/db/ codestar/smartdesk-api
+curl http://localhost:3001/api/desk/b2.1
 ```
 
 # TODO
@@ -53,14 +53,19 @@ docker context use default
 docker tag codestar/smartdesk-api codestarsmartdesk.azurecr.io/smartdesk-api:v1
 docker push codestarsmartdesk.azurecr.io/smartdesk-api:v1
 
-# retrieve registry credentials, use in the next step
+# get storageAccountKey, use "value" in next steps as STORAGE_ACCOUNT_KEY 
+az storage account keys list \
+  --resource-group rg-SmartDesk \
+  --account-name sasmartdesk
+
+# retrieve registry credentials, use in the next step as ACR_PASSWORD
 az acr credential show --name codestarsmartdesk
 
 # remove old containers
 az container delete --name smartdesk-api-with-ssl --resource-group rg-SmartDesk
 
 # deploy
-ACR_PASSWORD=??? envsubst < deploy-aci.yml > deploy-aci-temp.yml && az container create \
+STORAGE_ACCOUNT_KEY=??? ACR_PASSWORD=??? envsubst < deploy-aci.yml > deploy-aci-temp.yml && az container create \
     --resource-group rg-SmartDesk \
     --file deploy-aci-temp.yml
 
