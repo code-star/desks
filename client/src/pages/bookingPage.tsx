@@ -7,7 +7,7 @@ import img1 from "../images/layout.jpg";
 
 export const FormContext = React.createContext<any>(null);
 
-function getUnixTime(date: Date, time: Date) {
+export function getUnixTime(date: Date, time: Date) {
   return (
     new Date(
       date.getFullYear(),
