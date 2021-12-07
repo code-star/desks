@@ -27,10 +27,10 @@ const BookingPage: FC = () => {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
-        bookingId: `booking ${selectedDesk}.${Date.now()}`,
-        startTime: getUnixTime(dateValue, startTimeValue),
-        endTime: getUnixTime(dateValue, endtimeValue),
-        deskId: selectedDesk,
+        booking_id: `booking ${selectedDesk}.${Date.now()}`,
+        start_time: getUnixTime(dateValue, startTimeValue),
+        end_time: getUnixTime(dateValue, endtimeValue),
+        booked_desk: selectedDesk,
       }),
     });
   };

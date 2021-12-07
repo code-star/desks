@@ -27,24 +27,24 @@ export function patchBooking(
   app.patch("/api/book", async (req: Request, res: Response) => {
     await db.run(
       "INSERT INTO booking VALUES ((?),(?),(?),(?))",
-      req.body.bookingId,
-      req.body.startTime,
-      req.body.endTime,
-      req.body.deskId
+      req.body.booking_id,
+      req.body.start_time,
+      req.body.end_time,
+      req.body.booked_desk
     );
     const booking = await db.get<Booking>(
       "SELECT * from booking WHERE booking_id =(?)",
-      req.body.bookingId
+      req.body.booking_id
     );
     if (!booking) {
       res.status(404);
       return;
     }
     res.send({
-      bookingId: booking.bookingId,
-      startTime: booking.startTime,
-      endTime: booking.endTime,
-      deskId: booking.deskId,
+      booking_id: booking.booking_id,
+      start_time: booking.start_time,
+      end_time: booking.end_time,
+      booked_desk: booking.booked_desk,
     });
   });
 }

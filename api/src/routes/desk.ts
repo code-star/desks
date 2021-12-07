@@ -30,15 +30,15 @@ export function getDeskList(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.get("/api/desk/list", async (req: Request, res: Response) => {
-    const desk = await db.all<DeskType[]>("SELECT * FROM desk");
+    const desks = await db.all<DeskType[]>("SELECT * FROM desk");
     req.param;
 
-    if (!desk) {
+    if (!desks) {
       res.status(404);
       return;
     }
     res.send({
-      deskList: desk,
+      deskList: desks,
     });
   });
 }

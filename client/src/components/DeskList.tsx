@@ -19,17 +19,25 @@ export const DeskList: FC = () => {
     const setDeskList = async () => {
       const bookingList = await fetch(`${process.env.REACT_APP_ROOT_URL}api/bookinglist`);
       const jsonBookingList= await bookingList.json();
-      const Bookings: Booking[] = jsonBookingList.bookingList;
-      const unavailableDesks = Bookings.filter((booking: Booking ) => {
-        if(booking.startTime < getUnixTime(dateValue, startTimeValue) && booking.endTime > getUnixTime(dateValue, endTimeValue)){
-          return true;
+      const bookings: Booking[] = jsonBookingList.bookingList;
+      const bookingsAtTime = bookings.filter((booking: Booking ) => {
+        if(booking.start_time < getUnixTime(dateValue, startTimeValue) && booking.end_time > getUnixTime(dateValue, endTimeValue)){
+          return false;
         } 
-        return false;
+        return true;
       });
-      console.log(unavailableDesks);
+      //TODO: remove before PR
+      //console.log(bookingsAtTime);
       const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/desk/list`);
       const json = await data.json();
-      setCurrentDeskList(json.deskList);
+      const availableDesks = json.deskList.filter((desk:DeskType) =>{
+        const isBooked = bookingsAtTime.find((booking:Booking)=>{
+          return (booking.booked_desk === desk.desk_id)
+        })
+        return !isBooked;
+      })
+      console.log(availableDesks)
+      setCurrentDeskList(availableDesks);
     };
     setDeskList();
   }, [endTimeValue, startTimeValue, dateValue]);

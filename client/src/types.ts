@@ -17,8 +17,8 @@ export interface User {
   password: string;
 }
 export interface Booking {
-  bookingId: string;
-  startTime: number;
-  endTime: number;
-  deskId: string;
+  booking_id: string;
+  start_time: number;
+  end_time: number;
+  booked_desk: string;
 }
