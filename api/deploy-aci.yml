@@ -11,7 +11,12 @@ properties:
     properties:
       image: caddy
       command:
-      - caddy reverse-proxy --from ordina-smartdesk-api.westeurope.azurecontainer.io --to 127.0.0.1:3001
+      - caddy
+      - reverse-proxy
+      - --from
+      - ordina-smartdesk-api.westeurope.azurecontainer.io 
+      - --to
+      - 127.0.0.1:3001
       ports:
         - port: 80
           protocol: TCP
