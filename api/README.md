@@ -1,24 +1,52 @@
-Run locally:
+# Run locally
 
 ```
 npm i
 npm start
 ```
 
+# Docker
+
 Build Docker image:
 
 ```
-docker build -t codestar/desks-api .
+docker build -t codestar/smartdesk-api .
 ```
 
 Run Docker container:
 
 ```
-docker run -it --init --rm --name desks-api -p 3001:3001 -v $(pwd)/database.db:/home/node/code/database.db codestar/desks-api
+docker run -it --init --rm --name smartdesk-api -p 3001:3001 -v $(pwd)/database.db:/home/node/code/database.db codestar/smartdesk-api
 curl http://localhost:3001/api/desk/1
 ```
 
-Deploy to Azure:
+# TODO
+
+* caddy/ssl
+* manually test integration front-end and back-end
+* alpine 
+* multi stage
+
+# Deploy to Azure
+
+```
+# build
+docker build -t codestar/smartdesk-api .
+
+# login
+az login --tenant ??? # id from Azure Active Directory 
+
+# publish to registry
+az acr login --name codestarsmartdesk.azurecr.io
+docker context use default
+docker tag codestar/smartdesk-api codestarsmartdesk.azurecr.io/smartdesk-api:v1
+docker push codestarsmartdesk.azurecr.io/smartdesk-api:v1
+
+# deploy
+az container create --resource-group rg-SmartDesk --file deploy-aci.yml
+```
+
+# OLD Deploy to Azure:
 
 See 
 

@@ -1,0 +1,42 @@
+api-version: 2019-12-01
+location: westeurope
+name: smartdesk-api-with-ssl
+properties:
+  containers:
+  # - name: nginx-with-ssl
+  #   properties:
+  #     image: mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine
+  #     ports:
+  #     - port: 443
+  #       protocol: TCP
+  #     resources:
+  #       requests:
+  #         cpu: 1.0
+  #         memoryInGB: 1.5
+  #     volumeMounts:
+  #     - name: nginx-config
+  #       mountPath: /etc/nginx
+  - name: smartdesk-api
+    properties:
+      image: codestarsmartdesk.azurecr.io/smartdesk-api
+      ports:
+      - port: 3001
+        protocol: TCP
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+  volumes:
+  # - secret:
+  #     ssl.crt: <Enter contents of base64-ssl.crt here>
+  #     ssl.key: <Enter contents of base64-ssl.key here>
+  #     nginx.conf: <Enter contents of base64-nginx.conf here>
+  #   name: nginx-config
+  ipAddress:
+    ports:
+    - port: 3001
+      protocol: TCP
+    type: Public
+  osType: Linux
+tags: null
+type: Microsoft.ContainerInstance/containerGroups
