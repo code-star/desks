@@ -7,30 +7,38 @@ properties:
       username: codestarsmartdesk
       password: ${ACR_PASSWORD}
   containers:
-  # caddy works, but needs to be configured e.g. see https://itnext.io/automatic-https-with-azure-container-instances-aci-4c4c8b03e8c9
-  # - name: caddy
-  #   properties:
-  #     image: caddy
-  #     ports:
-  #       - port: 443
-  #         protocol: TCP
-  #     resources:
-  #       requests:
-  #         cpu: 1.0
-  #         memoryInGB: 1.5
-  - name: nginx-with-ssl
+  - name: caddy
     properties:
-      image: mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine
+      image: caddy
+      command:
+      - caddy reverse-proxy --from ordina-smartdesk-api.westeurope.azurecontainer.io --to 127.0.0.1:3001
       ports:
-      - port: 443
-        protocol: TCP
+        - port: 80
+          protocol: TCP
+        - port: 443
+          protocol: TCP
       resources:
         requests:
           cpu: 1.0
           memoryInGB: 1.5
       volumeMounts:
-      - name: nginx-config
-        mountPath: /etc/nginx
+      - name: caddy-config
+        mountPath: /config
+      - name: caddy-data
+        mountPath: /data
+  # - name: nginx-with-ssl
+  #   properties:
+  #     image: mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine
+  #     ports:
+  #     - port: 443
+  #       protocol: TCP
+  #     resources:
+  #       requests:
+  #         cpu: 1.0
+  #         memoryInGB: 1.5
+  #     volumeMounts:
+  #     - name: nginx-config
+  #       mountPath: /etc/nginx
   - name: smartdesk-api
     properties:
       image: codestarsmartdesk.azurecr.io/smartdesk-api:v1
@@ -48,6 +56,16 @@ properties:
   - name: smartdeskvolume
     azureFile:
       shareName: volume
+      storageAccountName: sasmartdesk
+      storageAccountKey: ${STORAGE_ACCOUNT_KEY}
+  - name: caddy-config
+    azureFile:
+      shareName: caddy-config
+      storageAccountName: sasmartdesk
+      storageAccountKey: ${STORAGE_ACCOUNT_KEY}
+  - name: caddy-data
+    azureFile:
+      shareName: caddy-data
       storageAccountName: sasmartdesk
       storageAccountKey: ${STORAGE_ACCOUNT_KEY}
   - name: nginx-config
