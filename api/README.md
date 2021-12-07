@@ -5,7 +5,26 @@ npm i
 npm start
 ```
 
-# Docker
+# Deploy as Azure Web App
+
+```
+npm run build
+az login --tenant ??? # id from Azure Active Directory
+# az webapp up --sku F1 --name ordina-smartdesk-api --resource-group rg-SmartDesk --location westeurope
+az webapp up
+
+# smoke test
+az webapp log tail
+https://ordina-smartdesk-api.azurewebsites.net/api/desk/b2.1
+
+```
+
+TODO fix persistance https://stackoverflow.com/questions/61701578/how-to-access-the-persistent-shared-storage-of-azure-web-apps-for-containers
+
+Source: https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs?tabs=linux&pivots=development-environment-cli#create-your-nodejs-application
+
+# OLD - DO NOT USE DOCKER ON AZURE
+## Docker
 
 Build Docker image:
 
@@ -28,7 +47,7 @@ curl http://localhost:3001/api/desk/b2.1
 * alpine 
 * multi stage build(?)
 
-# Create local certificates
+## Create local certificates
 
 * brew install certbot
 * brew install -dns_azure
@@ -38,7 +57,7 @@ curl http://localhost:3001/api/desk/b2.1
   -d ordina-smartdesk.westeurope.azurecontainer.io
 * `cat ??? | base64` and copy to deploy-aci.yml
 
-# Deploy to Azure
+## Deploy to Azure
 
 ```
 # build
@@ -73,6 +92,7 @@ rm deploy-aci-temp.yml
 az container show --name smartdesk-api-with-ssl --resource-group rg-SmartDesk
 
 # smoke test
+curl http://ordina-smartdesk.westeurope.azurecontainer.io:3001/api/desk/b2.1
 # -k is to allow self signed certificates
 curl -k https://ordina-smartdesk.westeurope.azurecontainer.io/api/desk/b2.1
 
@@ -82,7 +102,7 @@ curl -k https://ordina-smartdesk.westeurope.azurecontainer.io/api/desk/b2.1
 
 Note: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-reference-yaml
 
-# OLD Deploy to Azure:
+## OLD Deploy to Azure:
 
 See 
 
