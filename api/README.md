@@ -28,6 +28,16 @@ curl http://localhost:3001/api/desk/1
 * alpine 
 * multi stage build(?)
 
+# Create local certificates
+
+* brew install certbot
+* brew install -dns_azure
+* certbot certonly --manual --preferred-challenges http
+* certbot certonly \
+  --dns-azure-config ~/.secrets/certbot/azure.ini \
+  -d ordina-smartdesk.westeurope.azurecontainer.io
+* `cat ??? | base64` and copy to deploy-aci.yml
+
 # Deploy to Azure
 
 ```
@@ -50,14 +60,19 @@ az acr credential show --name codestarsmartdesk
 az container delete --name smartdesk-api-with-ssl --resource-group rg-SmartDesk
 
 # deploy
-ACR_PASSWORD=??? envsubst < deploy-aci.yml > deploy-aci-new.yml && az container create \
+ACR_PASSWORD=??? envsubst < deploy-aci.yml > deploy-aci-temp.yml && az container create \
     --resource-group rg-SmartDesk \
-    --file deploy-aci-new.yml
+    --file deploy-aci-temp.yml
 
+rm deploy-aci-temp.yml
 az container show --name smartdesk-api-with-ssl --resource-group rg-SmartDesk
 
 # smoke test
-curl http://ordina-smartdesk.westeurope.azurecontainer.io:3001/api/desk/1
+# -k is to allow self signed certificates
+curl -k https://ordina-smartdesk.westeurope.azurecontainer.io/api/desk/b2.1
+
+# integrated test
+# open in browser: https://code-star.github.io/desks/checkin/?b2.1
 ```
 
 Note: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-reference-yaml
