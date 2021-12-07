@@ -24,6 +24,7 @@ curl http://localhost:3001/api/desk/1
 
 * caddy/ssl
 * manually test integration front-end and back-end
+* fix volume(mount)
 * alpine 
 * multi stage build(?)
 
@@ -45,10 +46,18 @@ docker push codestarsmartdesk.azurecr.io/smartdesk-api:v1
 # retrieve registry credentials, use in the next step
 az acr credential show --name codestarsmartdesk
 
+# remove old containers
+az container delete --name smartdesk-api-with-ssl --resource-group rg-SmartDesk
+
 # deploy
 ACR_PASSWORD=??? envsubst < deploy-aci.yml > deploy-aci-new.yml && az container create \
     --resource-group rg-SmartDesk \
     --file deploy-aci-new.yml
+
+az container show --name smartdesk-api-with-ssl --resource-group rg-SmartDesk
+
+# smoke test
+curl http://ordina-smartdesk.westeurope.azurecontainer.io:3001/api/desk/1
 ```
 
 Note: https://docs.microsoft.com/en-us/azure/container-instances/container-instances-reference-yaml
