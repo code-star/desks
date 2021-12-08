@@ -69,7 +69,7 @@ export function patchDesk(
     } catch (err) {
       res.status(404).send(err);
       return;
-    }   
+    }
     const desk = await db.get<DeskType>(
       "SELECT * FROM desk WHERE desk_id = (?)",
       req.params.deskId
