@@ -3,7 +3,7 @@ import { open } from "sqlite";
 import { deskState, User } from "./types";
 
 export async function preDb() {
-  const db = await open({ filename: "database.db", driver: sqlite3.Database });
+  const db = await open({ filename: ":memory:", driver: sqlite3.Database });
 
   await db.exec(
     "CREATE TABLE IF NOT EXISTS user (name TEXT PRIMARY KEY, password TEXT)"

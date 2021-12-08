@@ -53,24 +53,29 @@ export function patchDesk(
       req.params.deskId
     );
     if (!initialDesk) {
-      res.status(404);
+      res.status(404).send("no initial desk");
       return;
     }
     const newDeskState =
       initialDesk.desk_state === deskState.checkedIn
         ? deskState.free
         : deskState.checkedIn;
-    await db.run(
-      "UPDATE desk SET desk_state = (?) WHERE desk_id = (?)",
-      newDeskState,
-      req.params.deskId
-    );
+    try {
+      await db.run(
+        "UPDATE desk SET desk_state = (?) WHERE desk_id = (?)",
+        newDeskState,
+        req.params.deskId
+      );
+    } catch (err) {
+      res.status(404).send(err);
+      return;
+    }
     const desk = await db.get<DeskType>(
       "SELECT * FROM desk WHERE desk_id = (?)",
       req.params.deskId
     );
     if (!desk) {
-      res.status(404);
+      res.status(404).send("no result desk");
       return;
     }
     res.send({
