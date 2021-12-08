@@ -2,7 +2,7 @@ import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import { deskState, User } from "./types";
 
-export async function preDb() {
+export async function prepareDb() {
   const db = await open({ filename: "database.db", driver: sqlite3.Database });
 
   await db.exec(
@@ -35,4 +35,4 @@ export async function preDb() {
 
   return db;
 }
-export default preDb;
+export default prepareDb;
