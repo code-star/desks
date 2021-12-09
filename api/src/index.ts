@@ -9,10 +9,10 @@ import { patchBooking, getBookingList } from "./routes/booking";
 //import { generatePDF } from "./qrCode";
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "https://code-star.github.io"]
 };
 
 let db: Database<sqlite3.Database, sqlite3.Statement>;
