@@ -21,7 +21,7 @@ export async function prepareDb() {
   );
   if (allUsers.length === 0) {
     await db.exec('INSERT INTO user VALUES ("test", "pw")');
-    for (let i = 1; i < 12; i++) {
+    for (let i = 1; i < 42; i++) {
       await db.run(
         "INSERT INTO desk VALUES ((?), (?))",
         `b2.${i}`,

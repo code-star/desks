@@ -3,7 +3,7 @@ import { Button, Grid } from "@mui/material";
 import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
 import { DeskList } from "../components/DeskList";
-import img1 from "../images/layout.jpg";
+import img from "../images/plattegrond_ordinaB2.jpg";
 
 export const FormContext = React.createContext<any>(null);
 
@@ -50,7 +50,7 @@ const BookingPage: FC = () => {
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <h3>layout picture</h3>
-            <img src={img1} alt="layout img" width={1200} height={500} />
+            <img src={img} alt="layout img" width={1500} height={600} />
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <DateSetter />
