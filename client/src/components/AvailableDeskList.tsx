@@ -3,10 +3,7 @@ import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItem } from "./DeskItemButton";
 import { FormContext, getUnixTime } from "../pages/bookingPage";
-
-function isBetween(value: number, min: number, max: number) {
-  return value >= min && value <= max;
-}
+import { isBetween } from "../helperFunctions";
 
 export const AvailableDeskList: FC = () => {
   const [currentDeskList, setCurrentDeskList] = useState([] as DeskType[]);
