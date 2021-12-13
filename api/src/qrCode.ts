@@ -21,7 +21,7 @@ const generateQR = async (
 export async function generatePDF() {
   const db = await prepareDb();
   const pdf = new pdfDocument();
-  pdf.pipe(fs.createWriteStream("test.pdf"));
+  pdf.pipe(fs.createWriteStream("QRstickers.pdf"));
   const desks = await db.all<DeskType[]>("SELECT * FROM desk");
   const qrcodes = await Promise.all(
     desks.map((desk: DeskType) => {
@@ -31,10 +31,11 @@ export async function generatePDF() {
   qrcodes.forEach((qrCode) => {
     pdf
       .font("Times-Roman")
-      .text("Scan to checkin", { align: "center" })
-      .text(qrCode.desk.desk_id, { align: "center" })
+      .text("Scan to checkin")
+      .text(qrCode.desk.desk_id)
       .image(qrCode.qr, { fit: [100, 100] })
-      .text(qrCode.url, { align: "center" });
+      .text(qrCode.url)
+      .text(" ");
   });
   pdf.end();
 }

@@ -1,5 +1,7 @@
+import { Stack } from "@mui/material";
 import Button from "@mui/material/Button";
-import React, { useState, FC, useEffect } from "react";
+import { useState, FC, useEffect } from "react";
+import { CheckinDeskList } from "../components/CheckinDeskList";
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
@@ -36,7 +38,7 @@ const CheckinPage: FC = () => {
 
   return (
     <div className="CheckinPage">
-      <header className="checkinHeader">
+      <Stack spacing={2}>
         <Button
           variant="contained"
           color="secondary"
@@ -45,9 +47,9 @@ const CheckinPage: FC = () => {
         >
           check in/ uit
         </Button>
-
         {currentDeskState === "free" ? "uitgechecked" : "ingechecked"}
-      </header>
+        <CheckinDeskList deskId={deskId} />
+      </Stack>
     </div>
   );
 };

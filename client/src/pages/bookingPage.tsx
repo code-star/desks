@@ -2,7 +2,7 @@ import React, { FC, useState } from "react";
 import { Button, Grid } from "@mui/material";
 import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
-import { DeskList } from "../components/DeskList";
+import { AvailableDeskList } from "../components/AvailableDeskList";
 import img from "../images/plattegrond_ordinaB2.jpg";
 
 export const FormContext = React.createContext<any>(null);
@@ -63,7 +63,7 @@ const BookingPage: FC = () => {
           </Grid>
           <Grid item xs={4}>
             <h3>list available desks</h3>
-            <DeskList />
+            <AvailableDeskList />
             <Button
               variant="contained"
               color="secondary"

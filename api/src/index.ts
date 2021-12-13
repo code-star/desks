@@ -6,13 +6,12 @@ import prepareDb from "./prepareDb";
 import { Database } from "sqlite";
 import { getDesk, patchDesk, getDeskList } from "./routes/desk";
 import { patchBooking, getBookingList } from "./routes/booking";
-//import { generatePDF } from "./qrCode";
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "https://code-star.github.io"]
+  origin: ["http://localhost:3000", "https://code-star.github.io"],
 };
 
 let db: Database<sqlite3.Database, sqlite3.Statement>;
@@ -28,5 +27,4 @@ app.listen(port, async () => {
   patchDesk(app, db);
   patchBooking(app, db);
   getBookingList(app, db);
-  console.log(`Example app listening at http://localhost:${port}`);
 });
