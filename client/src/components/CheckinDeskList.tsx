@@ -2,20 +2,21 @@ import { List } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItemCheckIn } from "./DeskItem";
-import { isBetween } from "../helperFunctions";
+import { isBetween } from "../utils";
 
 type Props = {
   deskId: string;
 };
-export const CheckinDeskList: FC<Props> = ({ deskId }) => {
-  const [currentDeskList, setCurrentDeskList] = useState([] as DeskType[]);
+const OFFSET_AVAILABLE_DESKS = 2
 
-  const isBooked = (booking: Booking, currentDeskId: string) => {
-    return (
-      booking.booked_desk === currentDeskId &&
-      isBetween(Date.now() / 1000, booking.start_time, booking.end_time)
-    );
-  };
+const isBookedNow = (booking: Booking) => {
+  return (
+    isBetween(Date.now() / 1000, booking.start_time, booking.end_time)
+  );
+};
+
+export const CheckinDeskList: FC<Props> = ({ deskId }) => {
+  const [currentDeskList, setCurrentDeskList] = useState<DeskType[]>([]);
 
   useEffect(() => {
     const setDeskList = async () => {
@@ -23,8 +24,7 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
         `${process.env.REACT_APP_ROOT_URL}api/desk/list`
       );
       const desksJson = await desks.json();
-      const fullList: DeskType[] = desksJson.deskList;
-      const indexDesk = fullList.findIndex((desk) => desk.desk_id === deskId);
+      const allDesks: DeskType[] = desksJson.deskList;
 
       const bookingList = await fetch(
         `${process.env.REACT_APP_ROOT_URL}api/bookinglist`
@@ -32,31 +32,19 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
       const jsonBookingList = await bookingList.json();
       const bookings: Booking[] = jsonBookingList.bookingList;
 
-      if (
-        bookings.find((booking) => {
-          return isBooked(booking, deskId);
-        })
-      ) {
-        const closeDesks = fullList.filter((desk) => {
-          if (
-            bookings.find((booking) => {
-              return isBooked(booking, desk.desk_id);
-            })
-          ) {
-            return false;
-          }
-          if (
-            indexDesk - fullList.indexOf(desk) > 2 ||
-            indexDesk - fullList.indexOf(desk) < -2
-          ) {
-            return false;
-          }
-          if (fullList.indexOf(desk) === indexDesk) {
-            return false;
-          }
-          return true;
+      const deskIndex = allDesks.findIndex((desk) => desk.desk_id === deskId);
+      const getDeskForBooking = (booking:Booking) => allDesks.find((desk) => desk.desk_id === booking.booked_desk); 
+      const currentBookedDesks = bookings.filter(isBookedNow).map(getDeskForBooking);
+
+      if(currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === deskId)){
+        const nearbyDesks = allDesks.filter((otherDesk, otherdDeskIndex) => {
+          const isCurrentlyBooked = currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === otherDesk.desk_id)
+          const isSameDesk = deskIndex === otherdDeskIndex;
+          const distance = deskIndex - otherdDeskIndex;
+          const isInRange = distance >= -OFFSET_AVAILABLE_DESKS && distance <= OFFSET_AVAILABLE_DESKS;
+          return !isSameDesk && isInRange && !isCurrentlyBooked;  
         });
-        setCurrentDeskList(closeDesks);
+        setCurrentDeskList(nearbyDesks);
       }
     };
     setDeskList();

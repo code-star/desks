@@ -3,19 +3,19 @@ import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking } from "../types";
 
-export function getBookingList(
+export function getBookings(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.get("/api/bookinglist", async (req: Request, res: Response) => {
-    const booking = await db.all<Booking[]>("SELECT * FROM booking");
+    const bookings = await db.all<Booking[]>("SELECT * FROM booking");
     req.get;
-    if (!booking) {
+    if (!bookings) {
       res.status(404);
       return;
     }
     res.send({
-      bookingList: booking,
+      bookingList: bookings,
     });
   });
 }
@@ -25,26 +25,22 @@ export function patchBooking(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.patch("/api/book", async (req: Request, res: Response) => {
+    const { booking_id, start_time, end_time, booked_desk } = req.body;
     await db.run(
       "INSERT INTO booking VALUES ((?),(?),(?),(?))",
-      req.body.booking_id,
-      req.body.start_time,
-      req.body.end_time,
-      req.body.booked_desk
+      booking_id,
+      start_time,
+      end_time,
+      booked_desk
     );
     const booking = await db.get<Booking>(
       "SELECT * from booking WHERE booking_id =(?)",
-      req.body.booking_id
+      booking_id
     );
     if (!booking) {
       res.status(404);
       return;
     }
-    res.send({
-      booking_id: booking.booking_id,
-      start_time: booking.start_time,
-      end_time: booking.end_time,
-      booked_desk: booking.booked_desk,
-    });
+    res.send(booking);
   });
 }

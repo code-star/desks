@@ -2,11 +2,11 @@ import { List } from "@mui/material";
 import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItem } from "./DeskItemButton";
-import { FormContext, getUnixTime } from "../pages/bookingPage";
-import { isBetween } from "../helperFunctions";
+import { FormContext } from "../pages/bookingPage";
+import { isBetween, getUnixTime } from "../utils";
 
 export const AvailableDeskList: FC = () => {
-  const [currentDeskList, setCurrentDeskList] = useState([] as DeskType[]);
+  const [currentDeskList, setCurrentDeskList] = useState<DeskType[]>([]);
   const {
     startTime: [startTimeValue],
   } = useContext(FormContext);
@@ -28,14 +28,10 @@ export const AvailableDeskList: FC = () => {
       const bookingsAtTime = bookings.filter((booking: Booking) => {
         const unixStartTime = getUnixTime(dateValue, startTimeValue);
         const unixEndTime = getUnixTime(dateValue, endTimeValue);
-        if (
-          isBetween(booking.start_time, unixStartTime, unixEndTime) ||
-          isBetween(booking.end_time, unixStartTime, unixEndTime)
-        ) {
-          return true;
-        }
-        return false;
-      });
+          const isBetweenStart  = isBetween(booking.start_time, unixStartTime, unixEndTime);
+          const isBetweenEnd = isBetween(booking.end_time, unixStartTime, unixEndTime);
+          return isBetweenStart || isBetweenEnd;
+        });
 
       const data = await fetch(
         `${process.env.REACT_APP_ROOT_URL}api/desk/list`
@@ -43,9 +39,7 @@ export const AvailableDeskList: FC = () => {
       const json = await data.json();
 
       const availableDesks = json.deskList.filter((desk: DeskType) => {
-        const isBooked = bookingsAtTime.find((booking: Booking) => {
-          return booking.booked_desk === desk.desk_id;
-        });
+        const isBooked = bookingsAtTime.find((booking: Booking) => booking.booked_desk === desk.desk_id);
         return !isBooked;
       });
       setCurrentDeskList(availableDesks);

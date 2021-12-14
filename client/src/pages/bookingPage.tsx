@@ -4,20 +4,9 @@ import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
 import { AvailableDeskList } from "../components/AvailableDeskList";
 import img from "../images/plattegrond_ordinaB2.jpg";
+import { getUnixTime } from "../utils";
 
 export const FormContext = React.createContext<any>(null);
-
-export function getUnixTime(date: Date, time: Date) {
-  return (
-    new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      time.getHours(),
-      time.getMinutes()
-    ).getTime() / 1000
-  );
-}
 
 const BookingPage: FC = () => {
   const handleBooking = async () => {

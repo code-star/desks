@@ -31,9 +31,10 @@ export async function generatePDF() {
   qrcodes.forEach((qrCode) => {
     pdf
       .font("Times-Roman")
-      .text("Scan to checkin")
+      .text("Scan to check-in")
       .text(qrCode.desk.desk_id)
       .image(qrCode.qr, { fit: [100, 100] })
+      // TODO issue #52
       .text(qrCode.url)
       .text(" ");
   });
