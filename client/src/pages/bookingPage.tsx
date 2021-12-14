@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Snackbar } from "@mui/material";
 import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
 import { AvailableDeskList } from "../components/AvailableDeskList";
@@ -9,8 +9,10 @@ import { getUnixTime } from "../utils";
 export const FormContext = React.createContext<any>(null);
 
 const BookingPage: FC = () => {
+  const [open, setOpen] = useState(false);
+
   const handleBooking = async () => {
-    await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
+    const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -22,7 +24,12 @@ const BookingPage: FC = () => {
         booked_desk: selectedDesk,
       }),
     });
+    const json = await data.json();
+    if (json.booking) {
+      setOpen(true);
+    }
   };
+
   const [startTimeValue, setStartTimeValue] = useState<Date>(new Date());
   const [endtimeValue, setEndTimeValue] = useState<Date>(new Date());
   const [dateValue, setDateValue] = useState<Date>(new Date());
@@ -62,6 +69,15 @@ const BookingPage: FC = () => {
             </Button>
           </Grid>
         </Grid>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={() => {
+            setOpen(false);
+          }}
+          message={`Your booking for desk ${selectedDesk} was succesful`}
+        />
       </div>
     </FormContext.Provider>
   );

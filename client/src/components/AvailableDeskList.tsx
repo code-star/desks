@@ -2,7 +2,7 @@ import { List } from "@mui/material";
 import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItem } from "./DeskItemButton";
-import { FormContext } from "../pages/bookingPage";
+import { FormContext } from "../pages/BookingPage";
 import { isBetween, getUnixTime } from "../utils";
 
 export const AvailableDeskList: FC = () => {

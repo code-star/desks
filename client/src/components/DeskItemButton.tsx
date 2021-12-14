@@ -1,6 +1,6 @@
 import { ListItemButton } from "@mui/material";
 import { FC, useContext } from "react";
-import { FormContext } from "../pages/bookingPage";
+import { FormContext } from "../pages/BookingPage";
 import { DeskType } from "../types";
 
 type Props = {
