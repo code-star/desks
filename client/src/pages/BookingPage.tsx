@@ -1,39 +1,35 @@
 import React, { FC, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Snackbar } from "@mui/material";
 import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
-import { DeskList } from "../components/DeskList";
-import img1 from "../images/layout.jpg";
+import { AvailableDeskList } from "../components/AvailableDeskList";
+import img from "../images/plattegrond_ordinaB2.jpg";
+import { getUnixTime } from "../utils";
 
 export const FormContext = React.createContext<any>(null);
 
-function getUnixTime(date: Date, time: Date) {
-  return (
-    new Date(
-      date.getFullYear(),
-      date.getMonth(),
-      date.getDate(),
-      time.getHours(),
-      time.getMinutes()
-    ).getTime() / 1000
-  );
-}
-
 const BookingPage: FC = () => {
+  const [open, setOpen] = useState(false);
+
   const handleBooking = async () => {
-    await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
+    const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify({
-        bookingId: `booking ${selectedDesk}.${Date.now()}`,
-        startTime: getUnixTime(dateValue, startTimeValue),
-        endTime: getUnixTime(dateValue, endtimeValue),
-        deskId: selectedDesk,
+        booking_id: `booking ${selectedDesk}.${Date.now()}`,
+        start_time: getUnixTime(dateValue, startTimeValue),
+        end_time: getUnixTime(dateValue, endtimeValue),
+        booked_desk: selectedDesk,
       }),
     });
+    const json = await data.json();
+    if (json.booking) {
+      setOpen(true);
+    }
   };
+
   const [startTimeValue, setStartTimeValue] = useState<Date>(new Date());
   const [endtimeValue, setEndTimeValue] = useState<Date>(new Date());
   const [dateValue, setDateValue] = useState<Date>(new Date());
@@ -50,7 +46,7 @@ const BookingPage: FC = () => {
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <h3>layout picture</h3>
-            <img src={img1} alt="layout img" width={1200} height={500} />
+            <img src={img} alt="layout img" width={1500} height={600} />
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <DateSetter />
@@ -63,7 +59,7 @@ const BookingPage: FC = () => {
           </Grid>
           <Grid item xs={4}>
             <h3>list available desks</h3>
-            <DeskList />
+            <AvailableDeskList />
             <Button
               variant="contained"
               color="secondary"
@@ -73,6 +69,15 @@ const BookingPage: FC = () => {
             </Button>
           </Grid>
         </Grid>
+        <Snackbar
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={() => {
+            setOpen(false);
+          }}
+          message={`Your booking for desk ${selectedDesk} was succesful`}
+        />
       </div>
     </FormContext.Provider>
   );

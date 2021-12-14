@@ -2,7 +2,7 @@ import { FC, useContext } from "react";
 import { Typography, Card, CardContent, TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, TimePicker } from "@mui/lab";
-import { FormContext } from "../pages/bookingPage";
+import { FormContext } from "../pages/BookingPage";
 
 type Props = {
   title: string;

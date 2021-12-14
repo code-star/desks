@@ -2,7 +2,9 @@ import sqlite3 from "sqlite3";
 import { open } from "sqlite";
 import { deskState, User } from "./types";
 
-export async function preDb() {
+const NR_OF_DESKS = 42;
+
+export async function prepareDb() {
   const db = await open({ filename: ":memory:", driver: sqlite3.Database });
 
   await db.exec(
@@ -21,7 +23,7 @@ export async function preDb() {
   );
   if (allUsers.length === 0) {
     await db.exec('INSERT INTO user VALUES ("test", "pw")');
-    for (let i = 1; i < 12; i++) {
+    for (let i = 1; i < NR_OF_DESKS; i++) {
       await db.run(
         "INSERT INTO desk VALUES ((?), (?))",
         `b2.${i}`,
@@ -35,4 +37,4 @@ export async function preDb() {
 
   return db;
 }
-export default preDb;
+export default prepareDb;
