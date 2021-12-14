@@ -41,6 +41,6 @@ export function patchBooking(
       res.status(404);
       return;
     }
-    res.send(booking);
+    res.send({ booking });
   });
 }
