@@ -1,4 +1,4 @@
-name: Build API docker image
+name: Deploy API to Azure Webapp
 
 on: 
   push:
@@ -7,6 +7,10 @@ on:
   pull_request:
     paths:
       - 'api/**'
+
+env:
+  AZURE_WEBAPP_NAME: ordina-smartdesk-api    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: './api'      # set this to the path to your web app project, defaults to the repository root
 
 jobs:
   build:
@@ -29,8 +33,22 @@ jobs:
           npm install
           npm run lint
           npm run build
-      - name: Build docker image
+      # - name: Build docker image
+      #   if: ${{ github.ref == 'main' }}
+      #   run: |
+      #     docker build . -t desks-api
+      #     docker save desks-api:latest > desk-api_latest.tar
+      - name: 'Deploy to Azure WebApp'
         if: ${{ github.ref == 'main' }}
-        run: |
-          docker build . -t desks-api
-          docker save desks-api:latest > desk-api_latest.tar
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          # Set up the following secrets in your repository:
+          #   AZURE_WEBAPP_PUBLISH_PROFILE        
+          # Create a publish profile from the Azure app service
+          # Follow the "publish profile" settings from https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel
+          # - Go to the App service on Azure
+          # - On the Overview page, use the "Get publish profile" button on the top
+          # - On Github, create a new repository secret with Name AZURE_WEBAPP_PUBLISH_PROFILE and copy the contents of the download file to the Value
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
