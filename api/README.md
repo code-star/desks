@@ -1,11 +1,15 @@
-# Run locally
+# Smart Desk API
+
+[![Deploy API to Azure Webapp](https://github.com/code-star/desks/actions/workflows/deployApi.yml/badge.svg)](https://github.com/code-star/desks/actions/workflows/deployApi.yml)
+
+## Run locally
 
 ```
 npm i
 npm start
 ```
 
-# Deploy as Azure Web App
+## Deploy as Azure Web App
 
 ```
 npm run build
@@ -23,7 +27,7 @@ Source: https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs?tab
 
 Note: the database is not persistent, because the filesystem on Azure Webapps is not writable! If it would be, it is valuable to know that the /home dir is persistent.
 
-## Docker (unused)
+### Docker (unused)
 
 Build Docker image:
 
