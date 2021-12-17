@@ -1,3 +1,7 @@
+# Smart Desk Client
+
+[![Deploy client to Github pages](https://github.com/code-star/desks/actions/workflows/deployClient.yml/badge.svg)](https://github.com/code-star/desks/actions/workflows/deployClient.yml)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
