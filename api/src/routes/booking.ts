@@ -8,6 +8,8 @@ export function getBookings(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.get("/api/bookinglist", async (req: Request, res: Response) => {
+    console.log("GET /api/bookinglist");
+
     const bookings = await db.all<Booking[]>("SELECT * FROM booking");
     req.get;
     if (!bookings) {

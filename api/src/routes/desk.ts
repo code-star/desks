@@ -32,6 +32,8 @@ export function getDeskList(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.get("/api/desk/list", async (req: Request, res: Response) => {
+    console.log("GET /api/desk/list");
+
     const desks = await db.all<DeskType[]>("SELECT * FROM desk");
     req.param;
 

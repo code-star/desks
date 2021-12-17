@@ -39,7 +39,7 @@ jobs:
       #     docker build . -t desks-api
       #     docker save desks-api:latest > desk-api_latest.tar
       - name: 'Deploy to Azure WebApp'
-        if: ${{ github.ref == 'main' }}
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
