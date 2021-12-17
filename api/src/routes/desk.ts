@@ -9,7 +9,7 @@ export function getDesk(
 ) {
   app.get("/api/desk/:deskId", async (req: Request, res: Response) => {
     console.log(`GET /api/desk/:deskId for ${req.params.deskId}`);
-    
+
     const desk = await db.get<DeskType>(
       "SELECT * FROM desk WHERE desk_id = (?)",
       req.params.deskId
