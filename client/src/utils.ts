@@ -1,3 +1,4 @@
+import React from "react";
 export function isBetween(value: number, min: number, max: number) {
   return value >= min && value <= max;
 }
@@ -13,3 +14,5 @@ export function getUnixTime(date: Date, time: Date) {
     ).getTime() / 1000
   );
 }
+
+export const FormContext = React.createContext<any>(null);

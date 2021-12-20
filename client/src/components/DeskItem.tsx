@@ -6,5 +6,5 @@ type Props = {
   desk: DeskType;
 };
 export const DeskItemCheckIn: FC<Props> = ({ desk }) => {
-  return <ListItem key={desk.desk_id}>{desk.desk_id}</ListItem>;
+  return <ListItem>{desk.desk_id}</ListItem>;
 };

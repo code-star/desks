@@ -1,6 +1,6 @@
 import { ListItemButton } from "@mui/material";
 import { FC, useContext } from "react";
-import { FormContext } from "../pages/BookingPage";
+import { FormContext } from "../utils";
 import { DeskType } from "../types";
 
 type Props = {
@@ -20,7 +20,6 @@ export const DeskItem: FC<Props> = ({ desk }) => {
     <ListItemButton
       selected={selectedDesk === desk.desk_id}
       onClick={(event) => handleListItemClick(event, desk.desk_id)}
-      key={desk.desk_id}
     >
       {desk.desk_id}
     </ListItemButton>

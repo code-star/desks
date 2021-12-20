@@ -4,9 +4,9 @@ import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
 import { AvailableDeskList } from "../components/AvailableDeskList";
 import img from "../images/plattegrond_ordinaB2.jpg";
-import { getUnixTime } from "../utils";
+import { getUnixTime, FormContext } from "../utils";
 
-export const FormContext = React.createContext<any>(null);
+const UNIX_HOUR = 3600000;
 
 const BookingPage: FC = () => {
   const [open, setOpen] = useState(false);
@@ -31,7 +31,7 @@ const BookingPage: FC = () => {
   };
 
   const [startTimeValue, setStartTimeValue] = useState<Date>(new Date());
-  const [endtimeValue, setEndTimeValue] = useState<Date>(new Date());
+  const [endtimeValue, setEndTimeValue] = useState<Date>(new Date(Date.now()+UNIX_HOUR));
   const [dateValue, setDateValue] = useState<Date>(new Date());
   const [selectedDesk, setSelectedDesk] = useState("");
   const store = {

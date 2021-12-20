@@ -1,4 +1,4 @@
-import { List } from "@mui/material";
+import { List, Stack } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItemCheckIn } from "./DeskItem";
@@ -51,10 +51,13 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
   }, [deskId]);
 
   return (
-    <List style={{ maxHeight: 200, overflow: "auto" }}>
-      {currentDeskList.map((desk) => (
-        <DeskItemCheckIn desk={desk}></DeskItemCheckIn>
-      ))}
-    </List>
+    <Stack>
+       {currentDeskList.length <= 0? "" : "Dit bureau is niet beschikbaar, u kan wel naar deze bureaus gaan:"}
+      <List style={{ maxHeight: 200, overflow: "auto" }}>
+        {currentDeskList.map((desk) => (
+          <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>
+        ))}
+      </List>
+    </Stack>
   );
 };

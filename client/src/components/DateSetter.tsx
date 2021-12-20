@@ -2,7 +2,7 @@ import { useContext, FC } from "react";
 import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, StaticDatePicker } from "@mui/lab";
-import { FormContext } from "../pages/BookingPage";
+import { FormContext } from "../utils";
 
 export const DateSetter: FC = () => {
   const {
