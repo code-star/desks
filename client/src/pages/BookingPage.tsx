@@ -44,25 +44,26 @@ const BookingPage: FC = () => {
     <FormContext.Provider value={store}>
       <div>
         <Grid container spacing={2}>
-          <Grid item xs={8}>
+          <Grid item sm={12} lg={8}>
             <h3>layout picture</h3>
-            <img src={img} alt="layout img" width={1500} height={600} />
+            <img src={img} alt="layout img" width={"100%"} height={"auto"} />
             <Grid container spacing={2}>
-              <Grid item xs={6}>
+              <Grid item md={6}>
                 <DateSetter />
               </Grid>
-              <Grid item xs={6}>
+              <Grid item md={6}>
                 <TimeSetter title={"Start time"} type={"Start"} />
                 <TimeSetter title={"End time"} type={"End"} />
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item sm={12} lg={4}>
             <h3>list available desks</h3>
             <AvailableDeskList />
             <Button
               variant="contained"
               color="secondary"
+              disabled={selectedDesk === ""}
               onClick={handleBooking}
             >
               Book

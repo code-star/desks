@@ -47,7 +47,7 @@ const CheckinPage: FC = () => {
           disabled={currentDeskState === "unavailable"}
           onClick={handleToggleChecked}
         >
-          check in/ uit
+          {currentDeskState === "free" ? "Check in" : "Check uit"}
         </Button>
         <CheckinDeskList deskId={deskId} />
       </Stack>
