@@ -1,5 +1,5 @@
-import { Toolbar, Drawer, Divider, List, ListItem, ListItemText, ListItemButton, Card, CardContent, Typography, CardHeader, Box, CardActions, Button } from "@mui/material";
-import { FC } from "react";
+import { Toolbar, Drawer, Divider, List, ListItem, ListItemText, ListItemButton, Card, CardContent, Typography, CardHeader, Box, CardActions, Button, LinearProgress, Alert } from "@mui/material";
+import { FC, useEffect, useState } from "react";
 
 const DRAWER_WIDTH = 240;
 const BOOKING_ROUTE_URL = "/desks/book";
@@ -7,7 +7,32 @@ const BOOKING_LABEL = "Make a new booking";
 const CHECKIN_ROUTE_URL = "/desks/checkin/?b2.1";
 const CHECKIN_LABEL = "Check in at desk b2.1";
 
+
 const HomePage: FC = () => {
+    const [isLoading, setIsLoading] = useState(false);
+    const [hasError, setHasError] = useState(false);
+
+    const getDesks = async () => {
+        setIsLoading(true);
+        try {
+            const data = await fetch(
+                `${process.env.REACT_APP_ROOT_URL}api/desk/list`
+            );
+            const { deskList } = await data.json() as { deskList: object[] };
+            if (!Array.isArray(deskList)) {
+                throw new Error("No desks in response");
+            }
+        } catch (error) {
+            console.error(error);
+            setHasError(true);
+        }
+        setIsLoading(false);
+    }
+
+    useEffect(() => {
+        getDesks();
+    }, []);
+
     return <Box sx={{ display: "flex" }}>
         <Drawer variant="permanent" anchor="left" sx={{
             width: DRAWER_WIDTH,
@@ -19,7 +44,7 @@ const HomePage: FC = () => {
         }}>
             <Toolbar />
             <Divider />
-            <List>
+            {!hasError && <List>
                 <ListItem>
                     <ListItemButton component="a" href={BOOKING_ROUTE_URL}>
                         <ListItemText primary={BOOKING_LABEL} />
@@ -30,22 +55,24 @@ const HomePage: FC = () => {
                         <ListItemText primary={CHECKIN_LABEL} />
                     </ListItemButton>
                 </ListItem>
-            </List>
+            </List>}
         </Drawer>
         <Box component="main"
             sx={{ flexGrow: 1, p: 3 }}>
+            {isLoading && <LinearProgress />}
             <Card>
                 <CardHeader title="Smart desk booking" subheader="Ordina" />
                 <CardContent>
+                    {hasError && <Alert severity="error">Error: API not available or failing!</Alert>}
                     <Typography variant="h6" gutterBottom>Booking a desk</Typography>
                     <Typography gutterBottom>Here you can book a desk for you and your team. Keep in mind ...</Typography>
                     <Typography variant="h6" gutterBottom>Checking in</Typography>
                     <Typography>To check in ...</Typography>
                 </CardContent>
-                <CardActions>
+                {!hasError && <CardActions>
                     <Button component="a" href={BOOKING_ROUTE_URL}>{BOOKING_LABEL}</Button>
                     <Button component="a" href={CHECKIN_ROUTE_URL} color="secondary">{CHECKIN_LABEL}</Button>
-                </CardActions>
+                </CardActions>}
             </Card>
         </Box>
     </Box>

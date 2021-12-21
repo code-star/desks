@@ -4,7 +4,7 @@ import CheckinPage from './pages/CheckinPage';
 import { TopBar } from './components/TopBar';
 import { Route } from 'react-router-dom'
 import HomePage from './pages/HomePage';
-import { Box, CssBaseline } from '@mui/material';
+import { CssBaseline } from '@mui/material';
 
 function App() {
   const theme = createTheme({
