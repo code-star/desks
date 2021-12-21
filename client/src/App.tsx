@@ -1,9 +1,10 @@
-import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import BookingPage from './pages/BookingPage';
 import CheckinPage from './pages/CheckinPage';
-import {TopBar} from './components/TopBar';
-import {Route} from 'react-router-dom'
+import { TopBar } from './components/TopBar';
+import { Route } from 'react-router-dom'
+import HomePage from './pages/HomePage';
+import { Box, CssBaseline } from '@mui/material';
 
 function App() {
   const theme = createTheme({
@@ -19,9 +20,11 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
-      <TopBar/>
-      <Route path="/desks/book" component={BookingPage}/>
-      <Route path="/desks/checkin" component={CheckinPage}/>
+        <CssBaseline />
+        <TopBar />
+        <Route path="/desks/book" component={BookingPage} />
+        <Route path="/desks/checkin" component={CheckinPage} />
+        <Route exact path="/" component={HomePage} />
       </ThemeProvider>
     </div>
   );
