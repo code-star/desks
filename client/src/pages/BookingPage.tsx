@@ -1,12 +1,14 @@
-import React, { FC, useState } from "react";
-import { Button, Grid, Snackbar } from "@mui/material";
+import { FC, useState } from "react";
+import { Button, Grid, Snackbar, IconButton, Alert } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { TimeSetter } from "../components/TimeSetter";
 import { DateSetter } from "../components/DateSetter";
 import { AvailableDeskList } from "../components/AvailableDeskList";
 import img from "../images/plattegrond_ordinaB2.jpg";
 import { getUnixTime, FormContext } from "../utils";
 
-const UNIX_HOUR = 3600000;
+const UNIX_HOUR = 3600*1000;
+const UNIX_DAY = 86400*1000
 
 const BookingPage: FC = () => {
   const [open, setOpen] = useState(false);
@@ -29,10 +31,23 @@ const BookingPage: FC = () => {
       setOpen(true);
     }
   };
+  const checkFields = () =>{
+    const unixStartTime = getUnixTime(dateValue, startTimeValue);
+    const unixEndTime = getUnixTime(dateValue, endtimeValue);
 
-  const [startTimeValue, setStartTimeValue] = useState<Date>(new Date());
-  const [endtimeValue, setEndTimeValue] = useState<Date>(new Date(Date.now()+UNIX_HOUR));
-  const [dateValue, setDateValue] = useState<Date>(new Date());
+    const isDeskSelected = selectedDesk === "";
+    const isTimeRight = unixEndTime-unixStartTime <= 0;
+    const isFutureTime = unixStartTime-((Date.now()+(UNIX_HOUR))/1000) <= 0;
+    return isDeskSelected || isTimeRight || isFutureTime
+  };
+
+  const initialStartTime = new Date();
+  initialStartTime.setHours(9,0,0,0);
+  const initialEndTime = new Date();
+  initialEndTime.setHours(17,0,0,0);
+  const [startTimeValue, setStartTimeValue] = useState<Date>(initialStartTime);
+  const [endtimeValue, setEndTimeValue] = useState<Date>(initialEndTime);
+  const [dateValue, setDateValue] = useState<Date>(new Date(Date.now()+UNIX_DAY));
   const [selectedDesk, setSelectedDesk] = useState("");
   const store = {
     startTime: [startTimeValue, setStartTimeValue],
@@ -53,17 +68,20 @@ const BookingPage: FC = () => {
               </Grid>
               <Grid item md={6}>
                 <TimeSetter title={"Start time"} type={"Start"} />
+                {getUnixTime(dateValue, startTimeValue)-((Date.now()+(UNIX_HOUR))/1000) <= 0?<Alert severity="warning">The start time is incorrect</Alert>:""}
                 <TimeSetter title={"End time"} type={"End"} />
+                {getUnixTime(dateValue, startTimeValue)-((Date.now()+(UNIX_HOUR))/1000) <= 0?<Alert severity="warning">The end time is incorrect</Alert>:""}
               </Grid>
             </Grid>
           </Grid>
           <Grid item sm={12} lg={4}>
             <h3>list available desks</h3>
             <AvailableDeskList />
+            {selectedDesk === ""?<Alert severity="warning">There is no desk selected</Alert>:""}
             <Button
               variant="contained"
               color="secondary"
-              disabled={selectedDesk === ""}
+              disabled={checkFields()}
               onClick={handleBooking}
             >
               Book
@@ -73,6 +91,12 @@ const BookingPage: FC = () => {
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={open}
+          action={
+            <IconButton
+            onClick={()=> setOpen(false)}>
+              <CloseIcon color={"primary"}/>
+            </IconButton>
+          }
           autoHideDuration={6000}
           onClose={() => {
             setOpen(false);

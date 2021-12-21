@@ -44,7 +44,7 @@ export const AvailableDeskList: FC = () => {
       setCurrentDeskList(availableDesks);
     };
     setDeskList();
-  }, [endTimeValue, startTimeValue, dateValue]);
+  }, [endTimeValue, startTimeValue, dateValue, ]);
 
   return (
     <List style={{ maxHeight: 1000, overflow: "auto" }}>

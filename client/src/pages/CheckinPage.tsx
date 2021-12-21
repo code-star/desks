@@ -1,6 +1,7 @@
-import { Stack, Button, Snackbar } from "@mui/material";
+import { Stack, Button, Snackbar, Typography, IconButton } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { CheckinDeskList } from "../components/CheckinDeskList";
+import CloseIcon from '@mui/icons-material/Close';
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
@@ -41,6 +42,7 @@ const CheckinPage: FC = () => {
   return (
     <div className="CheckinPage">
       <Stack spacing={2}>
+        <Typography variant={"h5"}>{deskId}</Typography>
         <Button
           variant="contained"
           color="secondary"
@@ -58,6 +60,12 @@ const CheckinPage: FC = () => {
           onClose={() => {
             setOpen(false);
           }}
+          action={
+            <IconButton
+            onClick={()=> setOpen(false)}>
+              <CloseIcon color={"primary"}/>
+            </IconButton>
+          }
           message={currentDeskState === "free" ? "uitgechecked" : "ingechecked"}
         />
     </div>
