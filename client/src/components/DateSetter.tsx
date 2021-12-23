@@ -12,6 +12,7 @@ export const DateSetter: FC = () => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StaticDatePicker<Date>
         orientation="portrait"
+        displayStaticWrapperAs="desktop"
         openTo="day"
         value={dateValue}
         onChange={(newValue) => {

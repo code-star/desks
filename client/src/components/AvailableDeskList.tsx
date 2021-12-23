@@ -47,7 +47,7 @@ export const AvailableDeskList: FC = () => {
   }, [endTimeValue, startTimeValue, dateValue, ]);
 
   return (
-    <List style={{ maxHeight: 1000, overflow: "auto" }}>
+    <List style={{ maxHeight: 800, overflow: "auto" }}>
       {currentDeskList.map((desk) => (
         <DeskItem  key={desk.desk_id} desk={desk}></DeskItem>
       ))}
