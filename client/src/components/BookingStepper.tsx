@@ -1,15 +1,20 @@
 import { Stepper, Step, StepButton, Typography, Box, Button } from "@mui/material";
 import { FC, useContext } from "react";
-import { FormContext } from "../utils";
+import { FormContext } from "../FormContext";
+import { isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 
 export const BookingStepper: FC = () => {
   const steps: string[] = [
     "Select booking date",
-    "Select start time and end time booking",
+    "Select booking time",
     "Select desk",
   ];
   const {
     activeStep: [activeStep, setActiveStep],
+      date: [dateValue],
+      startTime: [startTimeValue],
+      endTime: [endTimeValue],
+      desk: [selectedDesk],
   } = useContext(FormContext);
 
   const handleStep = (step: number) => {
@@ -27,13 +32,22 @@ export const BookingStepper: FC = () => {
     setActiveStep(newActiveStep);
   };
 
+  const hasStepError = (index:number) =>{
+    return (index === 0 && isFutureTime(dateValue, startTimeValue))
+    || (index === 1 && isEndTimeAfterStart(dateValue,startTimeValue,endTimeValue))
+    || (index === 2 && isDeskSelected(selectedDesk));
+  }
+
   return (
     <Box>
       <Stepper nonLinear activeStep={activeStep}>
         {steps.map((label, index) => (
           <Step key={label}>
             <StepButton onClick={() => handleStep(index)}>
-              <Typography variant="h5">{label}</Typography>
+            <Typography variant="h5">{label}</Typography>
+              {hasStepError(index)?
+              <Typography variant="caption" color="error">Something here isnt filled in correctly</Typography>: null
+              }
             </StepButton>
           </Step>
         ))}

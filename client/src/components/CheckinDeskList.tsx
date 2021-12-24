@@ -53,7 +53,7 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
 
   return (
     <Stack>
-       {currentDeskList.length <= 0? "" : "Dit bureau is niet beschikbaar, u kan wel naar deze bureaus gaan:"}
+       {currentDeskList.length <= 0? "" : "This desk is not available, but these are:"}
       <List style={{ maxHeight: 200, overflow: "auto" }}>
         {currentDeskList.map((desk) => (
           <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>

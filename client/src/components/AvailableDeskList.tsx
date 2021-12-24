@@ -1,11 +1,14 @@
-import { List } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
-import { DeskItem } from "./DeskItemButton";
-import { isBetween, getUnixTime, FormContext } from "../utils";
+import { isBetween, getUnixTime } from "../utils";
+import { FormContext } from "../FormContext";
 
 export const AvailableDeskList: FC = () => {
   const [currentDeskList, setCurrentDeskList] = useState<DeskType[]>([]);
+  const{
+    desk: [selectedDesk, setSelectedDesk],
+  } = useContext(FormContext);
   const {
     startTime: [startTimeValue],
   } = useContext(FormContext);
@@ -15,6 +18,10 @@ export const AvailableDeskList: FC = () => {
   const {
     date: [dateValue],
   } = useContext(FormContext);
+
+  const handleChange = (event: SelectChangeEvent)=>{
+    setSelectedDesk(event.target.value)
+  }
 
   useEffect(() => {
     const setDeskList = async () => {
@@ -47,10 +54,17 @@ export const AvailableDeskList: FC = () => {
   }, [endTimeValue, startTimeValue, dateValue, ]);
 
   return (
-    <List style={{ maxHeight: 800, overflow: "auto" }}>
+    <FormControl sx={{ m: 1, minWidth: 120 }}>
+    <InputLabel>Desk</InputLabel>
+    <Select
+      value={selectedDesk}
+      label="Desk"
+      onChange={handleChange}
+    >
       {currentDeskList.map((desk) => (
-        <DeskItem  key={desk.desk_id} desk={desk}></DeskItem>
+        <MenuItem value={desk.desk_id}>{desk.desk_id}</MenuItem>
       ))}
-    </List>
+     </Select>
+      </FormControl>
   );
 };

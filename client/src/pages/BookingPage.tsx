@@ -1,18 +1,21 @@
 import { FC, useState } from "react";
-import { Grid, Snackbar, IconButton, Alert, Fab, Box, Typography } from "@mui/material";
+import { Grid, Snackbar, IconButton, Fab, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { TimeSetter } from "../components/TimeSetter";
-import { DateSetter } from "../components/DateSetter";
+import { TimeStep } from "../components/steps/TimeStep";
+import { DateStep } from "../components/steps/DateStep";
+import { DeskStep } from "../components/steps/DeskStep";
 import { BookingStepper } from "../components/BookingStepper";
-import { AvailableDeskList } from "../components/AvailableDeskList";
 import img from "../images/floor_plan_Ordina_B2.jpg";
-import { getUnixTime, FormContext } from "../utils";
+import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart} from "../utils";
+import { FormContext } from "../FormContext";
 
-const UNIX_HOUR = 3600 * 1000;
+
 const UNIX_DAY = 86400 * 1000;
+const steps = [<DateStep/>, <TimeStep/>, <DeskStep/>]
 
 const BookingPage: FC = () => {
   const [open, setOpen] = useState(false);
+  
 
   const handleBooking = async () => {
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
@@ -23,7 +26,7 @@ const BookingPage: FC = () => {
       body: JSON.stringify({
         booking_id: `booking ${selectedDesk}.${Date.now()}`,
         start_time: getUnixTime(dateValue, startTimeValue),
-        end_time: getUnixTime(dateValue, endtimeValue),
+        end_time: getUnixTime(dateValue, endTimeValue),
         booked_desk: selectedDesk,
       }),
     });
@@ -32,21 +35,8 @@ const BookingPage: FC = () => {
       setOpen(true);
     }
   };
-  const isDeskSelected =() =>{
-    return selectedDesk === ""
-  }
-  const isEndTimeAfterStart = () =>{
-    const unixStartTime = getUnixTime(dateValue, startTimeValue);
-    const unixEndTime = getUnixTime(dateValue, endtimeValue);
-    return unixEndTime - unixStartTime <= 0;
-  }
-  const isFutureTime = () =>{
-    const unixStartTime = getUnixTime(dateValue, startTimeValue);
-    return unixStartTime - (Date.now() + UNIX_HOUR) / 1000 <= 0;
-  }
-
   const checkFields = () => {
-    return isDeskSelected() || isEndTimeAfterStart() || isFutureTime();
+    return isDeskSelected(selectedDesk) || isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) || isFutureTime(dateValue, startTimeValue);
   };
 
   const initialStartTime = new Date();
@@ -55,14 +45,14 @@ const BookingPage: FC = () => {
   initialEndTime.setHours(17, 0, 0, 0);
   const [activeStep, setActiveStep] = useState(0);
   const [startTimeValue, setStartTimeValue] = useState<Date>(initialStartTime);
-  const [endtimeValue, setEndTimeValue] = useState<Date>(initialEndTime);
+  const [endTimeValue, setEndTimeValue] = useState<Date>(initialEndTime);
   const [dateValue, setDateValue] = useState<Date>(
     new Date(Date.now() + UNIX_DAY)
   );
   const [selectedDesk, setSelectedDesk] = useState("");
   const store = {
     startTime: [startTimeValue, setStartTimeValue],
-    endTime: [endtimeValue, setEndTimeValue],
+    endTime: [endTimeValue, setEndTimeValue],
     date: [dateValue, setDateValue],
     desk: [selectedDesk, setSelectedDesk],
     activeStep: [activeStep, setActiveStep],
@@ -82,50 +72,7 @@ const BookingPage: FC = () => {
               <BookingStepper />
               </Grid>
               <Grid item md={6} justifyContent={"center"}>
-              {
-              {
-                "0": (
-                  <Box>
-                    <Typography variant="subtitle1">Please select the date for when you want to book a desk</Typography>
-                    <DateSetter />
-                    {isFutureTime() ? (
-                      <Alert severity="warning">
-                        Check if the date has passed
-                      </Alert>
-                    ) : null}
-                  </Box>
-                ),
-                "1": (
-                  <Box>
-                    <TimeSetter title={"Please select the start time for when you want to book a desk"} type={"Start"} />
-                    {isFutureTime() ? (
-                      <Alert severity="warning">
-                        Check if the time has passed
-                      </Alert>
-                    ) : null}
-                    <TimeSetter title={"Please select the end time for when you want to book a desk"} type={"End"} />
-                    {isEndTimeAfterStart() ? (
-                      <Alert severity="warning">
-                        The end time is earlier than the start time
-                      </Alert>
-                    ) : null}
-                  </Box>
-                ),
-                "2": (
-                  <Box>
-                    <Typography variant="subtitle1">Please select one of the available desks in the list below</Typography>
-                    <AvailableDeskList />
-                    {isDeskSelected()? (
-                      <Alert severity="warning">
-                        There is no desk selected
-                      </Alert>
-                    ) : (
-                      ""
-                    )}
-                  </Box>
-                ),
-              }[activeStep]
-            }
+              {steps[activeStep]}
               </Grid>
             </Grid>
           </Grid>

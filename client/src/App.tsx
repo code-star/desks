@@ -1,22 +1,13 @@
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider} from '@mui/material/styles';
 import BookingPage from './pages/BookingPage';
 import CheckinPage from './pages/CheckinPage';
 import { TopBar } from './components/TopBar';
 import { Route } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import { CssBaseline } from '@mui/material';
+import {theme} from './theme'
 
 function App() {
-  const theme = createTheme({
-    palette: {
-      primary: {
-        main: '#ff9800',
-      },
-      secondary: {
-        main: '#bf360c',
-      },
-    },
-  });
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
