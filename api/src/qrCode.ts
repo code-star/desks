@@ -34,9 +34,9 @@ export async function generatePDF() {
       .text("Scan to check-in")
       .text(qrCode.desk.desk_id)
       .image(qrCode.qr, { fit: [100, 100] })
-      // TODO issue #52
+      // TODO issue #52 use shortend url
       .text(qrCode.url)
-      .text(" ");
+      .addPage();
   });
   pdf.end();
 }

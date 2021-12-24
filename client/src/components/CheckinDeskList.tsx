@@ -1,4 +1,4 @@
-import { List } from "@mui/material";
+import { List, Stack } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItemCheckIn } from "./DeskItem";
@@ -8,10 +8,11 @@ type Props = {
   deskId: string;
 };
 const OFFSET_AVAILABLE_DESKS = 2
+const UNIX_HALF_HOUR = 1800000;
 
 const isBookedNow = (booking: Booking) => {
   return (
-    isBetween(Date.now() / 1000, booking.start_time, booking.end_time)
+    isBetween(Date.now() / 1000, booking.start_time-UNIX_HALF_HOUR, booking.end_time)
   );
 };
 
@@ -42,7 +43,7 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
           const isSameDesk = deskIndex === otherdDeskIndex;
           const distance = deskIndex - otherdDeskIndex;
           const isInRange = distance >= -OFFSET_AVAILABLE_DESKS && distance <= OFFSET_AVAILABLE_DESKS;
-          return !isSameDesk && isInRange && !isCurrentlyBooked;  
+          return !isSameDesk && isInRange && !isCurrentlyBooked;
         });
         setCurrentDeskList(nearbyDesks);
       }
@@ -51,10 +52,13 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
   }, [deskId]);
 
   return (
-    <List style={{ maxHeight: 200, overflow: "auto" }}>
-      {currentDeskList.map((desk) => (
-        <DeskItemCheckIn desk={desk}></DeskItemCheckIn>
-      ))}
-    </List>
+    <Stack>
+       {currentDeskList.length <= 0? "" : "This desk is not available, but these are:"}
+      <List style={{ maxHeight: 200, overflow: "auto" }}>
+        {currentDeskList.map((desk) => (
+          <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>
+        ))}
+      </List>
+    </Stack>
   );
 };

@@ -2,7 +2,7 @@ import { useContext, FC } from "react";
 import { TextField } from "@mui/material";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import { LocalizationProvider, StaticDatePicker } from "@mui/lab";
-import { FormContext } from "../pages/BookingPage";
+import { FormContext } from "../FormContext";
 
 export const DateSetter: FC = () => {
   const {
@@ -12,6 +12,7 @@ export const DateSetter: FC = () => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <StaticDatePicker<Date>
         orientation="portrait"
+        displayStaticWrapperAs="desktop"
         openTo="day"
         value={dateValue}
         onChange={(newValue) => {
