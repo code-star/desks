@@ -8,3 +8,42 @@
   font-weight: bold;
   padding: 1%;
 }
+.image {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  width: 70%;
+}
+.image:hover {
+  opacity: 0.8;
+}
+
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: black;
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 95%;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  cursor: pointer;
+}

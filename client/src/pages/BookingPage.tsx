@@ -1,8 +1,7 @@
 import { FC, useState } from "react";
-import { Snackbar, IconButton, Fab, Typography, Card, Paper } from "@mui/material";
+import { Snackbar, IconButton, Fab, Paper } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";
-import img from "../images/floor_plan_Ordina_B2.jpg";
 import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 import { FormContext } from "../FormContext";
 import "../styles.css";
@@ -10,7 +9,6 @@ import "../styles.css";
 const UNIX_DAY = 86400 * 1000;
 
 const BookingPage: FC = () => {
-  const [open, setOpen] = useState(false);
 
   const handleBooking = async () => {
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
@@ -27,7 +25,7 @@ const BookingPage: FC = () => {
     });
     const json = await data.json();
     if (json.booking) {
-      setOpen(true);
+      setBookingSucces(true);
     }
   };
   const checkFields = () => {
@@ -43,6 +41,7 @@ const BookingPage: FC = () => {
   const initialEndTime = new Date();
   initialEndTime.setHours(17, 0, 0, 0);
   const [activeStep, setActiveStep] = useState(0);
+  const [bookingSucces, setBookingSucces] = useState(false);
   const [startTimeValue, setStartTimeValue] = useState<Date>(initialStartTime);
   const [endTimeValue, setEndTimeValue] = useState<Date>(initialEndTime);
   const [dateValue, setDateValue] = useState<Date>(
@@ -55,23 +54,16 @@ const BookingPage: FC = () => {
     date: [dateValue, setDateValue],
     desk: [selectedDesk, setSelectedDesk],
     activeStep: [activeStep, setActiveStep],
+    bookingSucces: [bookingSucces, setBookingSucces],
   };
 
   return (
     <FormContext.Provider value={store}>
       <div style={{ textAlign: "center", padding: "1%" }}>
-        <Card>
-          <Typography className="headerText">Floor plan</Typography>
-          <img
-            src={img}
-            alt="layout img"
-            style={{ height: "auto", width: "60%", minWidth: 1000 }}
-          />
-        </Card>
         <Paper
           elevation={6}
           style={{
-            width: "40%",
+            width: "80%",
             minWidth: 800,
             height: "auto",
             margin: "auto",
@@ -79,8 +71,7 @@ const BookingPage: FC = () => {
           }}
         >
           <BookingStepper />
-        </Paper>
-        <Fab
+          <Fab
           color="secondary"
           disabled={checkFields()}
           onClick={handleBooking}
@@ -92,17 +83,21 @@ const BookingPage: FC = () => {
         >
           Book
         </Fab>
+        </Paper>
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={open}
+          open={bookingSucces}
           action={
-            <IconButton onClick={() => setOpen(false)}>
+            <IconButton onClick={() => {
+            setBookingSucces(false);
+            setSelectedDesk("");}}>
               <CloseIcon color={"primary"} />
             </IconButton>
           }
           autoHideDuration={6000}
           onClose={() => {
-            setOpen(false);
+            setBookingSucces(false);
+            setSelectedDesk("");
           }}
           message={`Your booking for desk ${selectedDesk} was succesful`}
         />
