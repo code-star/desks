@@ -1,21 +1,16 @@
 import { FC, useState } from "react";
-import { Grid, Snackbar, IconButton, Fab, Typography } from "@mui/material";
+import { Snackbar, IconButton, Fab, Typography, Card, Paper } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { TimeStep } from "../components/steps/TimeStep";
-import { DateStep } from "../components/steps/DateStep";
-import { DeskStep } from "../components/steps/DeskStep";
 import { BookingStepper } from "../components/BookingStepper";
 import img from "../images/floor_plan_Ordina_B2.jpg";
-import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart} from "../utils";
+import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 import { FormContext } from "../FormContext";
-
+import "../styles.css";
 
 const UNIX_DAY = 86400 * 1000;
-const steps = [<DateStep/>, <TimeStep/>, <DeskStep/>]
 
 const BookingPage: FC = () => {
   const [open, setOpen] = useState(false);
-  
 
   const handleBooking = async () => {
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
@@ -36,7 +31,11 @@ const BookingPage: FC = () => {
     }
   };
   const checkFields = () => {
-    return isDeskSelected(selectedDesk) || isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) || isFutureTime(dateValue, startTimeValue);
+    return (
+      isDeskSelected(selectedDesk) ||
+      isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
+      isFutureTime(dateValue, startTimeValue)
+    );
   };
 
   const initialStartTime = new Date();
@@ -60,34 +59,39 @@ const BookingPage: FC = () => {
 
   return (
     <FormContext.Provider value={store}>
-      <div>
-        <Grid container alignItems={"center"}>
-          <Grid item sm={12} lg={7} alignItems={"center"} textAlign={"center"}>
-            <Typography variant="h4">Floor plan</Typography>
-            <img src={img} alt="layout img" width={"100%"} height={"auto"} />
-          </Grid>
-          <Grid item sm={12} lg={5} height={1100}>
-            <Grid container direction={"column"} justifyContent={"center"} paddingTop={5}>
-              <Grid item md={4}>
-              <BookingStepper />
-              </Grid>
-              <Grid item md={6} justifyContent={"center"}>
-              {steps[activeStep]}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
+      <div style={{ textAlign: "center", padding: "1%" }}>
+        <Card>
+          <Typography className="headerText">Floor plan</Typography>
+          <img
+            src={img}
+            alt="layout img"
+            style={{ height: "auto", width: "60%", minWidth: 1000 }}
+          />
+        </Card>
+        <Paper
+          elevation={6}
+          style={{
+            width: "40%",
+            minWidth: 800,
+            height: "auto",
+            margin: "auto",
+            padding: "2%",
+          }}
+        >
+          <BookingStepper />
+        </Paper>
         <Fab
-              color="secondary"
-              disabled={checkFields()}
-              onClick={handleBooking}
-              style={{
-                bottom: 20,
-                right: 20,
-                position: 'fixed',}}
-            >
-              Book
-            </Fab>
+          color="secondary"
+          disabled={checkFields()}
+          onClick={handleBooking}
+          style={{
+            bottom: 20,
+            right: 20,
+            position: "fixed",
+          }}
+        >
+          Book
+        </Fab>
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={open}

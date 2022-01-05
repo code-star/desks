@@ -7,12 +7,14 @@ import { isBetween } from "../utils";
 type Props = {
   deskId: string;
 };
-const OFFSET_AVAILABLE_DESKS = 2
+const OFFSET_AVAILABLE_DESKS = 2;
 const UNIX_HALF_HOUR = 1800000;
 
 const isBookedNow = (booking: Booking) => {
-  return (
-    isBetween(Date.now() / 1000, booking.start_time-UNIX_HALF_HOUR, booking.end_time)
+  return isBetween(
+    Date.now() / 1000,
+    booking.start_time - UNIX_HALF_HOUR,
+    booking.end_time
   );
 };
 
@@ -34,15 +36,24 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
       const bookings: Booking[] = jsonBookingList.bookingList;
 
       const deskIndex = allDesks.findIndex((desk) => desk.desk_id === deskId);
-      const getDeskForBooking = (booking:Booking) => allDesks.find((desk) => desk.desk_id === booking.booked_desk); 
-      const currentBookedDesks = bookings.filter(isBookedNow).map(getDeskForBooking);
+      const getDeskForBooking = (booking: Booking) =>
+        allDesks.find((desk) => desk.desk_id === booking.booked_desk);
+      const currentBookedDesks = bookings
+        .filter(isBookedNow)
+        .map(getDeskForBooking);
 
-      if(currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === deskId)){
+      if (
+        currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === deskId)
+      ) {
         const nearbyDesks = allDesks.filter((otherDesk, otherdDeskIndex) => {
-          const isCurrentlyBooked = currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === otherDesk.desk_id)
+          const isCurrentlyBooked = currentBookedDesks.find(
+            (bookedDesk) => bookedDesk?.desk_id === otherDesk.desk_id
+          );
           const isSameDesk = deskIndex === otherdDeskIndex;
           const distance = deskIndex - otherdDeskIndex;
-          const isInRange = distance >= -OFFSET_AVAILABLE_DESKS && distance <= OFFSET_AVAILABLE_DESKS;
+          const isInRange =
+            distance >= -OFFSET_AVAILABLE_DESKS &&
+            distance <= OFFSET_AVAILABLE_DESKS;
           return !isSameDesk && isInRange && !isCurrentlyBooked;
         });
         setCurrentDeskList(nearbyDesks);
@@ -53,7 +64,9 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
 
   return (
     <Stack>
-       {currentDeskList.length <= 0? "" : "This desk is not available, but these are:"}
+      {currentDeskList.length <= 0
+        ? ""
+        : "This desk is not available, but these are:"}
       <List style={{ maxHeight: 200, overflow: "auto" }}>
         {currentDeskList.map((desk) => (
           <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>

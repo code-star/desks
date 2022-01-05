@@ -1,0 +1,10 @@
+.headerText {
+  font-size: xx-large;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  align-self: center;
+}
+.subText {
+  font-size: large;
+  font-weight: bold;
+  padding: 1%;
+}

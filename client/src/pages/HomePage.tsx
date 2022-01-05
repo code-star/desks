@@ -1,5 +1,6 @@
 import { Toolbar, Drawer, Divider, List, ListItem, ListItemText, ListItemButton, Card, CardContent, Typography, CardHeader, Box, CardActions, Button, LinearProgress, Alert, InputAdornment, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
+import "../styles.css"
 
 const DRAWER_WIDTH = 240;
 const BOOKING_ROUTE_URL = "/desks/book";
