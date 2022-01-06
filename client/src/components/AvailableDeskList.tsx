@@ -18,7 +18,10 @@ export const AvailableDeskList: FC = () => {
   const {
     date: [dateValue],
   } = useContext(FormContext);
-  
+  const{
+    bookingSucces: [bookingSucces]
+  } = useContext(FormContext);
+
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedDesk(event.target.value);
   };
@@ -61,7 +64,7 @@ export const AvailableDeskList: FC = () => {
       setCurrentDeskList(availableDesks);
     };
     setDeskList();
-  }, [endTimeValue, startTimeValue, dateValue]);
+  }, [bookingSucces, endTimeValue, startTimeValue, dateValue]);
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>

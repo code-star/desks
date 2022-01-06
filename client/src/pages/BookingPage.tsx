@@ -4,12 +4,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";
 import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 import { FormContext } from "../FormContext";
+/* TODO issue 58 better MUI styling */
 import "../styles.css";
 
 const UNIX_DAY = 86400 * 1000;
 
 const BookingPage: FC = () => {
-
+  const prevBookingDesk = "";
   const handleBooking = async () => {
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
@@ -26,6 +27,8 @@ const BookingPage: FC = () => {
     const json = await data.json();
     if (json.booking) {
       setBookingSucces(true);
+      setPrevSelectedDesk(selectedDesk);
+      setSelectedDesk("");
     }
   };
   const checkFields = () => {
@@ -40,6 +43,7 @@ const BookingPage: FC = () => {
   initialStartTime.setHours(9, 0, 0, 0);
   const initialEndTime = new Date();
   initialEndTime.setHours(17, 0, 0, 0);
+  const [prevSelectedDesk, setPrevSelectedDesk] = useState("")
   const [activeStep, setActiveStep] = useState(0);
   const [bookingSucces, setBookingSucces] = useState(false);
   const [startTimeValue, setStartTimeValue] = useState<Date>(initialStartTime);
@@ -89,17 +93,15 @@ const BookingPage: FC = () => {
           open={bookingSucces}
           action={
             <IconButton onClick={() => {
-            setBookingSucces(false);
-            setSelectedDesk("");}}>
+            setBookingSucces(false);}}>
               <CloseIcon color={"primary"} />
             </IconButton>
           }
           autoHideDuration={6000}
           onClose={() => {
             setBookingSucces(false);
-            setSelectedDesk("");
           }}
-          message={`Your booking for desk ${selectedDesk} was succesful`}
+          message={`Your booking for desk ${prevSelectedDesk} was succesful`}
         />
       </div>
     </FormContext.Provider>

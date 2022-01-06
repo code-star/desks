@@ -42,6 +42,7 @@ const CheckinPage: FC = () => {
   return (
     <div>
       <Stack spacing={2}>
+        {/* TODO issue 58 better MUI styling */}
         <Typography className="headerText">{deskId}</Typography>
         <Button
           variant="contained"
