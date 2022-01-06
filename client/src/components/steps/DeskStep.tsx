@@ -14,7 +14,7 @@ export const DeskStep: FC = () => {
   return (
       <div>
       <Grid container>
-        <Grid item xs={4}>
+        <Grid item xs={12} md={4}>
         <Typography className="subText">
         Please select one of the available desks:
       </Typography>
@@ -25,7 +25,7 @@ export const DeskStep: FC = () => {
             ""
           )}
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} md={8}>
           <Card>
             <img 
               className= "image"

@@ -68,8 +68,8 @@ const BookingPage: FC = () => {
           elevation={6}
           style={{
             width: "80%",
-            minWidth: 800,
-            height: "auto",
+            minWidth: "50%",
+            height: "100%",
             margin: "auto",
             padding: "2%",
           }}
