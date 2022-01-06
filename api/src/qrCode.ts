@@ -28,16 +28,31 @@ export async function generatePDF() {
       return generateQR(desk);
     })
   );
+  let index = 0;
   qrcodes.forEach((qrCode) => {
-    pdf
-      .font("Times-Roman")
-      .text("Scan to check-in")
-      .text(qrCode.desk.desk_id)
-      .image(qrCode.qr, { fit: [100, 100] })
-      // TODO issue #52 use shortend url
-      .text(qrCode.url)
-      .addPage();
+    index++;
+    if (index % 4 === 0) {
+      pdf
+        .font("Times-Roman")
+        .text("Scan to check-in")
+        .text(qrCode.desk.desk_id)
+        .image(qrCode.qr, { fit: [100, 100] })
+        // TODO issue #52 use shortend url
+        .text(qrCode.url)
+        .addPage();
+    } else {
+      pdf
+        .font("Times-Roman")
+        .text("Scan to check-in")
+        .text(qrCode.desk.desk_id)
+        .image(qrCode.qr, { fit: [100, 100] })
+        // TODO issue #52 use shortend url
+        .text(qrCode.url)
+        .text(" ")
+        .text(" ");
+    }
   });
+
   pdf.end();
 }
 

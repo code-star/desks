@@ -1,4 +1,11 @@
-import { Stepper,Step,StepButton,Typography,Button,Grid } from "@mui/material";
+import {
+  Stepper,
+  Step,
+  StepButton,
+  Typography,
+  Button,
+  Grid,
+} from "@mui/material";
 import { FC, useContext } from "react";
 import { TimeStep } from "../components/steps/TimeStep";
 import { DateStep } from "../components/steps/DateStep";
@@ -42,19 +49,19 @@ export const BookingStepper: FC = () => {
   };
 
   return (
-    <Grid
-      container
-      height={550}
-      maxWidth={1}
-      direction="column"
-      justifyContent="space-between"
-    >
-      <Grid item>
+    <Grid container width="90%" justifyContent="space-between" rowSpacing="2%">
+      <Grid item xs={12} md={12}>
+        <Button disabled={activeStep === 0} onClick={handleBack}>
+          Back
+        </Button>
+        <Button onClick={handleNext}>Next</Button>
+      </Grid>
+      <Grid item xs={6} md={12}>
         <Stepper nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
-            <Step className="headerText" key={label}>
+            <Step key={label}>
               <StepButton onClick={() => handleStep(index)}>
-                <Typography variant="h5">{label}</Typography>
+                <Typography className="headerText">{label}</Typography>
                 {hasStepError(index) ? (
                   <Typography variant="caption" color="error">
                     Missing/ wrong information
@@ -65,12 +72,8 @@ export const BookingStepper: FC = () => {
           ))}
         </Stepper>
       </Grid>
-      <Grid item>{stepComponents[activeStep]}</Grid>
-      <Grid item>
-        <Button disabled={activeStep === 0} onClick={handleBack}>
-          Back
-        </Button>
-        <Button onClick={handleNext}>Next</Button>
+      <Grid item xs={10} md={12}>
+        {stepComponents[activeStep]}
       </Grid>
     </Grid>
   );

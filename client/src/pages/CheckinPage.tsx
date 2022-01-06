@@ -50,7 +50,7 @@ const CheckinPage: FC = () => {
           disabled={currentDeskState === "unavailable"}
           onClick={handleToggleChecked}
         >
-          {currentDeskState === "free" ? "Check in" : "Check uit"}
+          {currentDeskState === "free" ? "Check in" : "Check out"}
         </Button>
         <CheckinDeskList deskId={deskId} />
       </Stack>
@@ -66,7 +66,7 @@ const CheckinPage: FC = () => {
             <CloseIcon color={"primary"} />
           </IconButton>
         }
-        message={currentDeskState === "free" ? "uitgechecked" : "ingechecked"}
+        message={currentDeskState === "free" ? "checked out" : "checked in"}
       />
     </div>
   );
