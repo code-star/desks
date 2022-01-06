@@ -18,24 +18,24 @@ export const TimeSetter: FC<Props> = ({ title, type }) => {
   } = useContext(FormContext);
   return (
     <Box>
-        <Typography variant="subtitle1">{title}</Typography>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          <TimePicker
-            value={type === "Start" ? startTimeValue : endTimeValue}
-            onChange={(newValue) => {
-              if (!newValue) {
-                return;
-              }
-              if (type === "Start") {
-                setStartTimeValue(newValue);
-              }
-              if (type === "End") {
-                setEndTimeValue(newValue);
-              }
-            }}
-            renderInput={(params) => <TextField {...params} />}
-          />
-        </LocalizationProvider>
+      <Typography className="subText">{title}</Typography>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <TimePicker
+          value={type === "Start" ? startTimeValue : endTimeValue}
+          onChange={(newValue) => {
+            if (!newValue) {
+              return;
+            }
+            if (type === "Start") {
+              setStartTimeValue(newValue);
+            }
+            if (type === "End") {
+              setEndTimeValue(newValue);
+            }
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
     </Box>
   );
 };

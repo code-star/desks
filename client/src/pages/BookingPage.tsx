@@ -1,22 +1,16 @@
 import { FC, useState } from "react";
-import { Grid, Snackbar, IconButton, Fab, Typography } from "@mui/material";
+import { Snackbar, IconButton, Fab, Paper } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { TimeStep } from "../components/steps/TimeStep";
-import { DateStep } from "../components/steps/DateStep";
-import { DeskStep } from "../components/steps/DeskStep";
 import { BookingStepper } from "../components/BookingStepper";
-import img from "../images/floor_plan_Ordina_B2.jpg";
-import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart} from "../utils";
+import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 import { FormContext } from "../FormContext";
-
+/* TODO issue 58 better MUI styling */
+import "../styles.css";
 
 const UNIX_DAY = 86400 * 1000;
-const steps = [<DateStep/>, <TimeStep/>, <DeskStep/>]
 
 const BookingPage: FC = () => {
-  const [open, setOpen] = useState(false);
-  
-
+  const prevBookingDesk = "";
   const handleBooking = async () => {
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
@@ -32,18 +26,26 @@ const BookingPage: FC = () => {
     });
     const json = await data.json();
     if (json.booking) {
-      setOpen(true);
+      setBookingSucces(true);
+      setPrevSelectedDesk(selectedDesk);
+      setSelectedDesk("");
     }
   };
   const checkFields = () => {
-    return isDeskSelected(selectedDesk) || isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) || isFutureTime(dateValue, startTimeValue);
+    return (
+      isDeskSelected(selectedDesk) ||
+      isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
+      isFutureTime(dateValue, startTimeValue)
+    );
   };
 
   const initialStartTime = new Date();
   initialStartTime.setHours(9, 0, 0, 0);
   const initialEndTime = new Date();
   initialEndTime.setHours(17, 0, 0, 0);
+  const [prevSelectedDesk, setPrevSelectedDesk] = useState("")
   const [activeStep, setActiveStep] = useState(0);
+  const [bookingSucces, setBookingSucces] = useState(false);
   const [startTimeValue, setStartTimeValue] = useState<Date>(initialStartTime);
   const [endTimeValue, setEndTimeValue] = useState<Date>(initialEndTime);
   const [dateValue, setDateValue] = useState<Date>(
@@ -56,51 +58,50 @@ const BookingPage: FC = () => {
     date: [dateValue, setDateValue],
     desk: [selectedDesk, setSelectedDesk],
     activeStep: [activeStep, setActiveStep],
+    bookingSucces: [bookingSucces, setBookingSucces],
   };
 
   return (
     <FormContext.Provider value={store}>
-      <div>
-        <Grid container alignItems={"center"}>
-          <Grid item sm={12} lg={7} alignItems={"center"} textAlign={"center"}>
-            <Typography variant="h4">Floor plan</Typography>
-            <img src={img} alt="layout img" width={"100%"} height={"auto"} />
-          </Grid>
-          <Grid item sm={12} lg={5} height={1100}>
-            <Grid container direction={"column"} justifyContent={"center"} paddingTop={5}>
-              <Grid item md={4}>
-              <BookingStepper />
-              </Grid>
-              <Grid item md={6} justifyContent={"center"}>
-              {steps[activeStep]}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-        <Fab
-              color="secondary"
-              disabled={checkFields()}
-              onClick={handleBooking}
-              style={{
-                bottom: 20,
-                right: 20,
-                position: 'fixed',}}
-            >
-              Book
-            </Fab>
+      <div style={{ textAlign: "center", padding: "1%" }}>
+        <Paper
+          elevation={6}
+          style={{
+            width: "80%",
+            minWidth: 800,
+            height: "auto",
+            margin: "auto",
+            padding: "2%",
+          }}
+        >
+          <BookingStepper />
+          <Fab
+          color="secondary"
+          disabled={checkFields()}
+          onClick={handleBooking}
+          style={{
+            bottom: 20,
+            right: 20,
+            position: "fixed",
+          }}
+        >
+          Book
+        </Fab>
+        </Paper>
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          open={open}
+          open={bookingSucces}
           action={
-            <IconButton onClick={() => setOpen(false)}>
+            <IconButton onClick={() => {
+            setBookingSucces(false);}}>
               <CloseIcon color={"primary"} />
             </IconButton>
           }
           autoHideDuration={6000}
           onClose={() => {
-            setOpen(false);
+            setBookingSucces(false);
           }}
-          message={`Your booking for desk ${selectedDesk} was succesful`}
+          message={`Your booking for desk ${prevSelectedDesk} was succesful`}
         />
       </div>
     </FormContext.Provider>

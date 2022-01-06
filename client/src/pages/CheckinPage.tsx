@@ -1,13 +1,13 @@
 import { Stack, Button, Snackbar, Typography, IconButton } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { CheckinDeskList } from "../components/CheckinDeskList";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
+import "../styles.css"
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
   const [currentDeskState, setCurrentDeskState] = useState("free");
   const [open, setOpen] = useState(false);
-
 
   useEffect(() => {
     const setInitialDeskState = async () => {
@@ -40,9 +40,10 @@ const CheckinPage: FC = () => {
   };
 
   return (
-    <div className="CheckinPage">
+    <div>
       <Stack spacing={2}>
-        <Typography variant={"h5"}>{deskId}</Typography>
+        {/* TODO issue 58 better MUI styling */}
+        <Typography className="headerText">{deskId}</Typography>
         <Button
           variant="contained"
           color="secondary"
@@ -54,20 +55,19 @@ const CheckinPage: FC = () => {
         <CheckinDeskList deskId={deskId} />
       </Stack>
       <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={() => {
-            setOpen(false);
-          }}
-          action={
-            <IconButton
-            onClick={()=> setOpen(false)}>
-              <CloseIcon color={"primary"}/>
-            </IconButton>
-          }
-          message={currentDeskState === "free" ? "uitgechecked" : "ingechecked"}
-        />
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        autoHideDuration={6000}
+        onClose={() => {
+          setOpen(false);
+        }}
+        action={
+          <IconButton onClick={() => setOpen(false)}>
+            <CloseIcon color={"primary"} />
+          </IconButton>
+        }
+        message={currentDeskState === "free" ? "uitgechecked" : "ingechecked"}
+      />
     </div>
   );
 };
