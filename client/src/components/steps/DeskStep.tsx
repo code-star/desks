@@ -14,7 +14,7 @@ export const DeskStep: FC = () => {
 
   return (
     <div>
-      <Grid container columnSpacing={1}>
+      <Grid container spacing={1}>
         <Grid item xs={12} md={4}>
           <Typography className="subText">
             Please select one of the available desks:

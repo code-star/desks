@@ -50,7 +50,7 @@ export const BookingStepper: FC = () => {
   };
 
   return (
-    <Grid container>
+    <Grid container spacing={5}>
       <Grid item xs={6} md={12}>
         <Stepper nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
