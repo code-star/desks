@@ -1,5 +1,5 @@
 import { FC, useContext, useState } from "react";
-import { Typography, Alert, Card, Grid, Modal } from "@mui/material";
+import { Typography, Alert, Grid, Modal } from "@mui/material";
 import { AvailableDeskList } from "../AvailableDeskList";
 import { isDeskSelected } from "../../utils";
 import { FormContext } from "../../FormContext";
@@ -16,7 +16,7 @@ export const DeskStep: FC = () => {
     <div>
       <Grid container spacing={1}>
         <Grid item xs={12} md={4}>
-          <Typography className="subText">
+          <Typography variant="body1" gutterBottom>
             Please select one of the available desks:
           </Typography>
           <AvailableDeskList />
@@ -33,11 +33,11 @@ export const DeskStep: FC = () => {
             src={img}
             alt="Layout"
           />
-          <Typography variant="subtitle2">Click image to enlarge</Typography>
+          <Typography variant="caption">Click image to enlarge</Typography>
         </Grid>
       </Grid>
       <Modal open={imgOpen} onClose={() => setImgOpen(false)}>
-        <img className="modal-content" alt="zoomedLayout" src={img} />
+        <img className="deskstep-modal-content" alt="zoomedLayout" src={img} />
       </Modal>
     </div>
   );

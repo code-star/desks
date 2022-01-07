@@ -21,5 +21,12 @@
   display: block;
   width: 85%;
 } */
-div {
+body {
+  background-image: url("./images/background_img.jpg");
+  background-size: cover;
+}
+.basecard {
+  /* width: 1300px; */
+  height: 100%;
+  margin: auto;
 }

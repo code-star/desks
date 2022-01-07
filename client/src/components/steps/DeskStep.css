@@ -6,3 +6,8 @@
 .deskstep-image:hover {
   opacity: 0.8;
 }
+.deskstep-modal-content {
+  margin: auto;
+  display: block;
+  width: 85%;
+}

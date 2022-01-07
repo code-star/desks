@@ -5,8 +5,8 @@ import { DateSetter } from "../DateSetter";
 export const DateStep: FC = () => {
   return (
     <Box>
-      <Typography className="subText">
-        Please select the date for when you want to book a desk
+      <Typography variant="body1" gutterBottom>
+        Please select the date for the booking
       </Typography>
       <DateSetter />
     </Box>

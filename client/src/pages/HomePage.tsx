@@ -1,7 +1,6 @@
-import { Toolbar, Drawer, Divider, List, ListItem, ListItemText, ListItemButton, Card, CardContent, Typography, CardHeader, Box, CardActions, Button, LinearProgress, Alert, InputAdornment, TextField } from "@mui/material";
+import { Card, CardContent, Typography, CardHeader, Box, CardActions, Button, LinearProgress, Alert, InputAdornment, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 
-const DRAWER_WIDTH = 240;
 const BOOKING_ROUTE_URL = "/desks/book";
 const BOOKING_LABEL = "Make a new booking";
 const CHECKIN_ROUTE_URL = "/desks/checkin/?b2.";
@@ -42,35 +41,12 @@ const HomePage: FC = () => {
         }
     }
 
-    return <Box sx={{ display: "flex" }}>
-        <Drawer variant="permanent" anchor="left" sx={{
-            display: { xs: "none", md: "block"},
-            width: DRAWER_WIDTH,
-            flexShrink: 0,
-            '& .MuiDrawer-paper': {
-                width: DRAWER_WIDTH,
-                boxSizing: 'border-box',
-            },
-        }}>
-            <Toolbar />
-            <Divider />
-            {!hasError && <List>
-                <ListItem>
-                    <ListItemButton component="a" href={BOOKING_ROUTE_URL}>
-                        <ListItemText primary={BOOKING_LABEL} />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem>
-                    <ListItemButton component="a" href={`${CHECKIN_ROUTE_URL}${deskNr}`}>
-                        <ListItemText primary={`${CHECKIN_LABEL}${deskNr}`} />
-                    </ListItemButton>
-                </ListItem>
-            </List>}
-        </Drawer>
-        <Box component="main"
-            sx={{ flexGrow: 1, p: { xs: 1, md: 3}, pt: { xs: 3, md: 3} }}>
+    return <Box sx={{ flexGrow: 1, p: { xs: 1, md: 3}, pt: { xs: 3, md: 3} }}>
             {isLoading && <LinearProgress />}
-            <Card>
+            <Card
+            elevation={6}
+            className="basecard"
+            sx={{ width: { xs: "100%", md: "900px" } }}>
                 <CardHeader title="Smart desk booking" subheader="Ordina" />
                 <CardContent>
                     {hasError && <Alert severity="error">Error: API not available or failing!</Alert>}
@@ -96,7 +72,6 @@ const HomePage: FC = () => {
                 </CardActions>}
             </Card>
         </Box>
-    </Box>
 }
 
 export default HomePage;
