@@ -2,7 +2,6 @@ import { Stack, Button, Snackbar, Typography, IconButton } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { CheckinDeskList } from "../components/CheckinDeskList";
 import CloseIcon from "@mui/icons-material/Close";
-import "../styles.css"
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
@@ -42,8 +41,7 @@ const CheckinPage: FC = () => {
   return (
     <div>
       <Stack spacing={2}>
-        {/* TODO issue 58 better MUI styling */}
-        <Typography className="headerText">{deskId}</Typography>
+        <Typography variant="h6" textAlign="center">{deskId}</Typography>
         <Button
           variant="contained"
           color="secondary"

@@ -13,11 +13,11 @@ export function getUnixTime(date: Date, time: Date) {
     ).getTime() / 1000
   );
 }
-const UNIX_HOUR = 3600 * 1000;
+const UNIX_HOUR = 3600;
 
 export const isFutureTime = (dateValue:Date, startTimeValue:Date) =>{
   const unixStartTime = getUnixTime(dateValue, startTimeValue);
-  return unixStartTime - (Date.now() + UNIX_HOUR) / 1000 <= 0;
+  return unixStartTime - (Date.now() / 1000) <= 0;
 }
 export const isDeskSelected =(selectedDesk:string) =>{
   return selectedDesk === ""

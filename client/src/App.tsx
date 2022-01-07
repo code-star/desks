@@ -5,7 +5,8 @@ import { TopBar } from './components/TopBar';
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import HomePage from './pages/HomePage';
 import { CssBaseline } from '@mui/material';
-import { theme } from './theme'
+import { theme } from './theme';
+import "./App.css"
 
 function App() {
   return (

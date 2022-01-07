@@ -1,0 +1,11 @@
+.bookingpage-paper {
+  /* width: 1300px; */
+  height: 100%;
+  margin: auto;
+}
+.bookingpage-paper .bookingpage-fab {
+  bottom: 20px;
+  right: 20px;
+  position: fixed;
+  color: blue;
+}

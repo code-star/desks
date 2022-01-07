@@ -1,16 +1,15 @@
 import { FC, useState } from "react";
-import { Snackbar, IconButton, Fab, Paper } from "@mui/material";
+import { Snackbar, IconButton, Fab, Card, Box, CardContent, CardActions } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";
 import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 import { FormContext } from "../FormContext";
 /* TODO issue 58 better MUI styling */
-import "../styles.css";
+import "./BookingPage.css"
 
 const UNIX_DAY = 86400 * 1000;
 
 const BookingPage: FC = () => {
-  const prevBookingDesk = "";
   const handleBooking = async () => {
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
@@ -63,31 +62,26 @@ const BookingPage: FC = () => {
 
   return (
     <FormContext.Provider value={store}>
-      <div style={{ textAlign: "center", padding: "1%" }}>
-        <Paper
+      <Box sx={{p: { xs: 1, md: 3}, pt: { xs: 3, md: 3}}}>
+        <Card
           elevation={6}
-          style={{
-            width: "80%",
-            minWidth: "50%",
-            height: "100%",
-            margin: "auto",
-            padding: "2%",
-          }}
+          className="bookingpage-paper"
+          sx={{width: {xs: "100%", md: "900px"}}}
         >
+          <CardContent>
           <BookingStepper />
           <Fab
-          color="secondary"
+          className="bookingpage-fab"
           disabled={checkFields()}
           onClick={handleBooking}
-          style={{
-            bottom: 20,
-            right: 20,
-            position: "fixed",
-          }}
         >
           Book
         </Fab>
-        </Paper>
+        </CardContent>
+        <CardActions>
+          test
+        </CardActions>
+        </Card>
         <Snackbar
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           open={bookingSucces}
@@ -103,7 +97,7 @@ const BookingPage: FC = () => {
           }}
           message={`Your booking for desk ${prevSelectedDesk} was succesful`}
         />
-      </div>
+        </Box>
     </FormContext.Provider>
   );
 };

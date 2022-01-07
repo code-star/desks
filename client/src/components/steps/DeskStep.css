@@ -1,0 +1,8 @@
+.deskstep-image {
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+}
+.deskstep-image:hover {
+  opacity: 0.8;
+}

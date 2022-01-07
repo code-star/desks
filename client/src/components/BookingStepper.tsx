@@ -11,7 +11,7 @@ import { TimeStep } from "../components/steps/TimeStep";
 import { DateStep } from "../components/steps/DateStep";
 import { DeskStep } from "../components/steps/DeskStep";
 import { FormContext } from "../FormContext";
-import { isDeskSelected, isEndTimeAfterStart } from "../utils";
+import { isDeskSelected, isEndTimeAfterStart, isFutureTime } from "../utils";
 
 export const BookingStepper: FC = () => {
   const stepComponents = [<DateStep />, <TimeStep />, <DeskStep />];
@@ -42,6 +42,7 @@ export const BookingStepper: FC = () => {
 
   const hasStepError = (index: number) => {
     return (
+      (index === 1 && isFutureTime(dateValue, startTimeValue)) ||
       (index === 1 &&
         isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue)) ||
       (index === 2 && isDeskSelected(selectedDesk))
@@ -49,19 +50,13 @@ export const BookingStepper: FC = () => {
   };
 
   return (
-    <Grid container width="90%" justifyContent="space-between" rowSpacing="2%">
-      <Grid item xs={12} md={12}>
-        <Button disabled={activeStep === 0} onClick={handleBack}>
-          Back
-        </Button>
-        <Button onClick={handleNext}>Next</Button>
-      </Grid>
+    <Grid container>
       <Grid item xs={6} md={12}>
         <Stepper nonLinear activeStep={activeStep}>
           {steps.map((label, index) => (
             <Step key={label}>
               <StepButton onClick={() => handleStep(index)}>
-                <Typography className="headerText">{label}</Typography>
+                <Typography variant="body1">{label}</Typography>
                 {hasStepError(index) ? (
                   <Typography variant="caption" color="error">
                     Missing/ wrong information
@@ -72,8 +67,14 @@ export const BookingStepper: FC = () => {
           ))}
         </Stepper>
       </Grid>
-      <Grid item xs={10} md={12}>
+      <Grid item xs={12}>
         {stepComponents[activeStep]}
+      </Grid>
+      <Grid item xs={12}>
+        <Button disabled={activeStep === 0} onClick={handleBack}>
+          Back
+        </Button>
+        <Button variant="contained" onClick={handleNext}>Next</Button>
       </Grid>
     </Grid>
   );

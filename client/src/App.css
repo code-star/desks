@@ -1,0 +1,25 @@
+/* .headerText {
+  font-size: xx-large;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  align-self: center;
+}
+.subText {
+  font-size: large;
+  font-weight: bold;
+  padding: 1%;
+}
+.image {
+  cursor: pointer;
+  transition: 0.3s;
+  width: 70%;
+}
+.image:hover {
+  opacity: 0.8;
+}
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 85%;
+} */
+div {
+}

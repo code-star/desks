@@ -5,8 +5,10 @@ import { LocalizationProvider, StaticDatePicker } from "@mui/lab";
 import { FormContext } from "../FormContext";
 import { getUnixTime } from "../utils";
 
+const UNIX_DAY = 86400;
+
 const isPastDate = (date: Date) => {
-  return getUnixTime(date, date) < Date.now() / 1000;
+  return getUnixTime(date, date) < (Date.now() / 1000 - UNIX_DAY);
 };
 
 export const DateSetter: FC = () => {
