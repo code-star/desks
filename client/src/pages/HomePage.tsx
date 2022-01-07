@@ -45,6 +45,7 @@ const HomePage: FC = () => {
 
     return <Box sx={{ display: "flex" }}>
         <Drawer variant="permanent" anchor="left" sx={{
+            display: { xs: "none", md: "block"},
             width: DRAWER_WIDTH,
             flexShrink: 0,
             '& .MuiDrawer-paper': {
@@ -68,7 +69,7 @@ const HomePage: FC = () => {
             </List>}
         </Drawer>
         <Box component="main"
-            sx={{ flexGrow: 1, p: 3 }}>
+            sx={{ flexGrow: 1, p: { xs: 1, md: 3}, pt: { xs: 3, md: 3} }}>
             {isLoading && <LinearProgress />}
             <Card>
                 <CardHeader title="Smart desk booking" subheader="Ordina" />
