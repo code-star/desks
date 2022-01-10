@@ -47,7 +47,7 @@ const HomePage: FC = () => {
             elevation={6}
             className="basecard"
             sx={{ width: { xs: "100%", md: "900px" } }}>
-                <CardHeader title="Smart desk booking" subheader="Ordina" />
+                <CardHeader title="Smart Office Management" subheader="Ordina" />
                 <CardContent>
                     {hasError && <Alert severity="error">Error: API not available or failing!</Alert>}
                     <Typography variant="h6" gutterBottom>Booking a desk</Typography>

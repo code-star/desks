@@ -123,9 +123,11 @@ export const BookingStepper: FC = () => {
         <Button disabled={activeStep === 0} onClick={handleBack}>
           Back
         </Button>
-        <Button variant="contained" onClick={handleNext} disabled={isBookingPossible()}>
-          {isLastStep?"Book":"Next"}
-        </Button>
+        {isLastStep?<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()} color="secondary">
+          Book
+        </Button>:<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()}>
+          Next
+        </Button>}
       </CardActions>
     </Card>
   );

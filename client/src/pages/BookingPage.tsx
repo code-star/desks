@@ -35,7 +35,7 @@ const BookingPage: FC = () => {
       <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
         <BookingStepper />
         <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={bookingSucces}
           action={
             <IconButton
