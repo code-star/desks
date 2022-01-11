@@ -1,49 +1,17 @@
 import { FC, useState } from "react";
-import { Snackbar, IconButton, Fab, Paper } from "@mui/material";
+import { Snackbar, IconButton, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";
-import { getUnixTime, isFutureTime, isDeskSelected, isEndTimeAfterStart } from "../utils";
 import { FormContext } from "../FormContext";
-/* TODO issue 58 better MUI styling */
-import "../styles.css";
 
 const UNIX_DAY = 86400 * 1000;
 
 const BookingPage: FC = () => {
-  const prevBookingDesk = "";
-  const handleBooking = async () => {
-    const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        booking_id: `booking ${selectedDesk}.${Date.now()}`,
-        start_time: getUnixTime(dateValue, startTimeValue),
-        end_time: getUnixTime(dateValue, endTimeValue),
-        booked_desk: selectedDesk,
-      }),
-    });
-    const json = await data.json();
-    if (json.booking) {
-      setBookingSucces(true);
-      setPrevSelectedDesk(selectedDesk);
-      setSelectedDesk("");
-    }
-  };
-  const checkFields = () => {
-    return (
-      isDeskSelected(selectedDesk) ||
-      isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
-      isFutureTime(dateValue, startTimeValue)
-    );
-  };
-
   const initialStartTime = new Date();
   initialStartTime.setHours(9, 0, 0, 0);
   const initialEndTime = new Date();
   initialEndTime.setHours(17, 0, 0, 0);
-  const [prevSelectedDesk, setPrevSelectedDesk] = useState("")
+  const [prevSelectedDesk, setPrevSelectedDesk] = useState("");
   const [activeStep, setActiveStep] = useState(0);
   const [bookingSucces, setBookingSucces] = useState(false);
   const [startTimeValue, setStartTimeValue] = useState<Date>(initialStartTime);
@@ -59,41 +27,22 @@ const BookingPage: FC = () => {
     desk: [selectedDesk, setSelectedDesk],
     activeStep: [activeStep, setActiveStep],
     bookingSucces: [bookingSucces, setBookingSucces],
+    prevSelectedDesk: [prevSelectedDesk, setPrevSelectedDesk],
   };
 
   return (
     <FormContext.Provider value={store}>
-      <div style={{ textAlign: "center", padding: "1%" }}>
-        <Paper
-          elevation={6}
-          style={{
-            width: "80%",
-            minWidth: "50%",
-            height: "100%",
-            margin: "auto",
-            padding: "2%",
-          }}
-        >
-          <BookingStepper />
-          <Fab
-          color="secondary"
-          disabled={checkFields()}
-          onClick={handleBooking}
-          style={{
-            bottom: 20,
-            right: 20,
-            position: "fixed",
-          }}
-        >
-          Book
-        </Fab>
-        </Paper>
+      <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
+        <BookingStepper />
         <Snackbar
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={bookingSucces}
           action={
-            <IconButton onClick={() => {
-            setBookingSucces(false);}}>
+            <IconButton
+              onClick={() => {
+                setBookingSucces(false);
+              }}
+            >
               <CloseIcon color={"primary"} />
             </IconButton>
           }
@@ -103,7 +52,7 @@ const BookingPage: FC = () => {
           }}
           message={`Your booking for desk ${prevSelectedDesk} was succesful`}
         />
-      </div>
+      </Box>
     </FormContext.Provider>
   );
 };

@@ -18,7 +18,7 @@ export const TimeSetter: FC<Props> = ({ title, type }) => {
   } = useContext(FormContext);
   return (
     <Box>
-      <Typography className="subText">{title}</Typography>
+      <Typography variant="body1" gutterBottom>{title}</Typography>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <TimePicker
           value={type === "Start" ? startTimeValue : endTimeValue}

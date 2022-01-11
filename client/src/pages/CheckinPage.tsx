@@ -1,8 +1,7 @@
-import { Stack, Button, Snackbar, Typography, IconButton } from "@mui/material";
+import { Button, Snackbar, Box, IconButton, Card, CardHeader, CardContent, Divider, Stack } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { CheckinDeskList } from "../components/CheckinDeskList";
 import CloseIcon from "@mui/icons-material/Close";
-import "../styles.css"
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
@@ -40,20 +39,28 @@ const CheckinPage: FC = () => {
   };
 
   return (
-    <div>
-      <Stack spacing={2}>
-        {/* TODO issue 58 better MUI styling */}
-        <Typography className="headerText">{deskId}</Typography>
+    <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
+      <Card  
+      elevation={6}
+      className="basecard"
+      sx={{ width: { xs: "100%", md: "900px" } }}>
+        <CardHeader title={`Desk ${deskId}`}/>
+        <CardContent>
+          <Stack spacing={2}>
         <Button
           variant="contained"
+          sx={{width:"200px"}}
           color="secondary"
           disabled={currentDeskState === "unavailable"}
           onClick={handleToggleChecked}
         >
           {currentDeskState === "free" ? "Check in" : "Check out"}
         </Button>
+        <Divider/>
         <CheckinDeskList deskId={deskId} />
-      </Stack>
+        </Stack>
+        </CardContent>
+        </Card>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
@@ -68,7 +75,7 @@ const CheckinPage: FC = () => {
         }
         message={currentDeskState === "free" ? "checked out" : "checked in"}
       />
-    </div>
+    </Box>
   );
 };
 

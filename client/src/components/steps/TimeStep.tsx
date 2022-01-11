@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Box, Alert } from "@mui/material";
+import { Stack, Alert, Divider} from "@mui/material";
 import { TimeSetter } from "../TimeSetter";
 import { isFutureTime, isEndTimeAfterStart } from "../../utils";
 import { FormContext } from "../../FormContext";
@@ -12,16 +12,17 @@ export const TimeStep: FC = () => {
   } = useContext(FormContext);
 
   return (
-    <Box>
+    <Stack spacing={2}>
       <TimeSetter
-        title={"Please select the start time for when you want to book a desk"}
+        title={"Please select the start time for the booking"}
         type={"Start"}
       />
       {isFutureTime(dateValue, startTimeValue) ? (
         <Alert severity="warning">Check if the time has passed</Alert>
       ) : null}
+      <Divider/>
       <TimeSetter
-        title={"Please select the end time for when you want to book a desk"}
+        title={"Please select the end time for the booking"}
         type={"End"}
       />
       {isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ? (
@@ -29,6 +30,6 @@ export const TimeStep: FC = () => {
           The end time is earlier than the start time
         </Alert>
       ) : null}
-    </Box>
+    </Stack>
   );
 };

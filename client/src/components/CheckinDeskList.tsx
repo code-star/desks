@@ -4,6 +4,7 @@ import { DeskType, Booking } from "../types";
 import { DeskItemCheckIn } from "./DeskItem";
 import { isBetween } from "../utils";
 
+
 type Props = {
   deskId: string;
 };

@@ -1,0 +1,13 @@
+.deskstep-image {
+  cursor: pointer;
+  transition: 0.3s;
+  width: 100%;
+}
+.deskstep-image:hover {
+  opacity: 0.8;
+}
+.deskstep-modal-content {
+  margin: auto;
+  display: block;
+  width: 85%;
+}

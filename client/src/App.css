@@ -1,0 +1,8 @@
+body {
+  background-image: url("./images/background_img.jpg");
+  background-size: cover;
+}
+.basecard {
+  height: 100%;
+  margin: auto;
+}
