@@ -13,7 +13,6 @@ export function getUnixTime(date: Date, time: Date) {
     ).getTime() / 1000
   );
 }
-const UNIX_HOUR = 3600;
 
 export const isFutureTime = (dateValue:Date, startTimeValue:Date) =>{
   const unixStartTime = getUnixTime(dateValue, startTimeValue);
