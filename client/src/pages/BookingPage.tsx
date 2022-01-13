@@ -50,7 +50,7 @@ const BookingPage: FC = () => {
           onClose={() => {
             setBookingSucces(false);
           }}
-          message={`Your booking for desk ${prevSelectedDesk} was succesful`}
+          message={`Your booking for desk ${prevSelectedDesk} was successful`}
         />
       </Box>
     </FormContext.Provider>

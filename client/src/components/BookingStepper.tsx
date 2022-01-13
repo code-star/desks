@@ -44,6 +44,7 @@ export const BookingStepper: FC = () => {
         start_time: getUnixTime(dateValue, startTimeValue),
         end_time: getUnixTime(dateValue, endTimeValue),
         booked_desk: selectedDesk,
+        user_name: "test",
       }),
     });
     const json = await data.json();

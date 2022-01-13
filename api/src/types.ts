@@ -22,4 +22,5 @@ export interface Booking {
   start_time: number;
   end_time: number;
   booked_desk: string;
+  user_name: string;
 }

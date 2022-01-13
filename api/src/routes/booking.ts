@@ -27,13 +27,15 @@ export function patchBooking(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.patch("/api/book", async (req: Request, res: Response) => {
-    const { booking_id, start_time, end_time, booked_desk } = req.body;
+    const { booking_id, start_time, end_time, booked_desk, user_name } =
+      req.body;
     await db.run(
-      "INSERT INTO booking VALUES ((?),(?),(?),(?))",
+      "INSERT INTO booking VALUES ((?),(?),(?),(?),(?))",
       booking_id,
       start_time,
       end_time,
-      booked_desk
+      booked_desk,
+      user_name
     );
     const booking = await db.get<Booking>(
       "SELECT * from booking WHERE booking_id =(?)",
