@@ -7,11 +7,31 @@ import {
   Button,
   Box
 } from "@mui/material";
-import { FC } from "react";
+import { FC,useState } from "react";
+import { User } from "../types";
+import { useHistory } from "react-router-dom";
 
-const BOOKING_ROUTE_URL = "/desks/book";
+const USER_ROUTE_URL = "/desks/user";
 
 const LoginPage: FC = () => {
+
+    const [userName, setUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const history = useHistory();
+        const getUser = async () => {
+            const user = await fetch(
+                `${process.env.REACT_APP_ROOT_URL}api/user/${userName}`
+              );
+          const userJson = await user.json();
+          const currentUser: User = userJson.user;
+          if(currentUser.password === password){
+          history.push(USER_ROUTE_URL);
+          }
+          
+        };
+        const areFieldsEmpty = ()=>{
+            return userName.length === 0 || password.length === 0;
+        }
   return (
     <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
       <Card
@@ -22,13 +42,14 @@ const LoginPage: FC = () => {
         <CardHeader title="Sign in" sx={{ textAlign: "center" }} />
         <CardContent>
           <Stack alignItems="center" spacing={4}>
-            <TextField label="Email address" sx={{ width: "25rem" }} />
+            <TextField label="Email address" onChange={(event) =>setUserName(event.target.value)} sx={{ width: "25rem" }} />
             <TextField
               label="Password"
+              onChange={(event)=> setPassword(event.target.value)}
               sx={{ width: "25rem" }}
               type="password"
             />
-            <Button href={BOOKING_ROUTE_URL} variant="contained">Sign in</Button>
+            <Button disabled={areFieldsEmpty()} onClick={getUser} variant="contained">Sign in</Button>
           </Stack>
         </CardContent>
       </Card>
