@@ -7,27 +7,34 @@ import {
   TextField,
   Stack,
   Button,
-  Box
+  Box,
+  Snackbar,
+  IconButton
 } from "@mui/material";
 import { FC,useState } from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import { User } from "../types";
-import { useHistory } from "react-router-dom";
-import { USER_ROUTE_URL, REGISTER_ROUTE_URL } from "../routeUrls";
+import { REGISTER_ROUTE_URL } from "../routeUrls";
 
 const LoginPage: FC = () => {
-
+    const [logInFail, setLoginFail] = useState(false);
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
-    const history = useHistory();
+
         const getUser = async () => {
             const user = await fetch(
                 `${process.env.REACT_APP_ROOT_URL}api/user/${userName}`
               );
           const userJson = await user.json();
           const currentUser: User = userJson.user;
+          //TODO verification password in backend
           if(currentUser.password === password){
-          history.push(USER_ROUTE_URL);
+
+            window.sessionStorage.setItem("activeUser", userName);
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
           }
+          //TODO warning fields incorrect
           
         };
         const areFieldsEmpty = ()=>{
@@ -58,6 +65,24 @@ const LoginPage: FC = () => {
                 <Button color="primary" href={REGISTER_ROUTE_URL}> Register</Button>
           </CardActions>
       </Card>
+      <Snackbar
+           anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={logInFail}
+          action={
+            <IconButton
+              onClick={() => {
+                setLoginFail(false);
+              }}
+            >
+              <CloseIcon color={"primary"} />
+            </IconButton>
+          }
+          autoHideDuration={6000}
+          onClose={() => {
+            setLoginFail(false);
+          }}
+          message={`password or username is incorrect`}
+        />
     </Box>
   );
 };

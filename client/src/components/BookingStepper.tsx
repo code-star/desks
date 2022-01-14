@@ -14,10 +14,15 @@ import { TimeStep } from "../components/steps/TimeStep";
 import { DateStep } from "../components/steps/DateStep";
 import { DeskStep } from "../components/steps/DeskStep";
 import { FormContext } from "../FormContext";
-import { isDeskSelected, isEndTimeAfterStart, isFutureTime, getUnixTime } from "../utils";
-import { USER_ROUTE_URL } from "../routeUrls";
+import {
+  isDeskSelected,
+  isEndTimeAfterStart,
+  isFutureTime,
+  getUnixTime,
+} from "../utils";
 
 export const BookingStepper: FC = () => {
+  const myStorage = window.sessionStorage;
   const stepComponents = [<DateStep />, <TimeStep />, <DeskStep />];
   const steps: string[] = [
     "Select booking date",
@@ -45,7 +50,7 @@ export const BookingStepper: FC = () => {
         start_time: getUnixTime(dateValue, startTimeValue),
         end_time: getUnixTime(dateValue, endTimeValue),
         booked_desk: selectedDesk,
-        user_name: "test",
+        user_name: myStorage.getItem("activeUser"),
       }),
     });
     const json = await data.json();
@@ -55,14 +60,13 @@ export const BookingStepper: FC = () => {
       setSelectedDesk("");
     }
   };
-  
+
   const isBookingPossible = () => {
     return (
-      isLastStep &&(
-      isDeskSelected(selectedDesk) ||
-      isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
-      isFutureTime(dateValue, startTimeValue)
-      )
+      isLastStep &&
+      (isDeskSelected(selectedDesk) ||
+        isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
+        isFutureTime(dateValue, startTimeValue))
     );
   };
 
@@ -118,15 +122,28 @@ export const BookingStepper: FC = () => {
           <Grid item xs={12}></Grid>
         </Grid>
       </CardContent>
-      <CardActions sx={{justifyContent: "flex-end"}}>
+      <CardActions sx={{ justifyContent: "flex-end" }}>
         <Button disabled={activeStep === 0} onClick={handleBack}>
           Back
         </Button>
-        {isLastStep?<Button variant="contained" onClick={handleBooking} disabled={isBookingPossible()} color="secondary">
-          Book
-        </Button>:<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()}>
-          Next
-        </Button>}
+        {isLastStep ? (
+          <Button
+            variant="contained"
+            onClick={handleBooking}
+            disabled={isBookingPossible()}
+            color="secondary"
+          >
+            Book
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={handleNext}
+            disabled={isBookingPossible()}
+          >
+            Next
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

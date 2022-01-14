@@ -1,15 +1,12 @@
-import { FC, useEffect, useState} from "react";
+import { FC, useState } from "react";
 import { Snackbar, IconButton, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";
 import { FormContext } from "../FormContext";
-import { useHistory } from "react-router-dom";
-import { USER_ROUTE_URL } from "../routeUrls";
 
 const UNIX_DAY = 86400 * 1000;
 
 const BookingPage: FC = () => {
-  const history = useHistory();
   const initialStartTime = new Date();
   initialStartTime.setHours(9, 0, 0, 0);
   const initialEndTime = new Date();
@@ -33,20 +30,12 @@ const BookingPage: FC = () => {
     prevSelectedDesk: [prevSelectedDesk, setPrevSelectedDesk],
   };
 
-  useEffect (() => {
-
-    if(bookingSucces){
-      history.push(USER_ROUTE_URL);
-    }
-      
-  }, [bookingSucces]);
-
   return (
     <FormContext.Provider value={store}>
       <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
         <BookingStepper />
         <Snackbar
-           anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={bookingSucces}
           action={
             <IconButton
