@@ -1,4 +1,4 @@
-import { List, ListItem, Stack } from "@mui/material";
+import { List, ListItem, ListItemText, Stack } from "@mui/material";
 import { useState, FC, useEffect } from "react";
 import { Booking } from "../types";
 
@@ -18,6 +18,11 @@ export const UserDeskList: FC = () => {
     setDeskList();
   }, []);
 
+  const getDateFromNumber = (time:number) =>{
+      const date = new Date(time*1000);
+      return date.toLocaleString();
+  }
+
   return (
     <Stack>
       {userDeskList.length <= 0
@@ -25,7 +30,9 @@ export const UserDeskList: FC = () => {
         : "These are your booked desks:"}
       <List style={{ maxHeight: 200, overflow: "auto" }}>
         {userDeskList.map((userDesk) => (
-          <ListItem key={userDesk.booking_id}>{userDesk.booked_desk}</ListItem>
+          <ListItem key={userDesk.booking_id}>
+              <ListItemText primary={userDesk.booked_desk} secondary={` From: ${getDateFromNumber(userDesk.start_time)} Till: ${getDateFromNumber(userDesk.end_time)}` }/>
+              </ListItem>
         ))}
       </List>
     </Stack>

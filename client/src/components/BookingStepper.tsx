@@ -15,6 +15,7 @@ import { DateStep } from "../components/steps/DateStep";
 import { DeskStep } from "../components/steps/DeskStep";
 import { FormContext } from "../FormContext";
 import { isDeskSelected, isEndTimeAfterStart, isFutureTime, getUnixTime } from "../utils";
+import { USER_ROUTE_URL } from "../routeUrls";
 
 export const BookingStepper: FC = () => {
   const stepComponents = [<DateStep />, <TimeStep />, <DeskStep />];
@@ -30,7 +31,7 @@ export const BookingStepper: FC = () => {
     endTime: [endTimeValue],
     desk: [selectedDesk, setSelectedDesk],
     bookingSucces: [, setBookingSucces],
-    prevSelectedDesk: [, setPrevSelectedDesk]
+    prevSelectedDesk: [, setPrevSelectedDesk],
   } = useContext(FormContext);
 
   const handleBooking = async () => {
@@ -73,9 +74,6 @@ export const BookingStepper: FC = () => {
     setActiveStep(activeStep - 1);
   };
   const handleNext = () => {
-    isLastStep?
-    handleBooking()
-    :
     setActiveStep(activeStep + 1);
   };
 
@@ -124,7 +122,7 @@ export const BookingStepper: FC = () => {
         <Button disabled={activeStep === 0} onClick={handleBack}>
           Back
         </Button>
-        {isLastStep?<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()} color="secondary">
+        {isLastStep?<Button variant="contained" onClick={handleBooking} disabled={isBookingPossible()} color="secondary">
           Book
         </Button>:<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()}>
           Next

@@ -12,9 +12,7 @@ import {
 import { FC,useState } from "react";
 import { User } from "../types";
 import { useHistory } from "react-router-dom";
-
-const USER_ROUTE_URL = "/desks/user";
-const REGISTER_ROUTE_URL = "/desks/register";
+import { USER_ROUTE_URL, REGISTER_ROUTE_URL } from "../routeUrls";
 
 const LoginPage: FC = () => {
 

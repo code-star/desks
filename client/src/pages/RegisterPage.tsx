@@ -9,15 +9,12 @@ import {
     Box,
     Typography
   } from "@mui/material";
-  import { FC,useState } from "react";
-  import { User } from "../types";
+  import { FC,useState} from "react";
   import { useHistory } from "react-router-dom";
-  
-  const USER_ROUTE_URL = "/desks/user";
-  const LOGIN_ROUTE_URL = "/desks/login";
+  import { USER_ROUTE_URL, LOGIN_ROUTE_URL } from "../routeUrls";
   
   const RegisterPage: FC = () => {
-      const [userName, setUserName] = useState("");
+        const [userName, setUserName] = useState("");
       const [password, setPassword] = useState("");
       const [confirmPassword, setConfirmPassword] = useState("");
       const history = useHistory();

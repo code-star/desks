@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage';
 import { CssBaseline } from '@mui/material';
 import { theme } from './theme';
 import "./App.css"
+import { BOOKING_ROUTE_URL, CHECKIN_ROUTE_URL, LOGIN_ROUTE_URL, USER_ROUTE_URL, REGISTER_ROUTE_URL } from './routeUrls';
 
 function App() {
   return (
@@ -19,11 +20,11 @@ function App() {
           <CssBaseline />
           <TopBar />
           <Switch>
-            <Route path="/desks/book" component={BookingPage} />
-            <Route path="/desks/checkin" component={CheckinPage} />
-            <Route path="/desks/login" component={LoginPage}/>
-            <Route path="/desks/user" component={UserPage}/>
-            <Route path="/desks/register" component={RegisterPage}/>
+            <Route path={BOOKING_ROUTE_URL} component={BookingPage} />
+            <Route path={CHECKIN_ROUTE_URL} component={CheckinPage} />
+            <Route path={LOGIN_ROUTE_URL} component={LoginPage}/>
+            <Route path={USER_ROUTE_URL} component={UserPage}/>
+            <Route path={REGISTER_ROUTE_URL} component={RegisterPage}/>
             <Route component={HomePage} />
           </Switch>
         </BrowserRouter>

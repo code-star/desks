@@ -1,9 +1,8 @@
 import { Card, CardContent, Typography, CardHeader, Box, CardActions, Button, LinearProgress, Alert, InputAdornment, TextField } from "@mui/material";
 import { FC, useEffect, useState } from "react";
+import { BOOKING_ROUTE_URL, CHECKIN_DESKPREFIX_ROUTE_URL } from "../routeUrls";
 
-const BOOKING_ROUTE_URL = "/desks/book";
 const BOOKING_LABEL = "Make a new booking";
-const CHECKIN_ROUTE_URL = "/desks/checkin/?b2.";
 const CHECKIN_LABEL = "Check in at desk b2.";
 
 const HomePage: FC = () => {
@@ -68,7 +67,7 @@ const HomePage: FC = () => {
                 </CardContent>
                 {!hasError && <CardActions>
                     <Button component="a" href={BOOKING_ROUTE_URL}>{BOOKING_LABEL}</Button>
-                    <Button component="a" href={`${CHECKIN_ROUTE_URL}${deskNr}`} color="secondary">{`${CHECKIN_LABEL}${deskNr}`}</Button>
+                    <Button component="a" href={`${CHECKIN_DESKPREFIX_ROUTE_URL}${deskNr}`} color="secondary">{`${CHECKIN_LABEL}${deskNr}`}</Button>
                 </CardActions>}
             </Card>
         </Box>
