@@ -3,6 +3,7 @@ import BookingPage from './pages/BookingPage';
 import CheckinPage from './pages/CheckinPage';
 import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
+import RegisterPage from './pages/RegisterPage';
 import { TopBar } from './components/TopBar';
 import { Route, BrowserRouter, Switch } from 'react-router-dom'
 import HomePage from './pages/HomePage';
@@ -22,6 +23,7 @@ function App() {
             <Route path="/desks/checkin" component={CheckinPage} />
             <Route path="/desks/login" component={LoginPage}/>
             <Route path="/desks/user" component={UserPage}/>
+            <Route path="/desks/register" component={RegisterPage}/>
             <Route component={HomePage} />
           </Switch>
         </BrowserRouter>

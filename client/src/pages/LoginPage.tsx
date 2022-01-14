@@ -2,6 +2,8 @@ import {
   Card,
   CardContent,
   CardHeader,
+  CardActions,
+  Typography,
   TextField,
   Stack,
   Button,
@@ -12,6 +14,7 @@ import { User } from "../types";
 import { useHistory } from "react-router-dom";
 
 const USER_ROUTE_URL = "/desks/user";
+const REGISTER_ROUTE_URL = "/desks/register";
 
 const LoginPage: FC = () => {
 
@@ -52,6 +55,10 @@ const LoginPage: FC = () => {
             <Button disabled={areFieldsEmpty()} onClick={getUser} variant="contained">Sign in</Button>
           </Stack>
         </CardContent>
+        <CardActions sx={{justifyContent: "flex-end"}}>
+                <Typography> dont have an account? </Typography>
+                <Button color="primary" href={REGISTER_ROUTE_URL}> Register</Button>
+          </CardActions>
       </Card>
     </Box>
   );

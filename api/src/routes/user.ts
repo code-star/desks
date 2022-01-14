@@ -46,3 +46,22 @@ export function getUser(
     });
   });
 }
+
+export function patchUser(
+  app: Express,
+  db: Database<sqlite3.Database, sqlite3.Statement>
+) {
+  app.patch("/api/createUser", async (req: Request, res: Response) => {
+    const { name, password } = req.body;
+    await db.run("INSERT INTO user VALUES ((?),(?))", name, password);
+    const user = await db.get<Booking>(
+      "SELECT * from user WHERE name =(?)",
+      name
+    );
+    if (!user) {
+      res.status(404);
+      return;
+    }
+    res.send({ user });
+  });
+}
