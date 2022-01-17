@@ -25,26 +25,32 @@ export function getUserDeskList(
   });
 }
 
-export function getUser(
+export function checkUser(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
-  app.get("/api/user/:userName", async (req: Request, res: Response) => {
-    console.log("GET /api/user");
+  app.get(
+    "/api/user/:userName/:password",
+    async (req: Request, res: Response) => {
+      console.log("GET /api/user");
 
-    const user = await db.get<User>(
-      "SELECT * FROM user WHERE name = (?)",
-      req.params.userName
-    );
+      const user = await db.get<User>(
+        "SELECT * FROM user WHERE name = (?)",
+        req.params.userName
+      );
 
-    if (!user) {
-      res.status(404);
-      return;
+      if (!user || user.password != req.params.password) {
+        res.status(404);
+        res.send({
+          isValid: false,
+        });
+        return;
+      }
+      res.send({
+        isValid: true,
+      });
     }
-    res.send({
-      user: user,
-    });
-  });
+  );
 }
 
 export function patchUser(
@@ -60,8 +66,9 @@ export function patchUser(
     );
     if (!user) {
       res.status(404);
+      res.send({ isUserCreated: false });
       return;
     }
-    res.send({ user });
+    res.send({ isUserCreated: true });
   });
 }

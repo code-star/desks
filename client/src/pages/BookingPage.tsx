@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState} from "react";
 import { Snackbar, IconButton, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";
 import { FormContext } from "../FormContext";
+
 
 const UNIX_DAY = 86400 * 1000;
 
@@ -35,7 +36,7 @@ const BookingPage: FC = () => {
       <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
         <BookingStepper />
         <Snackbar
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+           anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={bookingSucces}
           action={
             <IconButton

@@ -22,7 +22,6 @@ import {
 } from "../utils";
 
 export const BookingStepper: FC = () => {
-  const myStorage = window.sessionStorage;
   const stepComponents = [<DateStep />, <TimeStep />, <DeskStep />];
   const steps: string[] = [
     "Select booking date",
@@ -50,7 +49,7 @@ export const BookingStepper: FC = () => {
         start_time: getUnixTime(dateValue, startTimeValue),
         end_time: getUnixTime(dateValue, endTimeValue),
         booked_desk: selectedDesk,
-        user_name: myStorage.getItem("activeUser"),
+        user_name: sessionStorage.getItem("activeUser"),
       }),
     });
     const json = await data.json();

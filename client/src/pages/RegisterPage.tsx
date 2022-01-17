@@ -10,12 +10,10 @@ import {
   Typography,
 } from "@mui/material";
 import { FC, useState } from "react";
-import { USER_ROUTE_URL, LOGIN_ROUTE_URL } from "../routeUrls";
+import { LOGIN_ROUTE_URL } from "../routeUrls";
 
 const RegisterPage: FC = () => {
-  const myStorage = window.sessionStorage;
 
-  const [urlNextPage, setUrlNextPage] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,12 +34,13 @@ const RegisterPage: FC = () => {
         }
       );
       const json = await data.json();
-      if (json.user) {
+      if (json.isUserCreated) {
         //TODO create alert when account is made
-      }
-      setUrlNextPage(USER_ROUTE_URL);
-      myStorage.setItem("activeUser", userName);
+      sessionStorage.setItem("activeUser", userName);
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
       return;
+      }
     }
     //TODO alert password doesnt match
   };
@@ -80,7 +79,6 @@ const RegisterPage: FC = () => {
               type="password"
             />
             <Button
-              href={urlNextPage}
               disabled={areFieldsEmpty()}
               onClick={createUser}
               variant="contained"
@@ -97,6 +95,7 @@ const RegisterPage: FC = () => {
           </Button>
         </CardActions>
       </Card>
+      
     </Box>
   );
 };
