@@ -28,7 +28,8 @@ const LoginPage: FC = () => {
     const isValidUser: boolean = userCheckJson.isValid;
     //TODO verification password in backend
     if (isValidUser) {
-      sessionStorage.setItem("activeUser", userName);
+      const json = `{"name": "${userName}", "role": "user"}`;
+      sessionStorage.setItem("activeUser", json);
       // eslint-disable-next-line no-restricted-globals
       location.reload();
       return;

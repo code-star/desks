@@ -18,12 +18,14 @@ import { Booking } from "../types";
 const UserPage: FC = () => {
   const [userDeskList, setUserDeskList] = useState<Booking[]>([]);
   const [recentBooking, setRecentBooking] = useState<Booking>();
-  const userName = sessionStorage.getItem("activeUser");
+  const user = sessionStorage.getItem("activeUser");
 
   useEffect(() => {
     const setDeskList = async () => {
+      if(user){
+        const jsonUser = JSON.parse(user);
       const desks = await fetch(
-        `${process.env.REACT_APP_ROOT_URL}api/user/list/${userName}`
+        `${process.env.REACT_APP_ROOT_URL}api/user/list/${jsonUser.name}`
       );
       const desksJson = await desks.json();
       const allUserDesks: Booking[] = desksJson.userDeskList;
@@ -40,9 +42,10 @@ const UserPage: FC = () => {
         return 0;
       });
       setUserDeskList(allUserDesks);
+    }
     };
     setDeskList();
-  }, []);
+  }, [user]);
 
   const getDateFromNumber = (time: number|undefined) => {
     if(time){
@@ -60,7 +63,7 @@ const UserPage: FC = () => {
         sx={{ width: { xs: "100%", md: "900px" } }}
       >
         <CardHeader
-          title={`bookings for ${sessionStorage.getItem("activeUser")}`}
+          title={user?`bookings for ${JSON.parse(user).name}`:"No user found"}
           sx={{ textAlign: "center" }}
         />
         <CardContent>
@@ -68,7 +71,10 @@ const UserPage: FC = () => {
           {userDeskList.length <= 0
               ? "You haven't booked any desks"
               : <Stack spacing={2}>
-               These are your booked desks:
+                <Typography gutterBottom>
+                These are your booked desks:
+                </Typography>
+               
             <List style={{ maxHeight: 400, overflow: "auto" }}>
               {userDeskList.map((userDesk) => (
                 <ListItem key={userDesk.booking_id}>
@@ -82,10 +88,10 @@ const UserPage: FC = () => {
               ))}
             </List>
             This is your most recent booked desk:
-                <Card>
+                <Card sx={{ width: { xs: "50%" } }}>
                   <CardHeader title={recentBooking?.booked_desk}/>
                   <CardContent>
-                  <Typography variant="caption" gutterBottom>
+                  <Typography variant="caption">
                 {` From: ${getDateFromNumber(
                       recentBooking?.start_time
                     )} Till: ${getDateFromNumber(recentBooking?.end_time)}`}

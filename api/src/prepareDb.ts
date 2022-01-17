@@ -8,7 +8,7 @@ export async function prepareDb() {
   const db = await open({ filename: ":memory:", driver: sqlite3.Database });
 
   await db.exec(
-    "CREATE TABLE IF NOT EXISTS user (name TEXT PRIMARY KEY, password TEXT)"
+    "CREATE TABLE IF NOT EXISTS user (name TEXT PRIMARY KEY, password TEXT, role TEXT)"
   );
   await db.exec(
     "CREATE TABLE IF NOT EXISTS desk (desk_id TEXT PRIMARY KEY, desk_state TEXT)"
@@ -22,7 +22,7 @@ export async function prepareDb() {
     "test"
   );
   if (allUsers.length === 0) {
-    await db.exec('INSERT INTO user VALUES ("test", "pw")');
+    await db.exec('INSERT INTO user VALUES ("test", "pw", "user")');
     for (let i = 1; i < NR_OF_DESKS; i++) {
       await db.run(
         "INSERT INTO desk VALUES ((?), (?))",

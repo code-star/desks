@@ -30,13 +30,15 @@ const RegisterPage: FC = () => {
           body: JSON.stringify({
             name: userName,
             password,
+            role: "user"
           }),
         }
       );
       const json = await data.json();
       if (json.isUserCreated) {
         //TODO create alert when account is made
-      sessionStorage.setItem("activeUser", userName);
+        const json = `{"name": "${userName}", "role": "user"}`;
+        sessionStorage.setItem("activeUser", json);
       // eslint-disable-next-line no-restricted-globals
       location.reload();
       return;

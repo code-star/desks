@@ -20,8 +20,12 @@ import {
   isFutureTime,
   getUnixTime,
 } from "../utils";
+import { activeUser } from "../types";
+import { useHistory } from "react-router-dom";
+import { USER_ROUTE_URL } from "../routeUrls";
 
 export const BookingStepper: FC = () => {
+  const history = useHistory();
   const stepComponents = [<DateStep />, <TimeStep />, <DeskStep />];
   const steps: string[] = [
     "Select booking date",
@@ -39,6 +43,9 @@ export const BookingStepper: FC = () => {
   } = useContext(FormContext);
 
   const handleBooking = async () => {
+    const user = sessionStorage.getItem("activeUser")
+    if(user){
+      const jsonUser:activeUser = JSON.parse(user);
     const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
       method: "PATCH",
       headers: {
@@ -49,7 +56,7 @@ export const BookingStepper: FC = () => {
         start_time: getUnixTime(dateValue, startTimeValue),
         end_time: getUnixTime(dateValue, endTimeValue),
         booked_desk: selectedDesk,
-        user_name: sessionStorage.getItem("activeUser"),
+        user_name: jsonUser.name,
       }),
     });
     const json = await data.json();
@@ -58,6 +65,8 @@ export const BookingStepper: FC = () => {
       setPrevSelectedDesk(selectedDesk);
       setSelectedDesk("");
     }
+    history.push(USER_ROUTE_URL);
+  }
   };
 
   const isBookingPossible = () => {

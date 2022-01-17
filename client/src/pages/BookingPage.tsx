@@ -1,4 +1,4 @@
-import { FC, useEffect, useState} from "react";
+import { FC, useState} from "react";
 import { Snackbar, IconButton, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BookingStepper } from "../components/BookingStepper";

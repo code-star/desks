@@ -16,6 +16,10 @@ export interface User {
   name: string;
   password: string;
 }
+export interface activeUser {
+  name: string;
+  role: string;
+}
 export interface Booking {
   booking_id: string;
   start_time: number;

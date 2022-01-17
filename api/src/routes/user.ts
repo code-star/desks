@@ -58,8 +58,8 @@ export function patchUser(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
   app.patch("/api/createUser", async (req: Request, res: Response) => {
-    const { name, password } = req.body;
-    await db.run("INSERT INTO user VALUES ((?),(?))", name, password);
+    const { name, password, role } = req.body;
+    await db.run("INSERT INTO user VALUES ((?),(?),(?))", name, password, role);
     const user = await db.get<Booking>(
       "SELECT * from user WHERE name =(?)",
       name

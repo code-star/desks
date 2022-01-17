@@ -13,12 +13,12 @@ import img from "../images/ordina_logo.png";
 import { LOGIN_ROUTE_URL } from "../routeUrls";
 
 export const TopBar: FC = () => {
-  const myStorage = window.sessionStorage;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+  const user = sessionStorage.getItem("activeUser")
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    if (myStorage.getItem("activeUser")) {
+    if (user) {
       setAnchorEl(event.currentTarget);
     }
   };
@@ -27,7 +27,7 @@ export const TopBar: FC = () => {
   };
   const handleLogOut = () => {
     setAnchorEl(null);
-    myStorage.clear();
+    sessionStorage.clear();
   };
 
   return (
@@ -42,7 +42,10 @@ export const TopBar: FC = () => {
         >
           Smart office management
         </Typography>
-        <Typography>{myStorage.getItem("activeUser")}</Typography>
+        {user?
+        <Typography variant="body1">{JSON.parse(user).name}</Typography>:
+        ""
+        }       
         <IconButton size="large" color="inherit" onClick={handleClick}>
           <AccountBoxIcon />
         </IconButton>
