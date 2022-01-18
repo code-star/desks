@@ -8,13 +8,13 @@ export async function prepareDb() {
   const db = await open({ filename: ":memory:", driver: sqlite3.Database });
 
   await db.exec(
-    "CREATE TABLE IF NOT EXISTS user (name TEXT PRIMARY KEY, password TEXT)"
+    "CREATE TABLE IF NOT EXISTS user (name TEXT PRIMARY KEY, password TEXT, role TEXT)"
   );
   await db.exec(
     "CREATE TABLE IF NOT EXISTS desk (desk_id TEXT PRIMARY KEY, desk_state TEXT)"
   );
   await db.exec(
-    "CREATE TABLE IF NOT EXISTS booking (booking_id TEXT PRIMARY KEY, start_time INTEGER, end_time INTEGER, booked_desk TEXT, FOREIGN KEY(booked_desk) REFERENCES desk(desk_id))"
+    "CREATE TABLE IF NOT EXISTS booking (booking_id TEXT PRIMARY KEY, start_time INTEGER, end_time INTEGER, booked_desk TEXT, user_name TEXT, FOREIGN KEY(booked_desk) REFERENCES desk(desk_id), FOREIGN KEY(user_name) REFERENCES user(name))"
   );
 
   const allUsers = await db.all<User[]>(
@@ -22,7 +22,7 @@ export async function prepareDb() {
     "test"
   );
   if (allUsers.length === 0) {
-    await db.exec('INSERT INTO user VALUES ("test", "pw")');
+    await db.exec('INSERT INTO user VALUES ("test", "pw", "user")');
     for (let i = 1; i < NR_OF_DESKS; i++) {
       await db.run(
         "INSERT INTO desk VALUES ((?), (?))",
@@ -30,9 +30,6 @@ export async function prepareDb() {
         deskState.free
       );
     }
-    await db.exec(
-      'INSERT INTO booking VALUES ("bookingb2.1.1", 1636027200, 1636041600, "b2.1")'
-    );
   }
 
   return db;

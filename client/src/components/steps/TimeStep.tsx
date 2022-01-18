@@ -1,5 +1,5 @@
 import { FC, useContext } from "react";
-import { Stack, Alert, Divider} from "@mui/material";
+import { Stack, Alert, Divider } from "@mui/material";
 import { TimeSetter } from "../TimeSetter";
 import { isFutureTime, isEndTimeAfterStart } from "../../utils";
 import { FormContext } from "../../FormContext";
@@ -20,7 +20,7 @@ export const TimeStep: FC = () => {
       {isFutureTime(dateValue, startTimeValue) ? (
         <Alert severity="warning">Check if the time has passed</Alert>
       ) : null}
-      <Divider/>
+      <Divider />
       <TimeSetter
         title={"Please select the end time for the booking"}
         type={"End"}

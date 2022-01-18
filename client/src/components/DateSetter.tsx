@@ -8,7 +8,7 @@ import { getUnixTime } from "../utils";
 const UNIX_DAY = 86400;
 
 const isPastDate = (date: Date) => {
-  return getUnixTime(date, date) < (Date.now() / 1000 - UNIX_DAY);
+  return getUnixTime(date, date) < Date.now() / 1000 - UNIX_DAY;
 };
 
 export const DateSetter: FC = () => {

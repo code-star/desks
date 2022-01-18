@@ -1,9 +1,9 @@
-import { List, Stack } from "@mui/material";
-import { useState, FC, useEffect } from "react";
+import { List, Stack, Typography } from "@mui/material";
+import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
 import { DeskItemCheckIn } from "./DeskItem";
 import { isBetween } from "../utils";
-
+import { FormContext } from "../FormContext";
 
 type Props = {
   deskId: string;
@@ -21,8 +21,38 @@ const isBookedNow = (booking: Booking) => {
 
 export const CheckinDeskList: FC<Props> = ({ deskId }) => {
   const [currentDeskList, setCurrentDeskList] = useState<DeskType[]>([]);
+  const {
+    isBookedByUser: [isDeskUser, setDeskUser],
+  } = useContext(FormContext);
 
   useEffect(() => {
+    const checkBookedByUser = async () => {
+      const user = sessionStorage.getItem("activeUser");
+      if (user) {
+        const jsonUser = JSON.parse(user);
+        const data = await fetch(
+          `${process.env.REACT_APP_ROOT_URL}api/user/list/${jsonUser.name}`
+        );
+        const json = await data.json();
+        const userBookings: Booking[] = json.userDeskList;
+        const userDeskBooking = userBookings.find((booking: Booking) => {
+          return booking.booked_desk === deskId;
+        });
+        if (userDeskBooking) {
+          setDeskUser(
+            isBetween(
+              userDeskBooking.start_time,
+              Date.now() / 1000 - UNIX_HALF_HOUR,
+              Date.now() / 1000 + UNIX_HALF_HOUR
+            )
+          );
+          return;
+        }
+        setDeskUser(false);
+      }
+    };
+    checkBookedByUser();
+
     const setDeskList = async () => {
       const desks = await fetch(
         `${process.env.REACT_APP_ROOT_URL}api/desk/list`
@@ -61,18 +91,22 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
       }
     };
     setDeskList();
-  }, [deskId]);
+  }, [deskId, setDeskUser]);
 
   return (
-    <Stack>
-      {currentDeskList.length <= 0
-        ? ""
-        : "This desk is not available, but these are:"}
-      <List style={{ maxHeight: 200, overflow: "auto" }}>
-        {currentDeskList.map((desk) => (
-          <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>
-        ))}
-      </List>
-    </Stack>
+    <>
+      {currentDeskList.length <= 0 || isDeskUser ? (
+        ""
+      ) : (
+        <Stack>
+          <Typography>This desk is not available, but these are:</Typography>
+          <List style={{ maxHeight: 200, overflow: "auto" }}>
+            {currentDeskList.map((desk) => (
+              <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>
+            ))}
+          </List>
+        </Stack>
+      )}
+    </>
   );
 };

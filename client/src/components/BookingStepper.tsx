@@ -14,9 +14,18 @@ import { TimeStep } from "../components/steps/TimeStep";
 import { DateStep } from "../components/steps/DateStep";
 import { DeskStep } from "../components/steps/DeskStep";
 import { FormContext } from "../FormContext";
-import { isDeskSelected, isEndTimeAfterStart, isFutureTime, getUnixTime } from "../utils";
+import {
+  isDeskSelected,
+  isEndTimeAfterStart,
+  isFutureTime,
+  getUnixTime,
+} from "../utils";
+import { activeUser } from "../types";
+import { useHistory } from "react-router-dom";
+import { USER_ROUTE_URL } from "../routeUrls";
 
 export const BookingStepper: FC = () => {
+  const history = useHistory();
   const stepComponents = [<DateStep />, <TimeStep />, <DeskStep />];
   const steps: string[] = [
     "Select booking date",
@@ -30,37 +39,42 @@ export const BookingStepper: FC = () => {
     endTime: [endTimeValue],
     desk: [selectedDesk, setSelectedDesk],
     bookingSucces: [, setBookingSucces],
-    prevSelectedDesk: [, setPrevSelectedDesk]
+    prevSelectedDesk: [, setPrevSelectedDesk],
   } = useContext(FormContext);
 
   const handleBooking = async () => {
-    const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        booking_id: `booking ${selectedDesk}.${Date.now()}`,
-        start_time: getUnixTime(dateValue, startTimeValue),
-        end_time: getUnixTime(dateValue, endTimeValue),
-        booked_desk: selectedDesk,
-      }),
-    });
-    const json = await data.json();
-    if (json.booking) {
-      setBookingSucces(true);
-      setPrevSelectedDesk(selectedDesk);
-      setSelectedDesk("");
+    const user = sessionStorage.getItem("activeUser");
+    if (user) {
+      const jsonUser: activeUser = JSON.parse(user);
+      const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          booking_id: `booking ${selectedDesk}.${Date.now()}`,
+          start_time: getUnixTime(dateValue, startTimeValue),
+          end_time: getUnixTime(dateValue, endTimeValue),
+          booked_desk: selectedDesk,
+          user_name: jsonUser.name,
+        }),
+      });
+      const json = await data.json();
+      if (json.booking) {
+        setBookingSucces(true);
+        setPrevSelectedDesk(selectedDesk);
+        setSelectedDesk("");
+      }
+      history.push(USER_ROUTE_URL);
     }
   };
-  
+
   const isBookingPossible = () => {
     return (
-      isLastStep &&(
-      isDeskSelected(selectedDesk) ||
-      isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
-      isFutureTime(dateValue, startTimeValue)
-      )
+      isLastStep &&
+      (isDeskSelected(selectedDesk) ||
+        isEndTimeAfterStart(dateValue, startTimeValue, endTimeValue) ||
+        isFutureTime(dateValue, startTimeValue))
     );
   };
 
@@ -72,9 +86,6 @@ export const BookingStepper: FC = () => {
     setActiveStep(activeStep - 1);
   };
   const handleNext = () => {
-    isLastStep?
-    handleBooking()
-    :
     setActiveStep(activeStep + 1);
   };
 
@@ -119,15 +130,28 @@ export const BookingStepper: FC = () => {
           <Grid item xs={12}></Grid>
         </Grid>
       </CardContent>
-      <CardActions sx={{justifyContent: "flex-end"}}>
+      <CardActions sx={{ justifyContent: "flex-end" }}>
         <Button disabled={activeStep === 0} onClick={handleBack}>
           Back
         </Button>
-        {isLastStep?<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()} color="secondary">
-          Book
-        </Button>:<Button variant="contained" onClick={handleNext} disabled={isBookingPossible()}>
-          Next
-        </Button>}
+        {isLastStep ? (
+          <Button
+            variant="contained"
+            onClick={handleBooking}
+            disabled={isBookingPossible()}
+            color="secondary"
+          >
+            Book
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            onClick={handleNext}
+            disabled={isBookingPossible()}
+          >
+            Next
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

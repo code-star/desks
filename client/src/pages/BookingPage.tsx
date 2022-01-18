@@ -35,7 +35,7 @@ const BookingPage: FC = () => {
       <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
         <BookingStepper />
         <Snackbar
-           anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           open={bookingSucces}
           action={
             <IconButton
@@ -50,7 +50,7 @@ const BookingPage: FC = () => {
           onClose={() => {
             setBookingSucces(false);
           }}
-          message={`Your booking for desk ${prevSelectedDesk} was succesful`}
+          message={`Your booking for desk ${prevSelectedDesk} was successful`}
         />
       </Box>
     </FormContext.Provider>
