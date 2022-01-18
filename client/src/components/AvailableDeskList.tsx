@@ -1,4 +1,10 @@
-import { FormControl,InputLabel,MenuItem,Select,SelectChangeEvent } from "@mui/material";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
+} from "@mui/material";
 import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
 import { isBetween, getUnixTime } from "../utils";
@@ -18,8 +24,8 @@ export const AvailableDeskList: FC = () => {
   const {
     date: [dateValue],
   } = useContext(FormContext);
-  const{
-    bookingSucces: [bookingSucces]
+  const {
+    bookingSucces: [bookingSucces],
   } = useContext(FormContext);
 
   const handleChange = (event: SelectChangeEvent) => {

@@ -31,5 +31,5 @@ app.listen(port, async () => {
   getUserDeskList(app, db);
   checkUser(app, db);
   patchUser(app, db);
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Desk server listening at http://localhost:${port}`);
 });

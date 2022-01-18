@@ -13,7 +13,6 @@ import { FC, useState } from "react";
 import { LOGIN_ROUTE_URL } from "../routeUrls";
 
 const RegisterPage: FC = () => {
-
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -30,7 +29,7 @@ const RegisterPage: FC = () => {
           body: JSON.stringify({
             name: userName,
             password,
-            role: "user"
+            role: "user",
           }),
         }
       );
@@ -39,9 +38,9 @@ const RegisterPage: FC = () => {
         //TODO create alert when account is made
         const json = `{"name": "${userName}", "role": "user"}`;
         sessionStorage.setItem("activeUser", json);
-      // eslint-disable-next-line no-restricted-globals
-      location.reload();
-      return;
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+        return;
       }
     }
     //TODO alert password doesnt match
@@ -97,7 +96,6 @@ const RegisterPage: FC = () => {
           </Button>
         </CardActions>
       </Card>
-      
     </Box>
   );
 };

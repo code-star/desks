@@ -15,7 +15,7 @@ import { LOGIN_ROUTE_URL } from "../routeUrls";
 export const TopBar: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-  const user = sessionStorage.getItem("activeUser")
+  const user = sessionStorage.getItem("activeUser");
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (user) {
@@ -42,10 +42,11 @@ export const TopBar: FC = () => {
         >
           Smart office management
         </Typography>
-        {user?
-        <Typography variant="body1">{JSON.parse(user).name}</Typography>:
-        ""
-        }       
+        {user ? (
+          <Typography variant="body1">{JSON.parse(user).name}</Typography>
+        ) : (
+          ""
+        )}
         <IconButton size="large" color="inherit" onClick={handleClick}>
           <AccountBoxIcon />
         </IconButton>

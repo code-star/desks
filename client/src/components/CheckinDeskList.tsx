@@ -22,7 +22,7 @@ const isBookedNow = (booking: Booking) => {
 export const CheckinDeskList: FC<Props> = ({ deskId }) => {
   const [currentDeskList, setCurrentDeskList] = useState<DeskType[]>([]);
   const {
-    isBookedByUser: [isDeskUser, setDeskUser]
+    isBookedByUser: [isDeskUser, setDeskUser],
   } = useContext(FormContext);
 
   useEffect(() => {
@@ -38,8 +38,14 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
         const userDeskBooking = userBookings.find((booking: Booking) => {
           return booking.booked_desk === deskId;
         });
-        if(userDeskBooking){
-          setDeskUser(isBetween(userDeskBooking.start_time, Date.now()/1000 - UNIX_HALF_HOUR, Date.now()/1000 + UNIX_HALF_HOUR));
+        if (userDeskBooking) {
+          setDeskUser(
+            isBetween(
+              userDeskBooking.start_time,
+              Date.now() / 1000 - UNIX_HALF_HOUR,
+              Date.now() / 1000 + UNIX_HALF_HOUR
+            )
+          );
           return;
         }
         setDeskUser(false);
@@ -85,7 +91,7 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
       }
     };
     setDeskList();
-  }, [deskId]);
+  }, [deskId, setDeskUser]);
 
   return (
     <>

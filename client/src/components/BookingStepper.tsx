@@ -43,30 +43,30 @@ export const BookingStepper: FC = () => {
   } = useContext(FormContext);
 
   const handleBooking = async () => {
-    const user = sessionStorage.getItem("activeUser")
-    if(user){
-      const jsonUser:activeUser = JSON.parse(user);
-    const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
-      method: "PATCH",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({
-        booking_id: `booking ${selectedDesk}.${Date.now()}`,
-        start_time: getUnixTime(dateValue, startTimeValue),
-        end_time: getUnixTime(dateValue, endTimeValue),
-        booked_desk: selectedDesk,
-        user_name: jsonUser.name,
-      }),
-    });
-    const json = await data.json();
-    if (json.booking) {
-      setBookingSucces(true);
-      setPrevSelectedDesk(selectedDesk);
-      setSelectedDesk("");
+    const user = sessionStorage.getItem("activeUser");
+    if (user) {
+      const jsonUser: activeUser = JSON.parse(user);
+      const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify({
+          booking_id: `booking ${selectedDesk}.${Date.now()}`,
+          start_time: getUnixTime(dateValue, startTimeValue),
+          end_time: getUnixTime(dateValue, endTimeValue),
+          booked_desk: selectedDesk,
+          user_name: jsonUser.name,
+        }),
+      });
+      const json = await data.json();
+      if (json.booking) {
+        setBookingSucces(true);
+        setPrevSelectedDesk(selectedDesk);
+        setSelectedDesk("");
+      }
+      history.push(USER_ROUTE_URL);
     }
-    history.push(USER_ROUTE_URL);
-  }
   };
 
   const isBookingPossible = () => {

@@ -17,7 +17,6 @@ import {
 } from "./routeUrls";
 
 function App() {
-  console.log("app called");
 
   return (
     <div className="App">

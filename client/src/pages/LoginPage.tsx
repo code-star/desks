@@ -26,7 +26,6 @@ const LoginPage: FC = () => {
     );
     const userCheckJson = await userCheck.json();
     const isValidUser: boolean = userCheckJson.isValid;
-    //TODO verification password in backend
     if (isValidUser) {
       const json = `{"name": "${userName}", "role": "user"}`;
       sessionStorage.setItem("activeUser", json);
@@ -79,21 +78,23 @@ const LoginPage: FC = () => {
         </CardActions>
       </Card>
       <Snackbar
-      anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      open={logInFail}
-      action={
-        <IconButton onClick={() => {
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={logInFail}
+        action={
+          <IconButton
+            onClick={() => {
+              setLogInFail(false);
+            }}
+          >
+            <CloseIcon color={"primary"} />
+          </IconButton>
+        }
+        autoHideDuration={6000}
+        onClose={() => {
           setLogInFail(false);
-        }}>
-          <CloseIcon color={"primary"} />
-        </IconButton>
-      }
-      autoHideDuration={6000}
-      onClose={() => {
-        setLogInFail(false);
-      }}
-      message={`password or username is incorrect`}
-    />
+        }}
+        message={`password or username is incorrect`}
+      />
     </Box>
   );
 };
