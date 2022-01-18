@@ -2,11 +2,13 @@ import { Button, Snackbar, Box, IconButton, Card, CardHeader, CardContent, Divid
 import { useState, FC, useEffect } from "react";
 import { CheckinDeskList } from "../components/CheckinDeskList";
 import CloseIcon from "@mui/icons-material/Close";
+import { FormContext } from "../FormContext";
 
 const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
   const [currentDeskState, setCurrentDeskState] = useState("free");
   const [open, setOpen] = useState(false);
+  const [isDeskUser, setDeskUser] = useState(false);
 
   useEffect(() => {
     const setInitialDeskState = async () => {
@@ -38,7 +40,12 @@ const CheckinPage: FC = () => {
     setOpen(true);
   };
 
+  const store={
+    isBookedByUser: [isDeskUser, setDeskUser],
+  };
+
   return (
+    <FormContext.Provider value={store}>
     <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>
       <Card  
       elevation={6}
@@ -51,7 +58,7 @@ const CheckinPage: FC = () => {
           variant="contained"
           sx={{width:"200px"}}
           color="secondary"
-          disabled={currentDeskState === "unavailable"}
+          disabled={currentDeskState === "unavailable" || !isDeskUser}
           onClick={handleToggleChecked}
         >
           {currentDeskState === "free" ? "Check in" : "Check out"}
@@ -76,6 +83,7 @@ const CheckinPage: FC = () => {
         message={currentDeskState === "free" ? "checked out" : "checked in"}
       />
     </Box>
+    </FormContext.Provider>
   );
 };
 
