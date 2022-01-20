@@ -87,7 +87,7 @@ const UserPage: FC = () => {
                 </ListItem>
               ))}
             </List>
-            This is your most recent booked desk:
+            This is your most recent booking:
                 <Card sx={{ width: { xs: "50%" } }}>
                   <CardHeader title={recentBooking?.booked_desk}/>
                   <CardContent>
@@ -105,7 +105,7 @@ const UserPage: FC = () => {
         <CardActions sx={{ justifyContent: "space-between" }}>
           {userDeskList.length > 0?
           <Button variant="outlined" color="secondary" href={`${CHECKIN_ROUTE_URL}?${userDeskList[0].booked_desk}`}>
-          {`chekcin desk ${userDeskList[0].booked_desk}`}
+          {`checkin desk ${userDeskList[0].booked_desk}`}
           </Button>: ""}
           <Button variant="outlined" href={BOOKING_ROUTE_URL}>
           Make new booking

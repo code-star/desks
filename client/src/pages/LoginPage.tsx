@@ -16,6 +16,7 @@ import { REGISTER_ROUTE_URL } from "../routeUrls";
 import CloseIcon from "@mui/icons-material/Close";
 
 const LoginPage: FC = () => {
+  window.Notification.requestPermission();
   const [logInFail, setLogInFail] = useState(false);
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -31,6 +32,7 @@ const LoginPage: FC = () => {
       sessionStorage.setItem("activeUser", json);
       // eslint-disable-next-line no-restricted-globals
       location.reload();
+      console.log("test1");
       return;
     }
     setLogInFail(true);
