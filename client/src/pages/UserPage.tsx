@@ -14,6 +14,7 @@ import {
 import { FC, useEffect, useState } from "react";
 import { BOOKING_ROUTE_URL, CHECKIN_ROUTE_URL } from "../routeUrls";
 import { Booking } from "../types";
+import { getDateFromNumber } from "../utils";
 
 const UserPage: FC = () => {
   const [userDeskList, setUserDeskList] = useState<Booking[]>([]);
@@ -46,14 +47,6 @@ const UserPage: FC = () => {
     };
     setDeskList();
   }, [user]);
-
-  const getDateFromNumber = (time: number | undefined) => {
-    if (time) {
-      const date = new Date(time * 1000);
-      return date.toLocaleString();
-    }
-    return "no time found";
-  };
 
   return (
     <Box sx={{ p: { xs: 1, md: 3 }, pt: { xs: 3, md: 3 } }}>

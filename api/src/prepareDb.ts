@@ -24,11 +24,19 @@ export async function prepareDb() {
   if (allUsers.length === 0) {
     await db.exec('INSERT INTO user VALUES ("test", "pw", "user")');
     for (let i = 1; i < NR_OF_DESKS; i++) {
-      await db.run(
-        "INSERT INTO desk VALUES ((?), (?))",
-        `b2.${i}`,
-        deskState.free
-      );
+      if (i < 10) {
+        await db.run(
+          "INSERT INTO desk VALUES ((?), (?))",
+          `b2.0${i}`,
+          deskState.free
+        );
+      } else {
+        await db.run(
+          "INSERT INTO desk VALUES ((?), (?))",
+          `b2.${i}`,
+          deskState.free
+        );
+      }
     }
   }
 

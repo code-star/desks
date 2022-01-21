@@ -10,7 +10,7 @@ import {
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { FC, useState } from "react";
 import img from "../images/ordina_logo.png";
-import { LOGIN_ROUTE_URL } from "../routeUrls";
+import { LOGIN_ROUTE_URL, USER_ROUTE_URL } from "../routeUrls";
 
 export const TopBar: FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -60,6 +60,11 @@ export const TopBar: FC = () => {
           "aria-labelledby": "basic-button",
         }}
       >
+        <MenuItem>
+        <Link href={USER_ROUTE_URL}>
+            To account
+          </Link>
+        </MenuItem>
         <MenuItem>
           <Link href={LOGIN_ROUTE_URL} onClick={handleLogOut}>
             Log out
