@@ -2,6 +2,7 @@ import { Request, Response, Express } from "express";
 import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking, User } from "../types";
+import { notifications } from "./notifcation";
 
 export function getUserDeskList(
   app: Express,
@@ -23,6 +24,26 @@ export function getUserDeskList(
       userDeskList: userDesks,
     });
   });
+}
+export function getUserNotificationList(app: Express) {
+  app.get(
+    "/api/user/notification/:userName",
+    async (req: Request, res: Response) => {
+      console.log("GET /api/user/notification/");
+      const userNotifications = Array.from(notifications.values()).filter(
+        (notification) => {
+          return notification.user === req.params.userName;
+        }
+      );
+      console.log(userNotifications);
+      userNotifications.forEach((notification) => {
+        notifications.delete(notification.id);
+      });
+      res.send({
+        notifications: userNotifications,
+      });
+    }
+  );
 }
 
 export function checkUser(
@@ -48,6 +69,8 @@ export function checkUser(
       }
       res.send({
         isValid: true,
+        userName: user.name,
+        role: user.role,
       });
     }
   );

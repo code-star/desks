@@ -27,3 +27,11 @@ export const isEndTimeAfterStart = (dateValue:Date, startTimeValue:Date, endtime
   return unixEndTime - unixStartTime <= 0;
 }
 
+export const getDateFromNumber = (time: number | undefined) => {
+  if (time) {
+    const date = new Date(time * 1000);
+    return date.toLocaleString();
+  }
+  return "no time found";
+};
+

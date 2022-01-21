@@ -77,7 +77,7 @@ export const AvailableDeskList: FC = () => {
       <InputLabel>Desk</InputLabel>
       <Select value={selectedDesk} label="Desk" onChange={handleChange}>
         {currentDeskList.map((desk) => (
-          <MenuItem value={desk.desk_id}>{desk.desk_id}</MenuItem>
+          <MenuItem key={desk.desk_id} value={desk.desk_id}>{desk.desk_id}</MenuItem>
         ))}
       </Select>
     </FormControl>
