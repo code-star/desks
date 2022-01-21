@@ -26,12 +26,24 @@ export function getUserDeskList(
   });
 }
 export function getUserNotificationList(app: Express) {
-  app.get("/api/user/notification/:userName", async (_, res: Response) => {
-    console.log("GET /api/user/notification/");
-    res.send({
-      notifications: Array.from(notifications.values()),
-    });
-  });
+  app.get(
+    "/api/user/notification/:userName",
+    async (req: Request, res: Response) => {
+      console.log("GET /api/user/notification/");
+      const userNotifications = Array.from(notifications.values()).filter(
+        (notification) => {
+          return notification.user === req.params.userName;
+        }
+      );
+      console.log(userNotifications);
+      userNotifications.forEach((notification) => {
+        notifications.delete(notification.id);
+      });
+      res.send({
+        notifications: userNotifications,
+      });
+    }
+  );
 }
 
 export function checkUser(

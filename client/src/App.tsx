@@ -24,7 +24,7 @@ function App() {
   const jsonUser = user ? JSON.parse(user) : null;
   const isUser = jsonUser && jsonUser.role === "user";
   const isAdmin = jsonUser && jsonUser.role === "admin";
-  Notification.requestPermission().then(function(result) {
+  Notification.requestPermission().then(function (result) {
     console.log(result);
   });
   useEffect(() => {
@@ -35,17 +35,25 @@ function App() {
         );
         const notificationJson = await desks.json();
         console.log(notificationJson);
-        if (window.Notification.permission === "granted") {
-          new window.Notification(notificationJson.notifications.map((notification:any)=>{
-            return notification.message
-          }).join(" "));
-
+        if (notificationJson.notifications.length > 0) {
+          if (window.Notification.permission === "granted") {
+            new window.Notification(
+              notificationJson.notifications
+                .map((notification: any) => {
+                  return notification.message;
+                })
+                .join(" ")
+            );
+          }
         }
       }
     };
-    setInterval(() => {
+    const timer = setInterval(() => {
       setDeskList();
-    }, 1000);
+    }, 10000);
+    return()=>{
+      clearInterval(timer);
+    }
   }, [isUser, jsonUser]);
   return (
     <div className="App">

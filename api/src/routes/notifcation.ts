@@ -49,7 +49,7 @@ export function intervalId(
     newNotifications.forEach((notification) => {
       notifications.set(notification.id, notification);
     });
-    console.log(notifications.entries());
+    console.log("notifications.ts: ", notifications.entries());
   }, 5000);
 }
 
