@@ -28,7 +28,9 @@ const LoginPage: FC = () => {
     const userCheckJson = await userCheck.json();
     const isValidUser: boolean = userCheckJson.isValid;
     if (isValidUser) {
-      const json = `{"name": "${userName}", "role": "user"}`;
+      const name = userCheckJson.userName;
+      const role = userCheckJson.role;
+      const json = `{"name": "${name}", "role": "${role}"}`;
       sessionStorage.setItem("activeUser", json);
       // eslint-disable-next-line no-restricted-globals
       location.reload();
@@ -36,7 +38,6 @@ const LoginPage: FC = () => {
       return;
     }
     setLogInFail(true);
-    //TODO warning fields incorrect
   };
   const areFieldsEmpty = () => {
     return userName.length === 0 || password.length === 0;
@@ -54,12 +55,12 @@ const LoginPage: FC = () => {
             <TextField
               label="Email address"
               onChange={(event) => setUserName(event.target.value)}
-              sx={{ width: "25rem" }}
+              sx={{ width: {xs: "90%", md:"25rem"} }}
             />
             <TextField
               label="Password"
               onChange={(event) => setPassword(event.target.value)}
-              sx={{ width: "25rem" }}
+              sx={{ width: {xs: "90%", md:"25rem"} }}
               type="password"
             />
             <Button

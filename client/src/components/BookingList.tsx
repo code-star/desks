@@ -34,11 +34,7 @@ export const BookingList: FC = () => {
               return 0;
           }
           default:{
-             const deskNumber1 = booking1.booked_desk.substring(3);
-             const deskNumber2 = booking2.booked_desk.substring(3);
-            if (deskNumber1 > deskNumber2) return 1;
-            if (deskNumber1 < deskNumber2) return -1;
-            return 0;
+             return booking1.booked_desk.localeCompare(booking2.booked_desk);
           }
 
       }
@@ -50,7 +46,7 @@ export const BookingList: FC = () => {
 
   //let admin delete booking when one is clicked (show modal with info first)
 
-  return (<List style={{ maxHeight: 400, overflow: "auto" }}>
+  return (<List style={{height:"calc(100vh - 280px)", overflow: "auto" }}>
             {bookingList.map((desk) => (
               <ListItemButton key={desk.booking_id}>
                   <Stack>

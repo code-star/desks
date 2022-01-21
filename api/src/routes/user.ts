@@ -48,6 +48,8 @@ export function checkUser(
       }
       res.send({
         isValid: true,
+        userName: user.name,
+        role: user.role,
       });
     }
   );

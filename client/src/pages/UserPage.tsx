@@ -46,6 +46,7 @@ const UserPage: FC = () => {
       }
     };
     setDeskList();
+
   }, [user]);
 
   return (

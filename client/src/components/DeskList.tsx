@@ -18,7 +18,7 @@ export const DeskList: FC = () => {
   }, []);
 
   return (
-    <List style={{ maxHeight: 400, overflow: "auto" }}>
+    <List style={{ height:"calc(100vh - 260px)", overflow: "auto" }}>
       {deskList.map((desk) => (
         <ListItem key={desk.desk_id}>
             <Stack>

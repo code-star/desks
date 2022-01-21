@@ -23,6 +23,7 @@ export async function prepareDb() {
   );
   if (allUsers.length === 0) {
     await db.exec('INSERT INTO user VALUES ("test", "pw", "user")');
+    await db.exec('INSERT INTO user VALUES ("admin", "pw", "admin")');
     for (let i = 1; i < NR_OF_DESKS; i++) {
       if (i < 10) {
         await db.run(

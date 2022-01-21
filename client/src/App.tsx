@@ -17,34 +17,46 @@ import {
   REGISTER_ROUTE_URL,
   ADMIN_ROUTE_URL,
 } from "./routeUrls";
-import { activeUser } from "./types";
 
 function App() {
   const user = sessionStorage.getItem("activeUser");
-  
+  const jsonUser = user ? JSON.parse(user) : null;
+  const isUser =jsonUser && jsonUser.role === "user";
+  const isAdmin =jsonUser && jsonUser.role === "admin";
+  console.log(isUser, isAdmin, user);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <BrowserRouter>
           <CssBaseline />
           <TopBar />
-          {user ? (
+          {isAdmin && (
+            <Switch>
+              <Route path={ADMIN_ROUTE_URL} component={AdminPage}></Route>
+
+              <Route>
+                <Redirect to={ADMIN_ROUTE_URL} />
+              </Route>
+            </Switch>
+          )}
+          {isUser && (
             <Switch>
               <Route path={BOOKING_ROUTE_URL} component={BookingPage}></Route>
               <Route path={CHECKIN_ROUTE_URL} component={CheckinPage}></Route>
-              <Route path={ADMIN_ROUTE_URL} component ={AdminPage}></Route>
               <Route path={USER_ROUTE_URL} component={UserPage}></Route>
-              
+
               <Route>
                 <Redirect to={USER_ROUTE_URL} />
               </Route>
             </Switch>
-          ) : (
+          )}
+          {!isUser && !isAdmin && (
             <Switch>
               <Route path={REGISTER_ROUTE_URL} component={RegisterPage} />
               <Route component={LoginPage} />
             </Switch>
           )}
+
         </BrowserRouter>
       </ThemeProvider>
     </div>
