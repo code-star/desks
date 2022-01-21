@@ -17,13 +17,36 @@ import {
   REGISTER_ROUTE_URL,
   ADMIN_ROUTE_URL,
 } from "./routeUrls";
+import { useEffect } from "react";
 
 function App() {
   const user = sessionStorage.getItem("activeUser");
   const jsonUser = user ? JSON.parse(user) : null;
-  const isUser =jsonUser && jsonUser.role === "user";
-  const isAdmin =jsonUser && jsonUser.role === "admin";
-  console.log(isUser, isAdmin, user);
+  const isUser = jsonUser && jsonUser.role === "user";
+  const isAdmin = jsonUser && jsonUser.role === "admin";
+  Notification.requestPermission().then(function(result) {
+    console.log(result);
+  });
+  useEffect(() => {
+    const setDeskList = async () => {
+      if (isUser) {
+        const desks = await fetch(
+          `${process.env.REACT_APP_ROOT_URL}api/user/notification/${jsonUser.name}`
+        );
+        const notificationJson = await desks.json();
+        console.log(notificationJson);
+        if (window.Notification.permission === "granted") {
+          new window.Notification(notificationJson.notifications.map((notification:any)=>{
+            return notification.message
+          }).join(" "));
+
+        }
+      }
+    };
+    setInterval(() => {
+      setDeskList();
+    }, 1000);
+  }, [isUser, jsonUser]);
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -56,7 +79,6 @@ function App() {
               <Route component={LoginPage} />
             </Switch>
           )}
-
         </BrowserRouter>
       </ThemeProvider>
     </div>

@@ -2,6 +2,7 @@ import { Request, Response, Express } from "express";
 import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking, User } from "../types";
+import { notifications } from "./notifcation";
 
 export function getUserDeskList(
   app: Express,
@@ -21,6 +22,14 @@ export function getUserDeskList(
     }
     res.send({
       userDeskList: userDesks,
+    });
+  });
+}
+export function getUserNotificationList(app: Express) {
+  app.get("/api/user/notification/:userName", async (_, res: Response) => {
+    console.log("GET /api/user/notification/");
+    res.send({
+      notifications: Array.from(notifications.values()),
     });
   });
 }

@@ -6,7 +6,12 @@ import prepareDb from "./prepareDb";
 import { Database } from "sqlite";
 import { getDesk, patchDesk, getDeskList } from "./routes/desk";
 import { patchBooking, getBookings } from "./routes/booking";
-import { checkUser, getUserDeskList, patchUser } from "./routes/user";
+import {
+  checkUser,
+  getUserDeskList,
+  patchUser,
+  getUserNotificationList,
+} from "./routes/user";
 import { intervalId } from "./routes/notifcation";
 
 const app = express();
@@ -31,6 +36,7 @@ app.listen(port, async () => {
   patchBooking(app, db);
   getBookings(app, db);
   getUserDeskList(app, db);
+  getUserNotificationList(app);
   checkUser(app, db);
   patchUser(app, db);
   console.log(`Desk server listening at http://localhost:${port}`);
