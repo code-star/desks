@@ -26,33 +26,6 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
   } = useContext(FormContext);
 
   useEffect(() => {
-    const checkBookedByUser = async () => {
-      const user = sessionStorage.getItem("activeUser");
-      if (user) {
-        const jsonUser = JSON.parse(user);
-        const data = await fetch(
-          `${process.env.REACT_APP_ROOT_URL}api/user/list/${jsonUser.name}`
-        );
-        const json = await data.json();
-        const userBookings: Booking[] = json.userDeskList;
-        const userDeskBooking = userBookings.find((booking: Booking) => {
-          return booking.booked_desk === deskId;
-        });
-        if (userDeskBooking) {
-          setDeskUser(
-            isBetween(
-              userDeskBooking.start_time,
-              Date.now() / 1000 - UNIX_HALF_HOUR,
-              Date.now() / 1000 + UNIX_HALF_HOUR
-            )
-          );
-          return;
-        }
-        setDeskUser(false);
-      }
-    };
-    checkBookedByUser();
-
     const setDeskList = async () => {
       const desks = await fetch(
         `${process.env.REACT_APP_ROOT_URL}api/desk/list`
@@ -69,13 +42,19 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
       const deskIndex = allDesks.findIndex((desk) => desk.desk_id === deskId);
       const getDeskForBooking = (booking: Booking) =>
         allDesks.find((desk) => desk.desk_id === booking.booked_desk);
-      const currentBookedDesks = bookings
-        .filter(isBookedNow)
-        .map(getDeskForBooking);
+      const currentBookings = bookings.filter(isBookedNow);
+      const currentBookedDesks = currentBookings.map(getDeskForBooking);
+      console.log(currentBookings);
 
       if (
         currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === deskId)
       ) {
+        const user = sessionStorage.getItem("activeUser");
+        const jsonUser = user ? JSON.parse(user) : null;
+        const currentBooking = currentBookings.find((booking)=> booking.booked_desk === deskId);
+        if(currentBooking?.user_name !== jsonUser.name){
+        setDeskUser(false);
+        }
         const nearbyDesks = allDesks.filter((otherDesk, otherdDeskIndex) => {
           const isCurrentlyBooked = currentBookedDesks.find(
             (bookedDesk) => bookedDesk?.desk_id === otherDesk.desk_id
