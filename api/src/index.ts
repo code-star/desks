@@ -12,7 +12,8 @@ import {
   patchUser,
   getUserNotificationList,
 } from "./routes/user";
-import { intervalId } from "./routes/notifcation";
+import { intervalId } from "./notifcation";
+import { autoCheckout } from "./autoCheckout";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -30,6 +31,7 @@ app.use(bodyParser.json());
 app.listen(port, async () => {
   db = await prepareDb();
   intervalId(db);
+  autoCheckout(db);
   getDeskList(app, db);
   getDesk(app, db);
   patchDesk(app, db);

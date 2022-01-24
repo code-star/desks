@@ -1,6 +1,6 @@
 import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
-import { Booking } from "../types";
+import { Booking } from "./types";
 
 const UNIX_HALF_HOUR = 60;
 export const notifications = new Map();

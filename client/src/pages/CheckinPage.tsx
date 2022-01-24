@@ -18,7 +18,7 @@ const CheckinPage: FC = () => {
   const deskId = document.location.search.substr(1);
   const [currentDeskState, setCurrentDeskState] = useState("free");
   const [open, setOpen] = useState(false);
-  const [isDeskUser, setDeskUser] = useState(false);
+  const [isDeskUser, setDeskUser] = useState(true);
 
   useEffect(() => {
     const setInitialDeskState = async () => {

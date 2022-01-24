@@ -2,7 +2,7 @@ import { Request, Response, Express } from "express";
 import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking, User } from "../types";
-import { notifications } from "./notifcation";
+import { notifications } from "../notifcation";
 
 export function getUserDeskList(
   app: Express,
