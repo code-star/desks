@@ -1,4 +1,4 @@
 # Smart Office Management
 
 
-![deskQR](QRstickers.pdf)
+![deskQR](qr-desk1_ip.png)
