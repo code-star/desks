@@ -2,8 +2,9 @@ import { Request, Response, Express } from "express";
 import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking, User } from "../types";
-import { notifications } from "./notifcation";
+import { notifications } from "../notifcation";
 
+//Get list with all bookings of a specified user from database
 export function getUserDeskList(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
@@ -25,6 +26,7 @@ export function getUserDeskList(
     });
   });
 }
+//get list of notifications for a specific user
 export function getUserNotificationList(app: Express) {
   app.get(
     "/api/user/notification/:userName",
@@ -35,7 +37,6 @@ export function getUserNotificationList(app: Express) {
           return notification.user === req.params.userName;
         }
       );
-      console.log(userNotifications);
       userNotifications.forEach((notification) => {
         notifications.delete(notification.id);
       });
@@ -46,6 +47,7 @@ export function getUserNotificationList(app: Express) {
   );
 }
 
+//check if given username and password match a user from the database
 export function checkUser(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
@@ -76,6 +78,7 @@ export function checkUser(
   );
 }
 
+//add user in database
 export function patchUser(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>

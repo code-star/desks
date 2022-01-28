@@ -10,7 +10,7 @@ import { DeskType, Booking } from "../types";
 import { isBetween, getUnixTime } from "../utils";
 import { FormContext } from "../FormContext";
 
-export const AvailableDeskList: FC = () => {
+export const AvailableDeskSelect: FC = () => {
   const [currentDeskList, setCurrentDeskList] = useState<DeskType[]>([]);
   const {
     desk: [selectedDesk, setSelectedDesk],
@@ -56,12 +56,12 @@ export const AvailableDeskList: FC = () => {
         return isBetweenStart || isBetweenEnd;
       });
 
-      const data = await fetch(
+      const deskListData = await fetch(
         `${process.env.REACT_APP_ROOT_URL}api/desk/list`
       );
-      const json = await data.json();
+      const deskListJson = await deskListData.json();
 
-      const availableDesks = json.deskList.filter((desk: DeskType) => {
+      const availableDesks = deskListJson.deskList.filter((desk: DeskType) => {
         const isBooked = bookingsAtTime.find(
           (booking: Booking) => booking.booked_desk === desk.desk_id
         );
@@ -77,7 +77,9 @@ export const AvailableDeskList: FC = () => {
       <InputLabel>Desk</InputLabel>
       <Select value={selectedDesk} label="Desk" onChange={handleChange}>
         {currentDeskList.map((desk) => (
-          <MenuItem key={desk.desk_id} value={desk.desk_id}>{desk.desk_id}</MenuItem>
+          <MenuItem key={desk.desk_id} value={desk.desk_id}>
+            {desk.desk_id}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

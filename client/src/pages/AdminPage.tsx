@@ -20,7 +20,13 @@ const AdminPage: FC = () => {
     <FormContext.Provider value={store}>
       <Grid container spacing={5} padding={5}>
         <Grid item xs={12} md={6}>
-          <Card elevation={6} sx={{ width: { xs: "100%", md: "900px" }, minHeight: "calc(100vh - 170px)" }}>
+          <Card
+            elevation={6}
+            sx={{
+              width: { xs: "100%", md: "900px" },
+              minHeight: "calc(100vh - 170px)",
+            }}
+          >
             <CardHeader title="All bookings" />
             <CardContent>
               <BookingList />
@@ -48,7 +54,13 @@ const AdminPage: FC = () => {
           </Card>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Card elevation={6} sx={{ width: { xs: "100%", md: "900px" }, minHeight: "calc(100vh - 130px)" }}>
+          <Card
+            elevation={6}
+            sx={{
+              width: { xs: "100%", md: "900px" },
+              minHeight: "calc(100vh - 130px)",
+            }}
+          >
             <CardHeader title="All desks" />
             <CardContent>
               <DeskList />

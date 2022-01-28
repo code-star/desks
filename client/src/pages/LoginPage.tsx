@@ -30,11 +30,10 @@ const LoginPage: FC = () => {
     if (isValidUser) {
       const name = userCheckJson.userName;
       const role = userCheckJson.role;
-      const json = `{"name": "${name}", "role": "${role}"}`;
-      sessionStorage.setItem("activeUser", json);
+      const userJson = `{"name": "${name}", "role": "${role}"}`;
+      sessionStorage.setItem("activeUser", userJson);
       // eslint-disable-next-line no-restricted-globals
       location.reload();
-      console.log("test1");
       return;
     }
     setLogInFail(true);
@@ -55,12 +54,12 @@ const LoginPage: FC = () => {
             <TextField
               label="Email address"
               onChange={(event) => setUserName(event.target.value)}
-              sx={{ width: {xs: "90%", md:"25rem"} }}
+              sx={{ width: { xs: "90%", md: "25rem" } }}
             />
             <TextField
               label="Password"
               onChange={(event) => setPassword(event.target.value)}
-              sx={{ width: {xs: "90%", md:"25rem"} }}
+              sx={{ width: { xs: "90%", md: "25rem" } }}
               type="password"
             />
             <Button

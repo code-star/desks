@@ -3,15 +3,15 @@ import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking } from "../types";
 
+//get all bookings from the database
 export function getBookings(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
 ) {
-  app.get("/api/bookinglist", async (req: Request, res: Response) => {
+  app.get("/api/bookinglist", async (_, res: Response) => {
     console.log("GET /api/bookinglist");
 
     const bookings = await db.all<Booking[]>("SELECT * FROM booking");
-    req.get;
     if (!bookings) {
       res.status(404);
       return;
@@ -22,6 +22,7 @@ export function getBookings(
   });
 }
 
+//set a booking to the database
 export function patchBooking(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>

@@ -46,7 +46,7 @@ export const BookingStepper: FC = () => {
     const user = sessionStorage.getItem("activeUser");
     if (user) {
       const jsonUser: activeUser = JSON.parse(user);
-      const data = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
+      const bookingData = await fetch(`${process.env.REACT_APP_ROOT_URL}api/book`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json; charset=UTF-8",
@@ -59,7 +59,7 @@ export const BookingStepper: FC = () => {
           user_name: jsonUser.name,
         }),
       });
-      const json = await data.json();
+      const json = await bookingData.json();
       if (json.booking) {
         setBookingSucces(true);
         setPrevSelectedDesk(selectedDesk);

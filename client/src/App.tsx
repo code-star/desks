@@ -24,17 +24,14 @@ function App() {
   const jsonUser = user ? JSON.parse(user) : null;
   const isUser = jsonUser && jsonUser.role === "user";
   const isAdmin = jsonUser && jsonUser.role === "admin";
-  Notification.requestPermission().then(function (result) {
-    console.log(result);
-  });
+  Notification.requestPermission();
   useEffect(() => {
-    const setDeskList = async () => {
+    const checkNotifications = async () => {
       if (isUser) {
         const desks = await fetch(
           `${process.env.REACT_APP_ROOT_URL}api/user/notification/${jsonUser.name}`
         );
         const notificationJson = await desks.json();
-        console.log(notificationJson);
         if (notificationJson.notifications.length > 0) {
           if (window.Notification.permission === "granted") {
             new window.Notification(
@@ -49,11 +46,11 @@ function App() {
       }
     };
     const timer = setInterval(() => {
-      setDeskList();
+      checkNotifications();
     }, 10000);
-    return()=>{
+    return () => {
       clearInterval(timer);
-    }
+    };
   }, [isUser, jsonUser]);
   return (
     <div className="App">
