@@ -6,6 +6,14 @@ Smart office Mangement is a website and its purpose is to manage the usage of wo
 
 An user can book a workspace and can check a workspace in or out. An admin can see all the bookings and the states of the workspaces. So the admin can get insight on the usage of the workspaces and the user will have certainty of having a workspace when they are going tot the office.
 
+## Use Smart Office Management
+
+This is the link for the website: https://code-star.github.io/desks/
+
+If you want to login as a normal user, you can use user 'test' with password 'pw'
+
+If you want to login as an admin, you can use user 'admin' with password 'pw'
+
 ## Features
 
 This application makes use of:
@@ -19,7 +27,7 @@ This application makes use of:
 - Github pages for frontend
 - Azure for deploying the Backend
 
-### Implimented features
+### Implemented features
 
 These features are implemented:
 
