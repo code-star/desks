@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/desks/static/css/main.b2b9f795.chunk.css",
-    "main.js": "/desks/static/js/main.8e082bc8.chunk.js",
-    "main.js.map": "/desks/static/js/main.8e082bc8.chunk.js.map",
+    "main.js": "/desks/static/js/main.bc8f38f4.chunk.js",
+    "main.js.map": "/desks/static/js/main.bc8f38f4.chunk.js.map",
     "runtime-main.js": "/desks/static/js/runtime-main.a6dd3356.js",
     "runtime-main.js.map": "/desks/static/js/runtime-main.a6dd3356.js.map",
-    "static/js/2.42c37d8d.chunk.js": "/desks/static/js/2.42c37d8d.chunk.js",
-    "static/js/2.42c37d8d.chunk.js.map": "/desks/static/js/2.42c37d8d.chunk.js.map",
+    "static/js/2.ecc1ae13.chunk.js": "/desks/static/js/2.ecc1ae13.chunk.js",
+    "static/js/2.ecc1ae13.chunk.js.map": "/desks/static/js/2.ecc1ae13.chunk.js.map",
     "static/js/3.f1acbfdc.chunk.js": "/desks/static/js/3.f1acbfdc.chunk.js",
     "static/js/3.f1acbfdc.chunk.js.map": "/desks/static/js/3.f1acbfdc.chunk.js.map",
     "index.html": "/desks/index.html",
     "static/css/main.b2b9f795.chunk.css.map": "/desks/static/css/main.b2b9f795.chunk.css.map",
-    "static/js/2.42c37d8d.chunk.js.LICENSE.txt": "/desks/static/js/2.42c37d8d.chunk.js.LICENSE.txt",
+    "static/js/2.ecc1ae13.chunk.js.LICENSE.txt": "/desks/static/js/2.ecc1ae13.chunk.js.LICENSE.txt",
     "static/media/App.css": "/desks/static/media/background_img.89ee8cd3.jpg",
     "static/media/floor_plan_Ordina_B2.c52b3cd2.jpg": "/desks/static/media/floor_plan_Ordina_B2.c52b3cd2.jpg",
     "static/media/ordina_logo.7a9a0777.png": "/desks/static/media/ordina_logo.7a9a0777.png"
   },
   "entrypoints": [
     "static/js/runtime-main.a6dd3356.js",
-    "static/js/2.42c37d8d.chunk.js",
+    "static/js/2.ecc1ae13.chunk.js",
     "static/css/main.b2b9f795.chunk.css",
-    "static/js/main.8e082bc8.chunk.js"
+    "static/js/main.bc8f38f4.chunk.js"
   ]
 }
