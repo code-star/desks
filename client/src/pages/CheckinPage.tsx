@@ -22,17 +22,17 @@ const CheckinPage: FC = () => {
 
   useEffect(() => {
     const setInitialDeskState = async () => {
-      const data = await fetch(
+      const deskData = await fetch(
         `${process.env.REACT_APP_ROOT_URL}api/desk/${deskId}`
       );
-      const json = await data.json();
-      setCurrentDeskState(json.deskState);
+      const deskJson = await deskData.json();
+      setCurrentDeskState(deskJson.deskState);
     };
     setInitialDeskState();
   }, [deskId]);
 
   const handleToggleChecked = async () => {
-    const data = await fetch(
+    const deskData = await fetch(
       `${process.env.REACT_APP_ROOT_URL}api/desk/${deskId}`,
       {
         method: "PATCH",
@@ -45,8 +45,8 @@ const CheckinPage: FC = () => {
         }),
       }
     );
-    const json = await data.json();
-    setCurrentDeskState(json.deskState);
+    const deskJson = await deskData.json();
+    setCurrentDeskState(deskJson.deskState);
     setOpen(true);
   };
 

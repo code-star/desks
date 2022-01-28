@@ -1,14 +1,14 @@
 import { List, ListItemButton, Stack, Typography } from "@mui/material";
-import { useState, FC, useEffect, useContext} from "react";
+import { useState, FC, useEffect, useContext } from "react";
 import { Booking } from "../types";
-import { getDateFromNumber } from "../utils"
+import { getDateFromNumber } from "../utils";
 import { FormContext } from "../FormContext";
 
 export const BookingList: FC = () => {
   const [bookingList, setBookingList] = useState<Booking[]>([]);
 
   const {
-      sortVariant: [sortVariant],
+    sortVariant: [sortVariant],
   } = useContext(FormContext);
 
   useEffect(() => {
@@ -18,44 +18,47 @@ export const BookingList: FC = () => {
       );
       const jsonBookingList = await bookingList.json();
       const bookings: Booking[] = jsonBookingList.bookingList;
-      bookings.sort((booking1, booking2) =>{
-      switch(sortVariant){
-          case "name":{
-              return booking1.user_name.localeCompare(booking2.user_name);
+      bookings.sort((booking1, booking2) => {
+        switch (sortVariant) {
+          case "name": {
+            return booking1.user_name.localeCompare(booking2.user_name);
           }
-          case "nTime":{
+          case "nTime": {
             if (booking1.start_time > booking2.start_time) return 1;
             if (booking1.start_time < booking2.start_time) return -1;
-              return 0;
+            return 0;
           }
-          case "fTime":{
+          case "fTime": {
             if (booking1.start_time < booking2.start_time) return 1;
             if (booking1.start_time > booking2.start_time) return -1;
-              return 0;
+            return 0;
           }
-          default:{
-             return booking1.booked_desk.localeCompare(booking2.booked_desk);
+          default: {
+            return booking1.booked_desk.localeCompare(booking2.booked_desk);
           }
-
-      }
-    })
-        setBookingList(bookings);
-      }
+        }
+      });
+      setBookingList(bookings);
+    };
     getBookingList();
   }, [sortVariant]);
 
-  //let admin delete booking when one is clicked (show modal with info first)
-
-  return (<List style={{height:"calc(100vh - 280px)", overflow: "auto" }}>
-            {bookingList.map((desk) => (
-              <ListItemButton key={desk.booking_id}>
-                  <Stack>
-                  <Typography variant="subtitle2">Desk: {desk.booked_desk}</Typography>
-                  <Typography variant="body2">User: {desk.user_name}</Typography>
-                  <Typography variant="body2">From:{getDateFromNumber(desk.start_time)} - to:{getDateFromNumber(desk.end_time)}</Typography>
-                  </Stack>
-              </ListItemButton>
-            ))}
-          </List>
+  return (
+    <List style={{ height: "calc(100vh - 280px)", overflow: "auto" }}>
+      {bookingList.map((desk) => (
+        <ListItemButton key={desk.booking_id}>
+          <Stack>
+            <Typography variant="subtitle2">
+              Desk: {desk.booked_desk}
+            </Typography>
+            <Typography variant="body2">User: {desk.user_name}</Typography>
+            <Typography variant="body2">
+              From:{getDateFromNumber(desk.start_time)} - to:
+              {getDateFromNumber(desk.end_time)}
+            </Typography>
+          </Stack>
+        </ListItemButton>
+      ))}
+    </List>
   );
 };

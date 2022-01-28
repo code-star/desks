@@ -1,7 +1,6 @@
-import { List, Stack, Typography } from "@mui/material";
+import { List, ListItem, Stack, Typography } from "@mui/material";
 import { useState, FC, useEffect, useContext } from "react";
 import { DeskType, Booking } from "../types";
-import { DeskItemCheckIn } from "./DeskItem";
 import { isBetween } from "../utils";
 import { FormContext } from "../FormContext";
 
@@ -44,16 +43,17 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
         allDesks.find((desk) => desk.desk_id === booking.booked_desk);
       const currentBookings = bookings.filter(isBookedNow);
       const currentBookedDesks = currentBookings.map(getDeskForBooking);
-      console.log(currentBookings);
 
       if (
         currentBookedDesks.find((bookedDesk) => bookedDesk?.desk_id === deskId)
       ) {
         const user = sessionStorage.getItem("activeUser");
         const jsonUser = user ? JSON.parse(user) : null;
-        const currentBooking = currentBookings.find((booking)=> booking.booked_desk === deskId);
-        if(currentBooking?.user_name !== jsonUser.name){
-        setDeskUser(false);
+        const currentBooking = currentBookings.find(
+          (booking) => booking.booked_desk === deskId
+        );
+        if (currentBooking?.user_name !== jsonUser.name) {
+          setDeskUser(false);
         }
         const nearbyDesks = allDesks.filter((otherDesk, otherdDeskIndex) => {
           const isCurrentlyBooked = currentBookedDesks.find(
@@ -81,7 +81,7 @@ export const CheckinDeskList: FC<Props> = ({ deskId }) => {
           <Typography>This desk is not available, but these are:</Typography>
           <List style={{ maxHeight: 200, overflow: "auto" }}>
             {currentDeskList.map((desk) => (
-              <DeskItemCheckIn key={desk.desk_id} desk={desk}></DeskItemCheckIn>
+              <ListItem key={desk.desk_id}>{desk.desk_id}</ListItem>
             ))}
           </List>
         </Stack>

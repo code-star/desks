@@ -3,6 +3,7 @@ import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { DeskType, deskState } from "../types";
 
+//get a specific desk from the database based on deskId
 export function getDesk(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
@@ -27,6 +28,7 @@ export function getDesk(
   });
 }
 
+//Get a list of all the desk from the database
 export function getDeskList(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
@@ -47,6 +49,7 @@ export function getDeskList(
   });
 }
 
+//Change deskState of specific desk based on deskId
 export function patchDesk(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>

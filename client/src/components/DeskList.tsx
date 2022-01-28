@@ -18,13 +18,23 @@ export const DeskList: FC = () => {
   }, []);
 
   return (
-    <List style={{ height:"calc(100vh - 260px)", overflow: "auto" }}>
+    <List style={{ height: "calc(100vh - 260px)", overflow: "auto" }}>
       {deskList.map((desk) => (
         <ListItem key={desk.desk_id}>
-            <Stack>
-              <Typography color={desk.desk_state === "free"?"inherit":"red"}variant="subtitle2">Desk: {desk.desk_id}</Typography>
-              <Typography color={desk.desk_state === "free"?"inherit":"red"}variant="body2">State: {desk.desk_state}</Typography>
-            </Stack>
+          <Stack>
+            <Typography
+              color={desk.desk_state === "free" ? "inherit" : "red"}
+              variant="subtitle2"
+            >
+              Desk: {desk.desk_id}
+            </Typography>
+            <Typography
+              color={desk.desk_state === "free" ? "inherit" : "red"}
+              variant="body2"
+            >
+              State: {desk.desk_state}
+            </Typography>
+          </Stack>
         </ListItem>
       ))}
     </List>

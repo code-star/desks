@@ -2,30 +2,34 @@ import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking } from "./types";
 
-const UNIX_HALF_HOUR = 60;
+const UNIX_HALF_HOUR = 1800;
 export const notifications = new Map();
 //calls function every 5 seconds
-export function intervalId(
+export function setNotifications(
   db: Database<sqlite3.Database, sqlite3.Statement>
 ): void {
   setInterval(async () => {
     const bookings = await db.all<Booking[]>("SELECT * FROM booking");
+    //get all the bookings that are half an hour from now
     const bookingsNow: Booking[] = bookings.filter((booking: Booking) => {
+      //time cant be exactly the same, check if its between 6 sec (with 5 sec interval)
       return isBetween(
         booking.start_time,
         Date.now() / 1000 - 3 + UNIX_HALF_HOUR,
         Date.now() / 1000 + 3 + UNIX_HALF_HOUR
       );
     });
+    //get all the bookings that were half an hour ago
     const bookingsOver: Booking[] = bookings.filter((booking: Booking) => {
+      //time cant be exactly the same, check if its between 6 sec (with 5 sec interval)
       return isBetween(
         booking.start_time,
         Date.now() / 1000 - 3 - UNIX_HALF_HOUR,
         Date.now() / 1000 + 3 - UNIX_HALF_HOUR
       );
     });
+    //add notification object for every bookingsNow and bookingsOver and add them to one array
     const halfHourNotifications = bookingsNow.map((bookingNow) => {
-      console.log(`half hour before booking desk ${bookingNow.booked_desk}`);
       return {
         id: `${bookingNow.booking_id}_HalfHourBefore`,
         message: `half hour before booking desk ${bookingNow.booked_desk}`,
@@ -33,9 +37,6 @@ export function intervalId(
       };
     });
     const tooLateNotifications = bookingsOver.map((bookingOver) => {
-      console.log(
-        `you are too late for your booking of ${bookingOver.booked_desk}`
-      );
       return {
         id: `${bookingOver.booking_id}_HalfHourOver`,
         message: `you are too late for your booking of ${bookingOver.booked_desk}`,
@@ -49,7 +50,6 @@ export function intervalId(
     newNotifications.forEach((notification) => {
       notifications.set(notification.id, notification);
     });
-    console.log("notifications.ts: ", notifications.entries());
   }, 5000);
 }
 

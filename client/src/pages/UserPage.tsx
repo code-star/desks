@@ -31,9 +31,9 @@ const UserPage: FC = () => {
         const desksJson = await desks.json();
         const allUserDesks: Booking[] = desksJson.userDeskList;
         setRecentBooking(allUserDesks[allUserDesks.length - 1]);
-        const allFutureUserDesks = allUserDesks.filter((booking:Booking) =>{
-          return booking.end_time > Date.now()/1000;
-        })
+        const allFutureUserDesks = allUserDesks.filter((booking: Booking) => {
+          return booking.end_time > Date.now() / 1000;
+        });
         allFutureUserDesks.sort((desk1, desk2) => {
           if (desk1.start_time > desk2.start_time) return 1;
           if (desk1.start_time < desk2.start_time) return -1;
@@ -43,7 +43,6 @@ const UserPage: FC = () => {
       }
     };
     setDeskList();
-
   }, [user]);
 
   return (

@@ -9,10 +9,11 @@ export function autoCheckout(
 ): void {
   setInterval(async () => {
     const bookings = await db.all<Booking[]>("SELECT * FROM booking");
+    //set deskstate to free (checkout desk) when the booking ends
     bookings.map(async (booking) => {
       if (
         isBetween(
-          booking.start_time,
+          booking.end_time,
           Date.now() / 1000 - 31,
           Date.now() / 1000 + 31
         )
@@ -27,7 +28,7 @@ export function autoCheckout(
   //calls function every hour
   setInterval(async () => {
     const date: Date = new Date(Date.now());
-    console.log(date.getHours());
+    //set state of all desks to free (checkout desk) if its midnight
     if (date.getHours() === 0) {
       await db.run("UPDATE desk SET desk_state = 'free'");
     }

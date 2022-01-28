@@ -1,6 +1,6 @@
 import { FC, useContext, useState } from "react";
 import { Typography, Alert, Grid, Modal } from "@mui/material";
-import { AvailableDeskList } from "../AvailableDeskList";
+import { AvailableDeskSelect } from "../AvailableDeskSelect";
 import { isDeskSelected } from "../../utils";
 import { FormContext } from "../../FormContext";
 import img from "../../images/floor_plan_Ordina_B2.jpg";
@@ -19,7 +19,7 @@ export const DeskStep: FC = () => {
           <Typography variant="body1" gutterBottom>
             Please select one of the available desks:
           </Typography>
-          <AvailableDeskList />
+          <AvailableDeskSelect />
           {isDeskSelected(selectedDesk) ? (
             <Alert severity="warning">There is no desk selected</Alert>
           ) : (

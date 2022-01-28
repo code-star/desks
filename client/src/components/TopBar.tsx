@@ -61,9 +61,7 @@ export const TopBar: FC = () => {
         }}
       >
         <MenuItem>
-        <Link href={USER_ROUTE_URL}>
-            To account
-          </Link>
+          <Link href={USER_ROUTE_URL}>To account</Link>
         </MenuItem>
         <MenuItem>
           <Link href={LOGIN_ROUTE_URL} onClick={handleLogOut}>

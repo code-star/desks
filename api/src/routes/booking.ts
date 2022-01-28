@@ -3,6 +3,7 @@ import { Database } from "sqlite";
 import sqlite3 from "sqlite3";
 import { Booking } from "../types";
 
+//get all bookings from the database
 export function getBookings(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
@@ -21,6 +22,7 @@ export function getBookings(
   });
 }
 
+//set a booking to the database
 export function patchBooking(
   app: Express,
   db: Database<sqlite3.Database, sqlite3.Statement>
